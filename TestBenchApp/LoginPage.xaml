@@ -23,9 +23,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"  Content=" User Name:" HorizontalContentAlignment="Left" 
+                    <Label Grid.Column="0"  Content=" User Name:" HorizontalContentAlignment="Left" FontSize="20"
+                           Foreground="White"
                    VerticalAlignment="Center"  />
-                    <TextBox Grid.Column="1" Name="tbUserName"  MinWidth="200"
+                    <TextBox Grid.Column="1" Name="tbUserName"  MinWidth="200" FontSize="20"
              IsReadOnly="False" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"   />
                 </Grid>
                 <Grid Grid.Row="1" Name="PasswordGrid" Margin="5,20" Height="Auto">
@@ -34,8 +35,8 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"  Content=" Password:" HorizontalContentAlignment="Left" 
-                   VerticalAlignment="Center" />
-                    <PasswordBox Grid.Column="1" Name="tbPassword"  MinWidth="200"
+                   VerticalAlignment="Center" FontSize="20" Foreground="White" />
+                    <PasswordBox Grid.Column="1" Name="tbPassword"  MinWidth="200" FontSize="20"
                          HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="9,3,0,3"        />
                 </Grid>
                 <Button Grid.Row="2" Name="btnLogin" Content="Login" Margin="10,10,10,10" FontSize="25"
