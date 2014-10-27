@@ -24,12 +24,14 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="310"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Content="MODEL" Foreground="White" FontWeight="Bold"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
@@ -37,37 +39,70 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
                     <Label Grid.Row="0" Grid.Column="2" Content="ACTUAL" Foreground="White" FontWeight="Bold"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
+                    <Label Grid.Row="0" Grid.Column="3" Content="CURRENT" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
 
-                        <TextBox Grid.Row="1" Grid.Column="0" Name="tbModel1" Height="Auto" MinWidth="200" Margin="5,15" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <Label Grid.Row="1" Grid.Column="0" Content="MODEL - 1" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
                         <TextBox Grid.Row="1" Grid.Column="1" Name="tbPq1" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                   <TextBox Grid.Row="1" Grid.Column="2" Name="tbAq1" Height="Auto" MinWidth="75" Margin="5,15" 
+                        <TextBox Grid.Row="1" Grid.Column="2" Name="tbAq1" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <CheckBox Grid.Row="1" Grid.Column="3" Name="cb1" Height="Auto" Click="cb1_Click"
+                     HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
 
-                        <TextBox Grid.Row="2" Grid.Column="0" Name="tbModel2" Height="Auto" MinWidth="200" Margin="5,15" 
+                        <Label Grid.Row="2" Grid.Column="0" Content="MODEL - 2" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="tbPq2" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                    <TextBox Grid.Row="2" Grid.Column="1" Name="tbPq2" Height="Auto" MinWidth="75" Margin="5,15" 
+                        <TextBox Grid.Row="2" Grid.Column="2" Name="tbAq2" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                    <TextBox Grid.Row="2" Grid.Column="2" Name="tbAq2" Height="Auto" MinWidth="75" Margin="5,15" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <CheckBox Grid.Row="2" Grid.Column="3" Name="cb2" Height="Auto" Click="cb2_Click"
+                     HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
 
 
-                    <TextBox Grid.Row="3" Grid.Column="0" Name="tbModel3" Height="Auto" MinWidth="200" Margin="5,15" 
+                        <Label Grid.Row="3" Grid.Column="0" Content="MODEL - 3" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="tbPq3" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                    <TextBox Grid.Row="3" Grid.Column="1" Name="tbPq3" Height="Auto" MinWidth="75" Margin="5,15" 
+                        <TextBox Grid.Row="3" Grid.Column="2" Name="tbAq3" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                    <TextBox Grid.Row="3" Grid.Column="2" Name="tbAq3" Height="Auto" MinWidth="75" Margin="5,15" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <CheckBox Grid.Row="3" Grid.Column="3" Name="cb3" Height="Auto" Click="cb3_Click"
+                     HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
 
-                        <TextBox Grid.Row="4" Grid.Column="0" Name="tbModel4" Height="Auto" MinWidth="200" Margin="5,15" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <Label Grid.Row="4" Grid.Column="0" Content="MODEL - 4" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
                         <TextBox Grid.Row="4" Grid.Column="1" Name="tbPq4" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                    <TextBox Grid.Row="4" Grid.Column="2" Name="tbAq4" Height="Auto" MinWidth="75" Margin="5,15" 
+                        <TextBox Grid.Row="4" Grid.Column="2" Name="tbAq4" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <CheckBox Grid.Row="4" Grid.Column="3" Name="cb4" Height="Auto" Click="cb4_Click"
+                     HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+
+                        <Label Grid.Row="5" Grid.Column="0" Content="TOTAL" Foreground="White" FontWeight="Bold" 
+                   HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="tbTotalPlan" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                        <TextBox Grid.Row="5" Grid.Column="2" Name="tbTotalAct" Height="Auto" MinWidth="75" Margin="5,15" 
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
 
-                </Grid>
+                    </Grid>
 
                 </Grid>
 

@@ -68,5 +68,25 @@ namespace TestBenchApp
 
         }
 
+        private void cb1_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cb4_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cb3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cb2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

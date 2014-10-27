@@ -5,64 +5,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="400" d:DesignWidth="600">
     <Grid Background="Green" >
         <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
-                
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Content="MODEL" Foreground="White" FontWeight="Bold"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
-            <ComboBox Grid.Row="0" Grid.Column="1" MinHeight="30" MinWidth="200" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem>Model-1</ComboBoxItem>
-                <ComboBoxItem>Model-2</ComboBoxItem>
-                <ComboBoxItem>Model-3</ComboBoxItem>
-                <ComboBoxItem>Model-4</ComboBoxItem>
-              
-            </ComboBox>
-
-
-            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" >
-                <Label  Content="From:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"  Width="Auto"  />
-                <dg:DatePicker Name="dpFrom" FontSize="12" Height="Auto" VerticalAlignment="Center"
-                                HorizontalAlignment="Left" Width="Auto" />
-            </StackPanel>
             
-            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
-                <Label Content="To:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" Width="Auto" />
-                <dg:DatePicker Name="dpTo" FontSize="12" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Left"  />
-            </StackPanel>
+            <Label Grid.Row="0" Grid.Column="0" Content="MODEL" Foreground="White" FontWeight="Bold" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="PLAN" Foreground="White" FontWeight="Bold" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
 
 
-            <Label Grid.Row="1" Grid.Column="0" Content="QUANTITY" Foreground="White" FontWeight="Bold"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="5"></Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Height="Auto" MinWidth="75" Margin="5,15" 
-                     HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5"></TextBox>
+            <Label Grid.Row="1" Grid.Column="0" Content="MODEL - 1" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Name="tbSetPq1" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
 
-            <Label Grid.Row="1" Grid.Column="2" Content="SHIFT" Foreground="White" FontWeight="Bold"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" MinHeight="40" MinWidth="100" Margin="5"></Label>
-            <ComboBox Grid.Row="1" Grid.Column="3" MinHeight="30" MinWidth="100" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ComboBoxItem>Shift-1</ComboBoxItem>
-                <ComboBoxItem>Shift-2</ComboBoxItem>
-                <ComboBoxItem>Shift-3</ComboBoxItem>
-            </ComboBox>
+            <Label Grid.Row="2" Grid.Column="0" Content="MODEL - 2" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="tbSetPq2" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
 
+            <Label Grid.Row="3" Grid.Column="0" Content="MODEL - 3" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Name="tbSetPq3" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
 
-  
-            <Button Name="btnSave" Content="Save" Grid.Row="2" Grid.ColumnSpan="2" Width ="100" Height="50" FontSize="20" HorizontalAlignment="Center"
+            <Label Grid.Row="4" Grid.Column="0" Content="MODEL - 4" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Name="tbSetPq4" Height="Auto" MinWidth="75" Margin="5,15" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+
+            <Button Name="btnSet" Content="Set" Grid.Row="5" Grid.Column ="0" Width ="100" Height="50" FontSize="20" HorizontalAlignment="Center"
                         VerticalAlignment="Center" Margin="10" Padding="10" Background="RosyBrown" Click="btnSave_Click" ></Button>
-            <Button Name="btnDone" Content="Done" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Width ="100" Height="50" FontSize="20" Margin="10,10,10,10" HorizontalAlignment="Center"
+            <Button Name="btnDone" Content="Done" Grid.Row="5" Grid.Column="1"  Width ="100" Height="50" FontSize="20" Margin="10,10,10,10" HorizontalAlignment="Center"
                      VerticalAlignment="Center" Padding="10" Background="RosyBrown" Click="btnDone_Click"></Button>
 
 
