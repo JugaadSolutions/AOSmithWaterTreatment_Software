@@ -78,6 +78,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataAccess.cs" />
+    <Compile Include="Entity\DeviceAssociation.cs" />
+    <Compile Include="Entity\Issue.cs" />
+    <Compile Include="Entity\Line.cs" />
     <Compile Include="Line\DataAccess.cs" />
     <Compile Include="Line\Plan.xaml.cs">
       <DependentUpon>Plan.xaml</DependentUpon>
@@ -116,7 +120,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AndonManager\AndonManager.csproj">

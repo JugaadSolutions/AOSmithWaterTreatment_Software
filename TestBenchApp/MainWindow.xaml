@@ -182,6 +182,18 @@
                     </DockPanel>
                 </Grid>
             </TabItem>
+            <TabItem Header="LOG" Background="Green">
+                <DockPanel DockPanel.Dock="Bottom" Background="Green"  >
+                    <TextBox Name="tbMsg" FontSize="12" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Auto"
+                                      
+                     Background="Green"
+                     Foreground="White"
+                     Margin="2"
+                     BorderThickness="0"/>
+                </DockPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

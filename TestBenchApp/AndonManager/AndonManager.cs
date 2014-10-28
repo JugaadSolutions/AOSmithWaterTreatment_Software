@@ -61,7 +61,7 @@ namespace ias.andonmanager
         int responseTimeout = 50; //response timeout in milliseconds
 
         Queue<int> stations = null;
-        Queue<int> departments = null;
+       // Queue<int> departments = null;
 
         String simulation = String.Empty;//simulation control
 
@@ -92,7 +92,7 @@ namespace ias.andonmanager
 
                 if (simulation != "Yes")
                 {
-                    spDriver = new SerialPortDriver(19200,8,StopBits.One,Parity.None,Handshake.None);
+                    spDriver = new SerialPortDriver(9600,8,StopBits.One,Parity.None,Handshake.None);
 
                     communicationPort = ConfigurationSettings.AppSettings["PORT"];
 
@@ -117,7 +117,7 @@ namespace ias.andonmanager
                     }
 	
 	                stations = stationList;
-	                departments = departmentList;
+	                //departments = departmentList;
 	
 	                
                     
@@ -141,21 +141,21 @@ namespace ias.andonmanager
         void simulationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
         	simulationTimer.Stop();
-        	List<int> departments = new List<int>();
-        	departments.Add(1);
-        	departments.Add(14);
+            //List<int> departments = new List<int>();
+            ////departments.Add(1);
+            //departments.Add(14);
             //departments.Add(0);
         	
         	
         	
-        	AndonAlertEventArgs alertEvent
-                = new AndonAlertEventArgs(DateTime.Now,8,
-        		                          createLog(departments));
+            //AndonAlertEventArgs alertEvent
+            //    = new AndonAlertEventArgs(DateTime.Now,8,
+            //                              createLog(departments));
 
-            if (andonAlertEvent != null)
-            {
-                andonAlertEvent(this, alertEvent);
-            }
+            //if (andonAlertEvent != null)
+            //{
+            //    andonAlertEvent(this, alertEvent);
+            //}
         	
         }
 
@@ -333,7 +333,7 @@ namespace ias.andonmanager
                 if (transactionQ.Count > 0)
                 {
                     TransactionInfo tInfo = transactionQ.Dequeue();
-                    rs485packet = rs485Driver.Packetize((Byte)tInfo.deviceId, (Byte)tInfo.command, tInfo.data);
+                    rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)tInfo.command, tInfo.data);
 
                     if (rs485packet != null)
                     {
@@ -359,7 +359,7 @@ namespace ias.andonmanager
 
                     if (comLayers.Contains<String>("RS485"))
                     {
-                        rs485packet = rs485Driver.Packetize((Byte)curStation, (Byte)AndonCommand.CMD_GET_STATUS, null);
+                        rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)AndonCommand.CMD_GET_STATUS, null);
                         stations.Enqueue(curStation);
 
 
