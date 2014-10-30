@@ -62,6 +62,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Clock\ClockDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DashBoard\DashBoardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DashBoard\PasswordControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Line\Plan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -78,11 +90,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Clock\ClockDisplay.xaml.cs">
+      <DependentUpon>ClockDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashBoard\DashBoardView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DashBoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashBoard\DashBoardView_Manage.cs" />
+    <Compile Include="DashBoard\PasswordControl.xaml.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Entity\DeviceAssociation.cs" />
     <Compile Include="Entity\Issue.cs" />
     <Compile Include="Entity\Line.cs" />
-    <Compile Include="Line\DataAccess.cs" />
+    <Compile Include="Entity\Model.cs" />
+    <Compile Include="Entity\Plan.cs" />
+    <Compile Include="Entity\User.cs" />
     <Compile Include="Line\Plan.xaml.cs">
       <DependentUpon>Plan.xaml</DependentUpon>
     </Compile>

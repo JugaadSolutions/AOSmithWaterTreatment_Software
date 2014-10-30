@@ -23,11 +23,11 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"  Content=" User Name:" HorizontalContentAlignment="Left" FontSize="20"
-                           Foreground="White"
-                   VerticalAlignment="Center"  />
-                    <TextBox Grid.Column="1" Name="tbUserName"  MinWidth="200" FontSize="20"
-             IsReadOnly="False" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"   />
+                    <Label Grid.Column="0" Grid.Row="0" Content="Users" Foreground="White" MinWidth="100" 
+                           HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontSize="20"></Label>
+                    <ComboBox Name="UserSelector" Grid.Column="1" Grid.Row="0" MinWidth="200" MinHeight="25"
+                          Margin="5" FontSize="20"
+                          Padding="5" ItemsSource="{Binding}" DisplayMemberPath="Name"  IsSynchronizedWithCurrentItem="True" SelectionChanged="UserSelector_SelectionChanged"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="PasswordGrid" Margin="5,20" Height="Auto">
                     <Grid.ColumnDefinitions >
@@ -35,9 +35,9 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"  Content=" Password:" HorizontalContentAlignment="Left" 
-                   VerticalAlignment="Center" FontSize="20" Foreground="White" />
+                   VerticalAlignment="Center" FontSize="20" Foreground="White" MinWidth="100" />
                     <PasswordBox Grid.Column="1" Name="tbPassword"  MinWidth="200" FontSize="20"
-                         HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="9,3,0,3"        />
+                         HorizontalAlignment="Left"  VerticalAlignment="Center"        />
                 </Grid>
                 <Button Grid.Row="2" Name="btnLogin" Content="Login" Margin="10,10,10,10" FontSize="25"
                 Click="btnLogin_Click_1"   Width="Auto" HorizontalAlignment="Center"  VerticalAlignment="Center" MinWidth="100"/>

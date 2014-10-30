@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Threading;
+using TestBenchApp.DashBoard;
 using TestBenchApp.Entity;
 using TestBenchApp.Line;
 
@@ -20,6 +21,8 @@ namespace TestBenchApp
         Queue<int> deviceQ = null;
         String[] comLayers;
         AndonManager.MODE Mode = AndonManager.MODE.NONE;
+        Users Users;
+        User CurrentUser;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +40,7 @@ namespace TestBenchApp
             deviceQ = dataAccess.getDeviceQ();
             andonManager = new AndonManager(deviceQ, null, Mode);
             andonManager.andonAlertEvent += andonManager_andonAlertEvent;
-            andonManager.start();
+            //andonManager.start();
         }
 
         void andonManager_andonAlertEvent(object sender, AndonAlertEventArgs e)
@@ -85,45 +88,36 @@ namespace TestBenchApp
 
         private void tabPlan_Loaded(object sender, RoutedEventArgs e)
         {
+            Users  = dataAccess.GetUsers();
             tabPlan.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                             new Action(() =>
                                             {
                                                 BaseGrid.Children.Clear();
-                                                LoginPage lp = new LoginPage();
-                                                lp.addClicked += lp_addClicked;
+                                                LoginPage lp = new LoginPage(Users);
+                                                lp.LoginEvent += lp_LoginEvent;
                                                 BaseGrid.Children.Add(lp);
                                             }));
         }
 
-        void lp_addClicked(object sender, EventArgs e)
+        void lp_LoginEvent(object sender, LoginEventArgs e)
         {
-            BaseGrid.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                                            new Action(() =>
-                                            {
-                                                BaseGrid.Children.Clear();
-                                                Plan p = new Plan();
-                                                p.addClicked += p_addClicked;
-                                                BaseGrid.Children.Add(p);
-                                            }));
+             
+                CurrentUser = e.User;
+
+                BaseGrid.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                                new Action(() =>
+                                                {
+                                                    BaseGrid.Children.Clear();
+                                                    DashBoardView db = new DashBoardView(Users,CurrentUser.Name);
+                                                    BaseGrid.Children.Add(db);
+                                                }));
+            
+           
         }
 
-        void p_addClicked(object sender, EventArgs e)
-        {
-            tabPlan.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                                          new Action(() =>
-                                          {
-                                              BaseGrid.Children.Clear();
-                                              LoginPage lp = new LoginPage();
-                                              lp.addClicked += lp_addClicked;
-                                              BaseGrid.Children.Add(lp);
-                                          }));
-        }
+       
 
-        private void tabProductionData_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
-
+      
         private void cb1_Click(object sender, RoutedEventArgs e)
         {
 

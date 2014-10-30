@@ -263,10 +263,64 @@ namespace TestBenchApp
 
         #endregion
 
-      
+        #region USERS
+        public Users GetUsers()
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
 
-        
+            Users users = new Users();
 
+            String qry = String.Empty;
+            qry = @"SELECT * FROM Users ";
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                users.Add(new User((string)dt.Rows[i]["Name"], (string)dt.Rows[i]["password"]));
+            }
+
+            con.Close();
+            con.Dispose();
+            return users;
+        }
+
+        public bool Login(String UserName, String Password)
+        {
+            SqlConnection cn;
+            SqlCommand cmd;
+
+            cn = new SqlConnection(conStr);
+            String query = @"SELECT [Password] FROM [Users] WHERE  Name='{0}'";
+            query = String.Format(query, UserName);
+
+            cmd = new SqlCommand(query, cn);
+            cn.Open();
+            cmd.Connection = cn;
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cn.Close();
+            if (dt.Rows.Count > 0)
+            {
+                if (((string)dt.Rows[0]["Password"]) == Password)
+                    return true;
+
+
+            }
+
+            return false;
+
+        }
+
+
+        #endregion
 
         public Queue<int> getDeviceQ()
         {
@@ -1101,6 +1155,26 @@ namespace TestBenchApp
         public void close()
         {
 
+        }
+
+        internal void ChangePassword(User user)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = @"update [Users] set Password = '{0}'  where Name = '{1}'";
+            qry = String.Format(qry, user.Password,user.Name);
+            SqlCommand cmd3 = new SqlCommand(qry, con);
+
+
+            int result = cmd3.ExecuteNonQuery();
+            cmd3.Dispose();
+
+
+            con.Close();
+            con.Dispose();
+
+            return;
         }
     }
 }

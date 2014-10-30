@@ -19,12 +19,12 @@ namespace TestBenchApp.Line
     /// <summary>
     /// Interaction logic for Line.xaml
     /// </summary>
-    public partial class Plan : UserControl
+    public partial class PlanView : UserControl
     {
-        public event EventHandler<EventArgs> addClicked;
+        public event EventHandler<EventArgs> SaveEvent;
         
 
-        public Plan()
+        public PlanView()
         {
             InitializeComponent();
         }
