@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="TestBenchApp.Line.PlanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="800">
+    <Grid Background="Green" >
+        <GroupBox Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" >
+            <GroupBox.Header>
+                <Label Foreground="White" Content="Plan" Background="Green" BorderBrush="Green" BorderThickness="0"
+                             HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
+            </GroupBox.Header>
+            
+            <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Center">           
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Content="MODEL" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Right"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                    <Label Content="PLAN" Foreground="White" FontWeight="Bold" FontSize="20" Margin="5" MinWidth="170" HorizontalContentAlignment="Right"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <ComboBox Name="ModelSelector1" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="300"/>
+            <TextBox Name="tbSetPq1" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+            <Button Name="btnModify1" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify1_Click_1"/>
+                    <Button Name="btnDelete1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete1_Click_1"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <ComboBox Name="ModelSelector2" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                      FontSize="20" Margin="5" MinWidth="300"/>
+            <TextBox Name="tbSetPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+            <Button Name="btnModify2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify2_Click_1"/>
+                    <Button Name="btnDelete2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete2_Click_1"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <ComboBox Name="ModelSelector3" ItemsSource="{Binding}" 
+                      
+                      DisplayMemberPath="Name" Foreground="Green"
+                      FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                      FontSize="20" Margin="5" MinWidth="300"/>
+            <TextBox Name="tbSetPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+            <Button Name="btnModify3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify3_Click_1"/>
+                    <Button Name="btnDelete3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete3_Click_1"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <ComboBox Name="ModelSelector4" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                          Foreground="Green"  FontWeight="Bold" IsSynchronizedWithCurrentItem="False"
+                              BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                              FontSize="20" Margin="5" MinWidth="300"/>
+            <TextBox  Name="tbSetPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+            <Button Name="btnModify4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify4_Click_1"/>
+                <Button Name="btnDelete4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete4_Click_1"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <Button Name="btnSet" Content="Set" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   MinWidth="100" FontSize="20" Margin="250,0,0,0" Click="btnSave_Click" ></Button>
+            <Button Name="btnDone" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" FontSize="20" Margin="5" Click="btnDone_Click"></Button>
+                </StackPanel>
+
+
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

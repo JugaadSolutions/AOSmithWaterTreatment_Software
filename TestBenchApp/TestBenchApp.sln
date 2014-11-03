@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndonManager", "AndonManage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XbeeDriver", "Xbee\XbeeDriver.csproj", "{28D33C5F-D368-43F9-96B2-4C0B6F317165}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Printer", "PrinterManager\Printer.csproj", "{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{28D33C5F-D368-43F9-96B2-4C0B6F317165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D33C5F-D368-43F9-96B2-4C0B6F317165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28D33C5F-D368-43F9-96B2-4C0B6F317165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

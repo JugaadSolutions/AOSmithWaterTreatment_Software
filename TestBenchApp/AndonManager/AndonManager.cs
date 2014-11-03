@@ -21,6 +21,7 @@ namespace ias.andonmanager
         public enum MODE { NONE = 0, MASTER = 1, SLAVE = 2 };
         
         SerialPortDriver spDriver = null;               //the serial port driver
+        SerialPortDriver Stage1Driver = null;
         RS485Driver rs485Driver = null;                 //the rs485 driver
 
         XbeeDriver xbeeDriver = null;
@@ -92,7 +93,8 @@ namespace ias.andonmanager
 
                 if (simulation != "Yes")
                 {
-                    spDriver = new SerialPortDriver(9600,8,StopBits.One,Parity.None,Handshake.None);
+                    spDriver = new SerialPortDriver(57600,8,StopBits.One,Parity.None,Handshake.None);
+                  
 
                     communicationPort = ConfigurationSettings.AppSettings["PORT"];
 

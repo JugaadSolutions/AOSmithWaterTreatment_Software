@@ -322,6 +322,85 @@ namespace TestBenchApp
 
         #endregion
 
+        #region MODEL
+
+        public List<Model> GetModels()
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"SELECT * from  Models";
+
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+
+            List<Model> models = new List<Model>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                models.Add(new Model { Name = (string)dt.Rows[i]["Name"], Number = (string)dt.Rows[i]["Number"] });
+            }
+
+
+            con.Close();
+            con.Dispose();
+
+            return models;
+        }
+
+        #endregion
+
+        #region PLAN
+        public List<Plan> GetPlans()
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"SELECT * from  Plans where timestamp > '{0}'" ;
+
+            qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"));
+
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+
+            List<Plan> plans = new List<Plan>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                plans.Add(new Plan
+                {
+                    slNumber = (int)dt.Rows[i]["slNo"],
+                    ModelNumber = (string)dt.Rows[i]["Model"],
+                    Actual = (int)dt.Rows[i]["Actual"],
+                    Quantity = (int)dt.Rows[i]["Quantity"],
+                    BSerialNo = (int)dt.Rows[i]["BSerial"],
+                    FSerialNo = (int)dt.Rows[i]["FSerial"],
+                    CombinationSerialNo = (int)dt.Rows[i]["CombinationSerial"],
+                    Status = (bool)dt.Rows[i]["Status"]
+                });
+            }
+
+
+            con.Close();
+            con.Dispose();
+
+            return plans;
+        }
+
+        #endregion
+
         public Queue<int> getDeviceQ()
         {
             SqlConnection con = new SqlConnection(conStr);
@@ -1175,6 +1254,63 @@ namespace TestBenchApp
             con.Dispose();
 
             return;
+        }
+
+        internal void InsertPlan(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"insert into [Plans] ( Model, Quantity, timestamp)
+                    values('{0}', {1}, '{2}')";
+            qry = String.Format(qry,p.ModelNumber, p.Quantity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+
+            
+        }
+
+        internal void UpdatePlan(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set Quantity={0} where SlNo = {1}";
+            qry = String.Format(qry, p.Quantity, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        internal void DeletePlan(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"delete from [Plans] where slNo = {0}";
+            qry = String.Format(qry, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
         }
     }
 }

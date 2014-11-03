@@ -42,11 +42,13 @@ namespace TestBenchApp
             }
 
             if (LoginEvent != null)
-                LoginEvent(this, new EventArgs);
+                LoginEvent(this, new LoginEventArgs((User)UserSelector.SelectedItem));
         }
+
+
     }
 
-    public class LoginEventArgs : LoginEventArgs
+    public class LoginEventArgs : EventArgs
     {
         public User User { get; set; }
 

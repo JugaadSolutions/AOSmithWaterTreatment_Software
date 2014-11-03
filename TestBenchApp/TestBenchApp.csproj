@@ -74,7 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Line\Plan.xaml">
+    <Page Include="Line\PlanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,8 +106,8 @@
     <Compile Include="Entity\Model.cs" />
     <Compile Include="Entity\Plan.cs" />
     <Compile Include="Entity\User.cs" />
-    <Compile Include="Line\Plan.xaml.cs">
-      <DependentUpon>Plan.xaml</DependentUpon>
+    <Compile Include="Line\PlanView.xaml.cs">
+      <DependentUpon>PlanView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -151,6 +151,10 @@
     <ProjectReference Include="AndonManager\AndonManager.csproj">
       <Project>{967d7776-b429-42a8-b3b0-21d65fa7d4d8}</Project>
       <Name>AndonManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="PrinterManager\Printer.csproj">
+      <Project>{d2f6b9e0-85bf-4490-beab-d04c387adbec}</Project>
+      <Name>Printer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

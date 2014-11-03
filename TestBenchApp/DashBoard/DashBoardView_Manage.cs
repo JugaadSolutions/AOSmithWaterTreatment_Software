@@ -57,14 +57,21 @@ namespace TestBenchApp.DashBoard
             Transient.Children.Clear();
         }
 
-#endregion
+        #endregion
 
         #region MANAGE_PLAN
         private void SetPlan_Click(object sender, RoutedEventArgs e)
         {
-            PlanView pv = new PlanView();
-            
+            PlanView p = new PlanView();
+            p.btnDoneClicked += p_btnDoneClicked; 
+            Transient.Children.Clear();
+            Transient.Children.Add(p);
+            Transient.Visibility = System.Windows.Visibility.Visible;
+        }
 
+        private void p_btnDoneClicked(object sender, EventArgs e)
+        {
+            Transient.Children.Clear();
         }
         #endregion
 
@@ -74,12 +81,12 @@ namespace TestBenchApp.DashBoard
 
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
 
 
-      
+
 
 
 

@@ -27,7 +27,7 @@
                            HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontSize="20"></Label>
                     <ComboBox Name="UserSelector" Grid.Column="1" Grid.Row="0" MinWidth="200" MinHeight="25"
                           Margin="5" FontSize="20"
-                          Padding="5" ItemsSource="{Binding}" DisplayMemberPath="Name"  IsSynchronizedWithCurrentItem="True" SelectionChanged="UserSelector_SelectionChanged"/>
+                          Padding="5" ItemsSource="{Binding}" DisplayMemberPath="Name"  IsSynchronizedWithCurrentItem="True" />
                 </Grid>
                 <Grid Grid.Row="1" Name="PasswordGrid" Margin="5,20" Height="Auto">
                     <Grid.ColumnDefinitions >
