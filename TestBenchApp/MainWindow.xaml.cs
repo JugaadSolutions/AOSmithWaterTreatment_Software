@@ -20,6 +20,7 @@ namespace TestBenchApp
     public partial class MainWindow : Window
     {
         AndonManager andonManager = null;
+        AndonManager barcodeAndonManager = null;
         String _dbConnectionString = String.Empty;
         DataAccess dataAccess = null;
         Queue<int> deviceQ = null;
@@ -51,6 +52,11 @@ namespace TestBenchApp
             deviceQ = dataAccess.getDeviceQ();
             andonManager = new AndonManager(deviceQ, null, Mode);
             andonManager.andonAlertEvent += andonManager_andonAlertEvent;
+
+            //Code added on 11 Nov
+            andonManager.barcodeAlertEvent += andonManager_barcodeAlertEvent; 
+            andonManager.combStickerAlertEvent +=andonManager_combStickerAlertEvent;
+            andonManager.actQtyAlertEvent +=andonManager_actQtyAlertEvent;
 
 
             int port = Convert.ToInt32(ConfigurationSettings.AppSettings["PRINTER_PORT"]);
@@ -94,8 +100,29 @@ namespace TestBenchApp
             }
 
 
-            //andonManager.start();
+   //         andonManager.start();
         }
+
+
+        //Code added on 11 Nov
+        private void andonManager_actQtyAlertEvent(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void andonManager_combStickerAlertEvent(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
+        {
+           //here we use  e to get the model no etc
+
+        }
+
+       
+       
 
         void andonManager_andonAlertEvent(object sender, AndonAlertEventArgs e)
         {

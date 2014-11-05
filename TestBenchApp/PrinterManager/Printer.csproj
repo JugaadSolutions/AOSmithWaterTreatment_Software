@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BcilNetwork.cs" />
+    <Compile Include="clsPrint.cs" />
     <Compile Include="PrinterManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
