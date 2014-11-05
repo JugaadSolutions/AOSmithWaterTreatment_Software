@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="TestBenchApp.DashBoard.ModelsManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="1200">
+    <Grid Background="Green">
+        <GroupBox Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" >
+            <GroupBox.Header>
+                <Label Foreground="White" Content="Combination Sticker" Background="Green" BorderBrush="Green" BorderThickness="0"
+                             HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
+            </GroupBox.Header>
+            <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Content="Product" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="ModelSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" SelectionChanged="ModelSelect_SelectionChanged"/>
+                    <Label Content="Size of the Product" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="ProductSizeSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Label Content="Product No" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="ProductNoSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True" SelectionChanged="ProductNoSelect_SelectionChanged"/>
+                    <Label Content="MRP" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="MRPSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Label Content="Product Name" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="ProductNameSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" SelectionChanged="ProductNameSelect_SelectionChanged" IsEditable="True"/>
+                    <Label Content="Customer Care No" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="CustomerCareNoSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" SelectionChanged="ProductNameSelect_SelectionChanged" IsEditable="True"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <Label Content="Storage Capacity" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="StorageCapacitySelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                    <Label Content="Email" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="EmailSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                </StackPanel>
+
+ 
+                
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <Label Content="Net quantity" Foreground="White" FontWeight="Bold" Margin="5" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="NetQntySelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                    <Label Content="EAN Code" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" MinWidth="200" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <ComboBox Name="EANCodeSelect" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" IsEditable="True"/>
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Name="btnSaveCombSticker" Content="Save" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   MinWidth="100" FontSize="20" Margin="0,25,0,0" Click="btnSaveCombSticker_Click" ></Button>
+                    <Button Name="btnSaveAsCombSticker" Content="Save As" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   MinWidth="100" FontSize="20" Margin="25,25,0,0" Click="btnSaveAsCombSticker_Click" ></Button>
+                    <Button Name="btnTestPrintCombSticker" Content="Test Print" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   MinWidth="100" FontSize="20" Margin="25,25,0,0" Click="btnTestPrintCombSticker_Click" ></Button>
+                    <Button Name="btnCancel" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   MinWidth="100" FontSize="20" Margin="25,25,0,0" Click="btnCancel_Click"></Button>
+                </StackPanel>
+                
+                
+
+
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

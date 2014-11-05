@@ -75,9 +75,22 @@ namespace TestBenchApp.DashBoard
         }
         #endregion
 
+        #region MANAGE_MODELS
+        private void Models_Click_1(object sender, RoutedEventArgs e)
+        {
+            ModelsManager c = new ModelsManager();
+            c.btnCancelClicked += c_btnCancelClicked;
+            Transient.Children.Clear();
+            Transient.Children.Add(c);
+            Transient.Visibility = System.Windows.Visibility.Visible;
+        }
 
+        private void c_btnCancelClicked(object sender, EventArgs e)
+        {
+            Transient.Children.Clear();
+        }
 
-
+        #endregion
 
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {

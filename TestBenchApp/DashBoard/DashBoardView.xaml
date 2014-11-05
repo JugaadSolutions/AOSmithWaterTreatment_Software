@@ -51,6 +51,9 @@
                     <Button Grid.Column="2" Name="SetPlan" Content="Set Plan" 
                             Click="SetPlan_Click" 
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    <Button Grid.Column="2" Name="Models" Content="Models" 
+                            Click="Models_Click_1"
+                         HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </UniformGrid>
             </GroupBox>
         </Grid>
