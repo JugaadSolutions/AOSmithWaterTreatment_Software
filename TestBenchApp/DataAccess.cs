@@ -363,7 +363,7 @@ namespace TestBenchApp
             con.Open();
 
             String qry = String.Empty;
-            qry = @"SELECT * from  Plans where timestamp > '{0}'" ;
+            qry = @"SELECT * from  Plans inner join Models where timestamp > '{0}'" ;
 
             qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"));
 
@@ -385,10 +385,11 @@ namespace TestBenchApp
                     ModelNumber = (string)dt.Rows[i]["Model"],
                     Actual = (int)dt.Rows[i]["Actual"],
                     Quantity = (int)dt.Rows[i]["Quantity"],
-                    BSerialNo = (int)dt.Rows[i]["BSerial"],
+                    BSerialNo = (int)dt.Rows[i]["BSerial"], 
                     FSerialNo = (int)dt.Rows[i]["FSerial"],
                     CombinationSerialNo = (int)dt.Rows[i]["CombinationSerial"],
-                    Status = (bool)dt.Rows[i]["Status"]
+                    Status = (bool)dt.Rows[i]["Status"],
+                    ModelName = (String)dt.Rows[i]["Name"]
                 });
             }
 
@@ -400,6 +401,51 @@ namespace TestBenchApp
         }
 
         #endregion
+
+
+        #region TRACKING
+        public void InsertUnit(String model, Model.Type type, int serialNo)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"insert into [Unit](Model,SerialNo,Type,Status,PlanDate,Barcode)
+                        values('{0}',{1},{2},'{3}','{4}','{5}')";
+
+            DateTime ts = DateTime.Now;
+            String barcode = model + ((type == Model.Type.BODY )?"A":"") + ts.ToString("yy-MM-dd") + serialNo.ToString("D4");
+
+            qry = String.Format(qry, model, serialNo, type, "NG", ts.ToString("yyyy-MM-dd HH:mm:ss"), barcode);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+
+            con.Close();
+            con.Dispose();
+        }
+        public void UpdateUnit(String barcode)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Unit] set status = 'OK' , timestamp = '{0}' where barcode='{1}'";
+            qry = String.Format(qry, DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss"), barcode);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        #endregion
+
 
         public Queue<int> getDeviceQ()
         {

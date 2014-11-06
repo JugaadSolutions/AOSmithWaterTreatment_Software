@@ -9,8 +9,8 @@ namespace TestBenchApp.Entity
 {
     public class Plan : INotifyPropertyChanged
     {
-        
 
+        public String ModelName { get; set; }
         public String ModelNumber { get; set; }
 
         public int Quantity { get; set; }

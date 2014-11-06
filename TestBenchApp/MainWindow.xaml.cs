@@ -35,6 +35,8 @@ namespace TestBenchApp
 
         List<Plan> Plans;
 
+        Plan CurrentPlan = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -117,7 +119,7 @@ namespace TestBenchApp
 
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
-           //here we use  e to get the model no etc
+           
 
         }
 
@@ -146,9 +148,37 @@ namespace TestBenchApp
                     logMsg += "--Request Raised" + "----at: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                     if (e.StationId == 2)
-                        mainBodyPM.PrintBarcode("", DateTime.Now.ToString("yyMMdd") + "0001");
+                    {
+                        if (CurrentPlan.BSerialNo > CurrentPlan.Quantity)
+                        {
+                            MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
+                                "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        else
+                        {
+                            mainBodyPM.PrintBarcode(CurrentPlan.ModelName,
+                                CurrentPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd") + CurrentPlan.BSerialNo.ToString("D4"));
+                            dataAccess.InsertUnit(CurrentPlan.ModelNumber, Model.Type.BODY, CurrentPlan.BSerialNo);
+
+                            CurrentPlan.BSerialNo++;
+                        }
+                    }
                     else if (e.StationId == 1)
-                        mainFramePM.PrintBarcode("PURITEE","B163"+ DateTime.Now.ToString("yyMMdd") + "0001");
+                    {
+                        if (CurrentPlan.BSerialNo > CurrentPlan.Quantity)
+                        {
+                            MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
+                                "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        else
+                        {
+                            mainFramePM.PrintBarcode(CurrentPlan.ModelName,
+                                CurrentPlan.ModelNumber + DateTime.Now.ToString("yyMMdd") + CurrentPlan.FSerialNo.ToString("D4"));
+
+                            dataAccess.InsertUnit(CurrentPlan.ModelNumber, Model.Type.FRAME, CurrentPlan.FSerialNo);
+                            CurrentPlan.FSerialNo++;
+                        }
+                    }
 
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                             new Action(() => { tbMsg.Text += logMsg + Environment.NewLine; }));
@@ -220,7 +250,12 @@ namespace TestBenchApp
             foreach (Plan p1 in Plans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentPlan = p;
+                  
                     continue;
+                }
+                    
                 else
                     p1.Status = false;
             }
@@ -240,7 +275,11 @@ namespace TestBenchApp
             foreach (Plan p1 in Plans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentPlan = p;
+
                     continue;
+                }
                 else
                     p1.Status = false;
             }
@@ -260,7 +299,11 @@ namespace TestBenchApp
             foreach (Plan p1 in Plans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentPlan = p;
+
                     continue;
+                }
                 else
                     p1.Status = false;
             }
@@ -279,7 +322,11 @@ namespace TestBenchApp
             foreach (Plan p1 in Plans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentPlan = p;
+
                     continue;
+                }
                 else
                     p1.Status = false;
             }

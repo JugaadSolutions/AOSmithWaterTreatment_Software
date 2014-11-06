@@ -22,14 +22,13 @@ namespace ias.andonmanager
         public event EventHandler<actQtyScannerEventArgs> actQtyAlertEvent;
 
         public enum MODE { NONE = 0, MASTER = 1, SLAVE = 2 };
-        public enum SCANNERPACKET { MODEL = 4, DATETIME = 6, SRNO = 4 }; 
 
         SerialPortDriver spDriver = null;               //the serial port driver
 
         //Code added on 11 Nov
         SerialPortDriver bcScannerDriver = null;        // mainframe barcode scanner
         SerialPortDriver csScannerDriver = null;        // Combination sticker generator scanner
-        SerialPortDriver actQtyScannerDriver = null;    // Scanner used to scan final product
+        SerialPortDriver actQtyScannerDriver = null;    // Final product scanner
 
         RS485Driver rs485Driver = null;                 //the rs485 driver
 

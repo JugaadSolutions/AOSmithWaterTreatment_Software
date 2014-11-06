@@ -8,7 +8,7 @@ namespace TestBenchApp.Entity
 {
     public class Model
     {
-        public enum Type { BODY , FRAME };
+        public enum Type { BODY=1 , FRAME=2 };
         public String Name { get; set; }
         public String Number { get; set; }
     }
