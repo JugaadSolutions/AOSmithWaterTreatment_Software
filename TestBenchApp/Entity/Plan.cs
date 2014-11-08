@@ -33,17 +33,32 @@ namespace TestBenchApp.Entity
 
         public DateTime Timestamp { get; set; }
 
-        bool status;
-        public bool Status
+        bool bstatus;
+        public bool BStatus
         {
             get
             {
-                return status;
+                return bstatus;
             }
             set
             {
-                status = value;
-                OnPropertyChanged("Status");
+                bstatus = value;
+                OnPropertyChanged("BStatus");
+            }
+        }
+
+
+        bool fstatus;
+        public bool FStatus
+        {
+            get
+            {
+                return fstatus;
+            }
+            set
+            {
+                fstatus = value;
+                OnPropertyChanged("FStatus");
             }
         }
         

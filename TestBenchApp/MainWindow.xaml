@@ -4,20 +4,21 @@
         xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
         xmlns:clock="clr-namespace:TestBenchApp.Clock"
         
-        Title="MainWindow" 
-        WindowState="Maximized" WindowStyle="SingleBorderWindow">
+        Title="Water Treatment Andon System" 
+        WindowState="Maximized" Name="BaseWindow" WindowStyle="SingleBorderWindow" >
     <Window.Resources>
         <clock:ClockDisplay x:Key="SystemClock" />
     </Window.Resources>
     <Grid>
         <TabControl  Name="BaseTabControl">
             <TabItem Header="Shift Data" Name="tabProductionData" FontSize="15" Background="Green" Visibility="Visible" >
-                <Grid  Background="Green">
-                    <Grid.RowDefinitions>
+              
+                    <Grid  Background="Green">
+                        <Grid.RowDefinitions>
                         <RowDefinition Height=".25*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0"  Margin="10" HorizontalAlignment="Stretch">
+                        <Grid Grid.Row="0"  Margin="10" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.25*"/>
                             <ColumnDefinition Width="*"/>
@@ -29,104 +30,212 @@
                                    VerticalAlignment="Center" TextAlignment="Center" Margin="60,0,0,0"/>
                         <clock:ClockDisplay Grid.Column="2" x:Name="SystemClock1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        
-                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                            <Label Content="MODEL" Foreground="White" FontWeight="Bold"  MinWidth="310"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5" HorizontalContentAlignment="Center"/> 
-                    <Label  Content="PLAN" Foreground="White" FontWeight="Bold"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/> 
-                    <Label  Content="ACTUAL" Foreground="White" FontWeight="Bold"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/> 
-                    <Label Content="CURRENT" Foreground="White" FontWeight="Bold"
+                        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                       
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                        <GroupBox   Grid.Column="0" Margin="10">
+                            <GroupBox.Header>
+                                <Label Foreground="White" Content="Main Frame" Background="Green" BorderBrush="Green" BorderThickness="0"
+                             HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
+                            </GroupBox.Header>
+                            <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Label Content="MODEL" Foreground="White" FontWeight="Bold"  MinWidth="310"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5" HorizontalContentAlignment="Center"/>
+                                <Label  Content="PLAN" Foreground="White" FontWeight="Bold"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
-                        </StackPanel>
-                        
-                        <StackPanel Grid.Row="1"  Name="ModelPanel1" Orientation="Horizontal">
-                        <Label Name="ModelLabel1"  Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                <Label  Content="ACTUAL" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
+                                <Label Content="CURRENT" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1"  Name="FrameModelPanel1" Orientation="Horizontal">
+                                <Label Name="FrameModelLabel1"  Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
-                        <TextBox Name="tbPq1" Height="Auto" MinWidth="75" Margin="5,15" IsReadOnly="True"
+                                <TextBox Name="FrametbPq1" Height="Auto" MinWidth="75" Margin="5,15" IsReadOnly="True"
                                  Text="{Binding Path=Quantity}" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                        <TextBox Name="tbAq1" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbAq1" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" IsReadOnly="True" Text="{Binding Path=Actual}" ></TextBox>
-                            <CheckBox Name="cb1" Height="Auto" Checked="cb1_Click" Margin="50,0,0,0"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=Status}">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2" />
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
-                        </StackPanel>
+                                    <CheckBox Name="Framecb1" Height="Auto" Checked="Framecb1_Click"  Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=FStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
 
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" Name="ModelPanel2">
-                            <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Name="FrameModelPanel2">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
-                        <TextBox Name="tbPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}" ></TextBox>
-                        <TextBox Name="tbAq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbAq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}"></TextBox>
-                            <CheckBox Name="cb2" Height="Auto" Checked="cb2_Click" Margin="50,0,0,0"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=Status}">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2" />
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
-                        </StackPanel>
+                                    <CheckBox Name="Framecb2" Height="Auto" Checked="Framecb2_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=FStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
 
-                        <StackPanel Grid.Row="3" Orientation="Horizontal" Name="ModelPanel3">
-                            <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" Name="FrameModelPanel3">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
-                        <TextBox  Name="tbPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox  Name="FrametbPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"   Text="{Binding Path=Quantity}"></TextBox>
-                        <TextBox Name="tbAq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbAq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}" ></TextBox>
-                            <CheckBox Name="cb3" Height="Auto" Checked="cb3_Click" Margin="50,0,0,0"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=Status}">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2" />
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
-                        </StackPanel>
+                                    <CheckBox Name="Framecb3" Height="Auto" Checked="Framecb3_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=FStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
 
-                        <StackPanel Grid.Row="4" Orientation="Horizontal" Name="ModelPanel4">
-                            <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                            <StackPanel Grid.Row="4" Orientation="Horizontal" Name="FrameModelPanel4">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
-                        <TextBox Name="tbPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}"></TextBox>
-                        <TextBox Name="tbAq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbAq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}" ></TextBox>
-                            <CheckBox Name="cb4" Height="Auto" Checked ="cb4_Click" Margin="50,0,0,0"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=Status}">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2" />
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
-                        </StackPanel>
+                                    <CheckBox Name="Framecb4" Height="Auto" Checked ="Framecb4_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=FStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
 
 
-                        <StackPanel Grid.Row="5" Orientation="Horizontal" Name="TotalPanel" Margin="0,30,0,0">
-                            <Label Content="TOTAL" Foreground="White" FontWeight="Bold" MinWidth="300"
+                            <StackPanel Grid.Row="5" Orientation="Horizontal" Name="FrameTotalPanel" Margin="0,30,0,0">
+                                <Label Content="TOTAL" Foreground="White" FontWeight="Bold" MinWidth="300"
                    HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5"></Label>
-                        <TextBox Name="tbTotalPlan" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                                <TextBox Name="FrametbTotalPlan" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
-                            <TextBox x:Name="tbTotalAct" Height="Auto" MinWidth="75" Margin="5" HorizontalContentAlignment="Center"
+                                <TextBox x:Name="FrametbTotalAct" Height="Auto" MinWidth="75" Margin="5" HorizontalContentAlignment="Center"
                         	HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" />
-                        </StackPanel>
-                        
+                            </StackPanel>
+                            </Grid>
+                        </GroupBox  >
+                        <GroupBox  Grid.Column="1" Margin="10">
+                            <GroupBox.Header>
+                                <Label Foreground="White" Content="Main Body" Background="Green" BorderBrush="Green" BorderThickness="0"
+                             HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
+                            </GroupBox.Header>
+                            <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Label Content="MODEL" Foreground="White" FontWeight="Bold"  MinWidth="310"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5" HorizontalContentAlignment="Center"/>
+                                <Label  Content="PLAN" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
+                                <Label  Content="ACTUAL" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
+                                <Label Content="CURRENT" Foreground="White" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="5"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1"  Name="BodyModelPanel1" Orientation="Horizontal">
+                                <Label Name="BodyModelLabel1"  Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                                <TextBox Name="BodytbPq1" Height="Auto" MinWidth="75" Margin="5,15" IsReadOnly="True"
+                                 Text="{Binding Path=Quantity}" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                                <TextBox Name="BodytbAq1" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" IsReadOnly="True" Text="{Binding Path=Actual}" ></TextBox>
+                                    <CheckBox Name="Bodycb1" Height="Auto" Checked="Bodycb1_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=BStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Name="BodyModelPanel2">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                                <TextBox Name="BodytbPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}" ></TextBox>
+                                <TextBox Name="BodytbAq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}"></TextBox>
+                                    <CheckBox Name="Bodycb2" Height="Auto" Checked="Bodycb2_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=BStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" Name="BodyModelPanel3">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                                <TextBox  Name="BodytbPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"   Text="{Binding Path=Quantity}"></TextBox>
+                                <TextBox Name="BodytbAq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}" ></TextBox>
+                                    <CheckBox Name="Bodycb3" Height="Auto" Checked="Bodycb3_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=BStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="4" Orientation="Horizontal" Name="BodyModelPanel4">
+                                <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="300"></Label>
+                                <TextBox Name="BodytbPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}"></TextBox>
+                                <TextBox Name="BodytbAq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Text="{Binding Path=Actual}" ></TextBox>
+                                    <CheckBox Name="Bodycb4" Height="Auto" Checked ="Bodycb4_Click" Margin="50,0,0,0"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=BStatus}">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </StackPanel>
+
+
+                            <StackPanel Grid.Row="5" Orientation="Horizontal" Name="BodyTotalPanel" Margin="0,30,0,0">
+                                <Label Content="TOTAL" Foreground="White" FontWeight="Bold" MinWidth="300"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5"></Label>
+                                <TextBox Name="BodyTotalPlan" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                                <TextBox x:Name="BodyTotalAct" Height="Auto" MinWidth="75" Margin="5" HorizontalContentAlignment="Center"
+                        	HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" />
+                            </StackPanel>
+                        </Grid>
+                        </GroupBox>
                     </Grid>
 
                 </Grid>
-
-
-            </TabItem>
+                  </TabItem>
             <TabItem Header="Manage" Name="tabPlan" FontSize="15" Background="Green" Visibility="Visible" Loaded="tabPlan_Loaded">
                
 

@@ -363,7 +363,7 @@ namespace TestBenchApp
             con.Open();
 
             String qry = String.Empty;
-            qry = @"SELECT * from  Plans inner join Models where timestamp > '{0}'" ;
+            qry = @"SELECT * from  Plans inner join Models on [Plans].Model = [Models].Number where timestamp > '{0}'" ;
 
             qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"));
 
@@ -388,7 +388,8 @@ namespace TestBenchApp
                     BSerialNo = (int)dt.Rows[i]["BSerial"], 
                     FSerialNo = (int)dt.Rows[i]["FSerial"],
                     CombinationSerialNo = (int)dt.Rows[i]["CombinationSerial"],
-                    Status = (bool)dt.Rows[i]["Status"],
+                    BStatus = (bool)dt.Rows[i]["BStatus"],
+                    FStatus = (bool)dt.Rows[i]["FStatus"],
                     ModelName = (String)dt.Rows[i]["Name"]
                 });
             }
@@ -398,6 +399,80 @@ namespace TestBenchApp
             con.Dispose();
 
             return plans;
+        }
+
+
+        public void UpdatePlan(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set Actual = {0}, [BStatus] = '{1}',[FStatus] = '{2}',
+                    BSerial={3},FSerial={4},CombinationSerial={5}
+                    where SlNo={6}";
+            qry = String.Format(qry, p.Actual, p.BStatus,p.FStatus, p.BSerialNo, p.FSerialNo, p.CombinationSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        public void UpdatePlanQuantity(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set Quantity = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.Quantity, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        public void UpdateBPlanStatus(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set BStatus = '{0}'
+                    where SlNo={1}";
+            qry = String.Format(qry, p.BStatus, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        public void UpdateFPlanStatus(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set FStatus = '{0}'
+                    where SlNo={1}";
+            qry = String.Format(qry, p.FStatus, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
         }
 
         #endregion
@@ -415,9 +490,9 @@ namespace TestBenchApp
                         values('{0}',{1},{2},'{3}','{4}','{5}')";
 
             DateTime ts = DateTime.Now;
-            String barcode = model + ((type == Model.Type.BODY )?"A":"") + ts.ToString("yy-MM-dd") + serialNo.ToString("D4");
+            String barcode = model + ((type == Model.Type.BODY )?"A":"") + ts.ToString("yyMMdd") + serialNo.ToString("D4");
 
-            qry = String.Format(qry, model, serialNo, type, "NG", ts.ToString("yyyy-MM-dd HH:mm:ss"), barcode);
+            qry = String.Format(qry, model, serialNo, (int)type, "NG", ts.ToString("yyyy-MM-dd HH:mm:ss"), barcode);
             SqlCommand cmd = new SqlCommand(qry, con);
 
             cmd.ExecuteNonQuery();
@@ -1323,24 +1398,7 @@ namespace TestBenchApp
             
         }
 
-        internal void UpdatePlan(Plan p)
-        {
-            SqlConnection con = new SqlConnection(conStr);
-            con.Open();
-
-
-            String qry = String.Empty;
-            qry = @"update [Plans] set Quantity={0} where SlNo = {1}";
-            qry = String.Format(qry, p.Quantity, p.slNumber);
-            SqlCommand cmd = new SqlCommand(qry, con);
-
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            con.Close();
-            con.Dispose();
-        }
-
+        
         internal void DeletePlan(Plan p)
         {
             SqlConnection con = new SqlConnection(conStr);

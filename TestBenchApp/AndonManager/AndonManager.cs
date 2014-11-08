@@ -666,75 +666,7 @@ namespace ias.andonmanager
 
 
 
-        //private String findXbeePort(String identifier)
-        //{
-
-        //    txPacket = xbeeDriver.getNodeIdentifierPacket(); //create the packet to find the identifier
-
-        //    String[] portNames = SerialPort.GetPortNames(); //get all the available serial ports
-        //    String communicationPort = String.Empty;
-
-        //    foreach (String port in portNames)      //search each of the ports
-        //    {
-        //        if (communicationPort == String.Empty)  //if no port has been found
-        //        {
-
-        //            try
-        //            {
-        //                spDriver = new SerialPortDriver(); //create the serial port driver
-
-        //                if (spDriver.open(port) == false)
-        //                {
-        //                    continue;
-        //                }
-
-        //                spDriver.WriteToPort(txPacket.ToArray());
-        //                transactionTimer.Start();
-        //                transactionEvent.WaitOne();
-
-        //                if (rxPacket == null)
-        //                {
-        //                    spDriver.Close();
-
-        //                    continue;
-        //                }
-        //                List<Byte> nodeIdBytes =
-        //                            xbeeDriver.parseATresponse(rxPacket, XbeeDriver.AT_COMMANDS[(int)XbeeDriver.AT_COMMAND_INDEX.NI]);
-
-        //                char[] nodeIdArr = new char[nodeIdBytes.Count];
-        //                for (int i = 0; i < nodeIdBytes.Count; i++)
-        //                {
-        //                    nodeIdArr[i] = (char)nodeIdBytes[i];
-        //                }
-
-        //                String id = new String(nodeIdArr);
-
-        //                if (id == identifier)
-        //                {
-        //                    communicationPort = port;
-        //                }
-
-        //                spDriver.Close();
-        //                spDriver.Dispose();
-
-        //            }
-        //            catch (System.TimeoutException)
-        //            {
-        //                spDriver.Close();
-        //                spDriver.Dispose();
-
-        //                continue;
-        //            }
-        //            catch (Xbee_Exception x)
-        //            {
-        //                spDriver.Close();
-        //                spDriver.Dispose();
-        //                continue;
-        //            }
-        //        }
-        //    }
-        //    return communicationPort;
-        //}
+       
 
 
         

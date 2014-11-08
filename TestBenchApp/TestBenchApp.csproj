@@ -113,6 +113,7 @@
     <Compile Include="Entity\Model.cs" />
     <Compile Include="Entity\Plan.cs" />
     <Compile Include="Entity\User.cs" />
+    <Compile Include="InputSimulation.cs" />
     <Compile Include="Line\PlanView.xaml.cs">
       <DependentUpon>PlanView.xaml</DependentUpon>
     </Compile>

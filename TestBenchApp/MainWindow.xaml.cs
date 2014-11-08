@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -33,9 +34,12 @@ namespace TestBenchApp
         PrinterManager mainFramePM;
         PrinterManager combinationPM;
 
-        List<Plan> Plans;
+        List<Plan> FramePlans,BodyPlans;
 
-        Plan CurrentPlan = null;
+        Plan CurrentFramePlan = null;
+        Plan CurrentBodyPlan = null;
+
+        Timer tickTimer;
 
         public MainWindow()
         {
@@ -78,31 +82,105 @@ namespace TestBenchApp
             mainFramePM.SetupDriver();
             combinationPM.SetupDriver();
 
-            Plans = dataAccess.GetPlans();
+            updatePlan();
 
-            if (Plans.Count > 0)
+            tickTimer = new Timer(1000);
+            tickTimer.AutoReset = false;
+            tickTimer.Elapsed += tickTimer_Elapsed;
+
+            if (ConfigurationSettings.AppSettings["SIMULATION"] == "Yes")
             {
-                ModelPanel1.DataContext = Plans[0];
-
+                Simulation = true;
+                BaseWindow.KeyDown += Window_KeyDown;
             }
-            if (Plans.Count > 1)
-            {
-                ModelPanel2.DataContext = Plans[1];
+            else Simulation = false;
 
-            }
-            if (Plans.Count > 2)
-            {
-                ModelPanel3.DataContext = Plans[2];
-
-            }
-            if (Plans.Count > 3)
-            {
-                ModelPanel4.DataContext = Plans[3];
-
-            }
 
 
    //         andonManager.start();
+            tickTimer.Start();
+        }
+
+        void tickTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            tickTimer.Stop();
+            updatePlan();
+            tickTimer.Start();
+        }
+
+        private void updatePlan()
+        {
+            FramePlans = dataAccess.GetPlans();
+            BodyPlans = dataAccess.GetPlans();
+
+            if (FramePlans.Count > 0)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                              new Action(() =>
+                              {
+                                  FrameModelPanel1.DataContext = FramePlans[0];
+                                  BodyModelPanel1.DataContext = BodyPlans[0];
+                              }));
+
+            }
+            if (FramePlans.Count > 1)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                             new Action(() =>
+                             {
+                                 FrameModelPanel2.DataContext = FramePlans[1];
+                                 BodyModelPanel2.DataContext = BodyPlans[1];
+                             }));
+            }
+            if (FramePlans.Count > 2)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                             new Action(() =>
+                             {
+                                 FrameModelPanel3.DataContext = FramePlans[2];
+                                 BodyModelPanel3.DataContext = BodyPlans[2];
+                             }));
+
+            }
+            if (FramePlans.Count > 3)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                             new Action(() =>
+                             {
+                                 FrameModelPanel4.DataContext = FramePlans[3];
+                                 BodyModelPanel4.DataContext = BodyPlans[3];
+                             }));
+
+            }
+
+            int Total = 0;
+            int Actual = 0;
+            foreach (Plan p in FramePlans)
+            {
+                Total += p.Quantity;
+                Actual += p.Actual;
+            }
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                             new Action(() =>
+                             {
+                                 FrametbTotalPlan.Text = Total.ToString();
+                                 FrametbTotalAct.Text = Actual.ToString();
+                             }));
+
+            Total = 0;
+            Actual = 0;
+            foreach (Plan p in BodyPlans)
+            {
+                Total += p.Quantity;
+                Actual += p.Actual;
+            }
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                             new Action(() =>
+                             {
+                                 BodyTotalPlan.Text = Total.ToString();
+                                 BodyTotalAct.Text = Actual.ToString();
+                             }));
+
         }
 
 
@@ -147,36 +225,56 @@ namespace TestBenchApp
 
                     logMsg += "--Request Raised" + "----at: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
+
+
                     if (e.StationId == 2)
                     {
-                        if (CurrentPlan.BSerialNo > CurrentPlan.Quantity)
+                        if (CurrentBodyPlan.BSerialNo > CurrentBodyPlan.Quantity)
                         {
                             MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
                                 "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                         else
                         {
-                            mainBodyPM.PrintBarcode(CurrentPlan.ModelName,
-                                CurrentPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd") + CurrentPlan.BSerialNo.ToString("D4"));
-                            dataAccess.InsertUnit(CurrentPlan.ModelNumber, Model.Type.BODY, CurrentPlan.BSerialNo);
+                            CurrentBodyPlan.BSerialNo++;
+                            if (Simulation)
+                            {
 
-                            CurrentPlan.BSerialNo++;
+                                mainFramePM.PrintBarcode(CurrentBodyPlan.ModelName,
+                                    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
+                                    + CurrentBodyPlan.BSerialNo.ToString("D4"));
+                            }
+                            else
+                            {
+                                mainBodyPM.PrintBarcode(CurrentBodyPlan.ModelName,
+                                    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
+                                    + CurrentBodyPlan.BSerialNo.ToString("D4"));
+                            }
+                            dataAccess.InsertUnit(CurrentBodyPlan.ModelNumber, Model.Type.BODY, 
+                                CurrentBodyPlan.BSerialNo);
+                            dataAccess.UpdatePlan(CurrentBodyPlan);
+
+
+                            
                         }
                     }
                     else if (e.StationId == 1)
                     {
-                        if (CurrentPlan.BSerialNo > CurrentPlan.Quantity)
+                        if (CurrentFramePlan.FSerialNo > CurrentFramePlan.Quantity)
                         {
                             MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
                                 "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                         else
                         {
-                            mainFramePM.PrintBarcode(CurrentPlan.ModelName,
-                                CurrentPlan.ModelNumber + DateTime.Now.ToString("yyMMdd") + CurrentPlan.FSerialNo.ToString("D4"));
+                            CurrentFramePlan.FSerialNo++;
+                            mainFramePM.PrintBarcode(CurrentFramePlan.ModelName,
+                                CurrentFramePlan.ModelNumber + DateTime.Now.ToString("yyMMdd") 
+                                + CurrentFramePlan.FSerialNo.ToString("D4"));
 
-                            dataAccess.InsertUnit(CurrentPlan.ModelNumber, Model.Type.FRAME, CurrentPlan.FSerialNo);
-                            CurrentPlan.FSerialNo++;
+                            dataAccess.InsertUnit(CurrentFramePlan.ModelNumber, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
+                            dataAccess.UpdatePlan(CurrentFramePlan);
+                            
                         }
                     }
 
@@ -234,10 +332,10 @@ namespace TestBenchApp
            
         }
 
-       
 
-      
-        private void cb1_Click(object sender, RoutedEventArgs e)
+
+
+        private void Framecb1_Click(object sender, RoutedEventArgs e)
         {
             CheckBox c = (CheckBox)sender;
 
@@ -247,22 +345,24 @@ namespace TestBenchApp
                 c.IsChecked = false;
                 return;
             }
-            foreach (Plan p1 in Plans)
+            foreach (Plan p1 in FramePlans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
                 {
-                    CurrentPlan = p;
-                  
+                    CurrentFramePlan = p;
+                    dataAccess.UpdateFPlanStatus(CurrentFramePlan);
                     continue;
                 }
-                    
                 else
-                    p1.Status = false;
+                {
+                    p1.FStatus = false;
+                    dataAccess.UpdateFPlanStatus(p1);
+                }
             }
             
         }
 
-        private void cb4_Click(object sender, RoutedEventArgs e)
+        private void Framecb2_Click(object sender, RoutedEventArgs e)
         {
             CheckBox c = (CheckBox)sender;
 
@@ -272,21 +372,81 @@ namespace TestBenchApp
                 c.IsChecked = false;
                 return;
             }
-            foreach (Plan p1 in Plans)
+            foreach (Plan p1 in FramePlans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
                 {
-                    CurrentPlan = p;
-
+                    CurrentFramePlan = p;
+                    dataAccess.UpdateFPlanStatus(CurrentFramePlan);
                     continue;
                 }
                 else
-                    p1.Status = false;
+                {
+                    p1.FStatus = false;
+                    dataAccess.UpdateFPlanStatus(p1);
+                }
+            }
+
+        }
+
+        private void Framecb3_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+
+            Plan p = (Plan)c.DataContext;
+            if (p == null)
+            {
+                c.IsChecked = false;
+                return;
+            }
+            foreach (Plan p1 in FramePlans)
+            {
+                if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentFramePlan = p;
+                    dataAccess.UpdateFPlanStatus(CurrentFramePlan);
+                    continue;
+                }
+                else
+                {
+                    p1.FStatus = false;
+                    dataAccess.UpdateFPlanStatus(p1);
+                }
+            }
+        }
+
+        private void Framecb4_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+
+            Plan p = (Plan)c.DataContext;
+            if (p == null)
+            {
+                c.IsChecked = false;
+                return;
+            }
+            foreach (Plan p1 in FramePlans)
+            {
+                if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentFramePlan = p;
+                    dataAccess.UpdateFPlanStatus(CurrentFramePlan);
+                    continue;
+                }
+                else
+                {
+                    p1.FStatus = false;
+                    dataAccess.UpdateFPlanStatus(p1);
+                }
             }
             
         }
 
-        private void cb3_Click(object sender, RoutedEventArgs e)
+    
+
+
+
+        private void Bodycb1_Click(object sender, RoutedEventArgs e)
         {
             CheckBox c = (CheckBox)sender;
 
@@ -296,20 +456,24 @@ namespace TestBenchApp
                 c.IsChecked = false;
                 return;
             }
-            foreach (Plan p1 in Plans)
+            foreach (Plan p1 in BodyPlans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
                 {
-                    CurrentPlan = p;
-
+                    CurrentBodyPlan = p;
+                    dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
                     continue;
                 }
                 else
-                    p1.Status = false;
+                {
+                    p1.BStatus = false;
+                    dataAccess.UpdateBPlanStatus(p1);
+                }
             }
+
         }
 
-        private void cb2_Click(object sender, RoutedEventArgs e)
+        private void Bodycb2_Click(object sender, RoutedEventArgs e)
         {
             CheckBox c = (CheckBox)sender;
 
@@ -319,19 +483,80 @@ namespace TestBenchApp
                 c.IsChecked = false;
                 return;
             }
-            foreach (Plan p1 in Plans)
+            foreach (Plan p1 in BodyPlans)
             {
                 if (p.ModelNumber == p1.ModelNumber)
                 {
-                    CurrentPlan = p;
-
+                    CurrentBodyPlan = p;
+                    dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
                     continue;
                 }
                 else
-                    p1.Status = false;
+                {
+                    p1.BStatus = false;
+                    dataAccess.UpdateBPlanStatus(p1);
+                }
             }
-            
+
         }
+
+        private void Bodycb3_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+
+            Plan p = (Plan)c.DataContext;
+            if (p == null)
+            {
+                c.IsChecked = false;
+                return;
+            }
+            foreach (Plan p1 in BodyPlans)
+            {
+                if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentBodyPlan = p;
+                    dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
+                    continue;
+                }
+                else
+                {
+                    p1.BStatus = false;
+                    dataAccess.UpdateBPlanStatus(p1);
+                }
+            }
+        }
+
+        private void Bodycb4_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+
+            Plan p = (Plan)c.DataContext;
+            if (p == null)
+            {
+                c.IsChecked = false;
+                return;
+            }
+            foreach (Plan p1 in BodyPlans)
+            {
+                if (p.ModelNumber == p1.ModelNumber)
+                {
+                    CurrentBodyPlan = p;
+                    dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
+                    continue;
+                }
+                else
+                {
+                    p1.BStatus = false;
+                    dataAccess.UpdateBPlanStatus(p1);
+                }
+            }   
+
+        }
+
+        
+
+        
+
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {

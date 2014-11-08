@@ -100,7 +100,8 @@ namespace TestBenchApp.Line
                         FSerialNo = 0,
                         CombinationSerialNo = 0,
                         Actual = 0,
-                        Status = false,
+                        BStatus = false,
+                        FStatus = false,
                         Timestamp = DateTime.Now
                     });
 
@@ -125,7 +126,8 @@ namespace TestBenchApp.Line
                         FSerialNo = 0,
                         CombinationSerialNo = 0,
                         Actual = 0,
-                        Status = false,
+                        BStatus = false,
+                        FStatus = false,
                         Timestamp = DateTime.Now
                     });
 
@@ -149,7 +151,8 @@ namespace TestBenchApp.Line
                         FSerialNo = 0,
                         CombinationSerialNo = 0,
                         Actual = 0,
-                        Status = false,
+                        FStatus = false,
+                        BStatus = false,
                         Timestamp = DateTime.Now
                     });
 
@@ -173,7 +176,8 @@ namespace TestBenchApp.Line
                         FSerialNo = 0,
                         CombinationSerialNo = 0,
                         Actual = 0,
-                        Status = false,
+                        BStatus = false,
+                        FStatus = false,
                         Timestamp = DateTime.Now
                     });
 
@@ -231,7 +235,7 @@ namespace TestBenchApp.Line
             if (result == MessageBoxResult.Yes)
             {
                 plans[3].Quantity = Convert.ToInt32(tbSetPq4.Text);
-                da.UpdatePlan(plans[3]);
+                da.UpdatePlanQuantity(plans[3]);
             }
             else
                 tbSetPq4.Text = Convert.ToString(plans[3].Quantity);
@@ -249,7 +253,7 @@ namespace TestBenchApp.Line
             if (result == MessageBoxResult.Yes)
             {
                 plans[2].Quantity = Convert.ToInt32(tbSetPq3.Text);
-                da.UpdatePlan(plans[2]);
+                da.UpdatePlanQuantity(plans[2]);
             }
             else
                 tbSetPq3.Text = Convert.ToString(plans[2].Quantity);
@@ -267,7 +271,7 @@ namespace TestBenchApp.Line
             if (result == MessageBoxResult.Yes)
             {
                 plans[1].Quantity = Convert.ToInt32(tbSetPq2.Text);
-                da.UpdatePlan(plans[1]);
+                da.UpdatePlanQuantity(plans[1]);
             }
             else
                 tbSetPq2.Text = Convert.ToString(plans[1].Quantity);
@@ -291,7 +295,7 @@ namespace TestBenchApp.Line
             if (result == MessageBoxResult.Yes)
             {
                 plans[0].Quantity = Convert.ToInt32(tbSetPq1.Text);
-                da.UpdatePlan(plans[0]);
+                da.UpdatePlanQuantity(plans[0]);
             }
             else
                 tbSetPq1.Text = Convert.ToString(plans[0].Quantity);
