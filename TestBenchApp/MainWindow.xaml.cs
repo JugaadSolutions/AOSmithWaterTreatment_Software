@@ -155,16 +155,22 @@ namespace TestBenchApp
 
             int Total = 0;
             int Actual = 0;
+            int FSerial = 0;
+            int CSerial = 0;
             foreach (Plan p in FramePlans)
             {
                 Total += p.Quantity;
                 Actual += p.Actual;
+                FSerial += p.FSerialNo;
+                CSerial += p.CombinationSerialNo;
             }
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
                                  FrametbTotalPlan.Text = Total.ToString();
                                  FrametbTotalAct.Text = Actual.ToString();
+                                 FrametbTotalFserial.Text = FSerial.ToString();
+                                 FrametbTotalCserial.Text = CSerial.ToString();
                              }));
 
             Total = 0;
@@ -577,6 +583,16 @@ namespace TestBenchApp
             }
 
            
+        }
+
+        private void FrametbPq4_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void FrametbF1_1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
 
     }

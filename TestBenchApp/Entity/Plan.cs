@@ -62,11 +62,50 @@ namespace TestBenchApp.Entity
             }
         }
         
-        public int BSerialNo { get; set; }
-        public int  FSerialNo { get; set; }
-        public int CombinationSerialNo { get; set; }
+
+        public int bSerialNo;
+        public int BSerialNo
+        {
+            get
+            {
+                return bSerialNo;
+            }
+            set
+            {
+                bSerialNo = value;
+                OnPropertyChanged("BSerialNo");
+            }
+        }
+
+        int fSerialNo;
+        public int FSerialNo
+        {
+            get
+            {
+                return fSerialNo;
+            }
+            set
+            {
+                fSerialNo = value;
+                OnPropertyChanged("FSerialNo");
+            }
+        }
 
 
+  
+        int combinationSerialNo;
+        public int CombinationSerialNo
+        {
+            get
+            {
+                return combinationSerialNo;
+            }
+            set
+            {
+                combinationSerialNo = value;
+                OnPropertyChanged("CombinationSerialNo");
+            }
+        }
         #region INotifyPropetyChangedHandler
         public event PropertyChangedEventHandler PropertyChanged;
         // Create the OnPropertyChanged method to raise the event
