@@ -88,7 +88,7 @@ namespace TestBenchApp
             tickTimer.AutoReset = false;
             tickTimer.Elapsed += tickTimer_Elapsed;
 
-            if (ConfigurationSettings.AppSettings["SIMULATION"] == "Yes")
+            if (ConfigurationSettings.AppSettings["PBSIMULATION"] == "Yes")
             {
                 Simulation = true;
                 BaseWindow.KeyDown += Window_KeyDown;
@@ -97,7 +97,7 @@ namespace TestBenchApp
 
 
 
-   //         andonManager.start();
+            andonManager.start();
             tickTimer.Start();
         }
 
