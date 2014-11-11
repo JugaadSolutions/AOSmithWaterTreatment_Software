@@ -421,6 +421,43 @@ namespace TestBenchApp
             con.Dispose();
         }
 
+        public void UpdateFSerial(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set FSerial = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.FSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+
+        public void UpdateBSerial(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set BSerial = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.BSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
         public void UpdatePlanQuantity(Plan p)
         {
             SqlConnection con = new SqlConnection(conStr);

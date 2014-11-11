@@ -55,6 +55,8 @@ namespace TestBenchApp
 
             comLayers = ConfigurationSettings.AppSettings["COM_LAYERS"].Split(',');
 
+            String combPrinterName = ConfigurationSettings.AppSettings["COMBINATION_BARCODE_PRINTER_NAME"];
+
             deviceQ = dataAccess.getDeviceQ();
             andonManager = new AndonManager(deviceQ, null, Mode);
             andonManager.andonAlertEvent += andonManager_andonAlertEvent;
@@ -76,7 +78,7 @@ namespace TestBenchApp
 
             mainBodyPM = new PrinterManager { Port = port, IPAddress = mainBodyipAddr, BarcodeFileName = mainBodybarcodeFile };
             mainFramePM = new PrinterManager { Port = port, IPAddress = mainFrameipAddr, BarcodeFileName = mainFrameBarcodeFile };
-            combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile };
+            combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile, combBarcodePrinterName = combPrinterName };
 
             mainBodyPM.SetupDriver();
             mainFramePM.SetupDriver();
@@ -175,35 +177,48 @@ namespace TestBenchApp
 
             Total = 0;
             Actual = 0;
+            int BSerial = 0;
             foreach (Plan p in BodyPlans)
             {
                 Total += p.Quantity;
                 Actual += p.Actual;
+                BSerial += p.BSerialNo;
             }
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
                                  BodyTotalPlan.Text = Total.ToString();
-                                 BodyTotalAct.Text = Actual.ToString();
+                                 BodyTotalAct.Text = BSerial.ToString();
                              }));
 
         }
 
 
         //Code added on 11 Nov
-        private void andonManager_actQtyAlertEvent(object sender, EventArgs e)
+        private void andonManager_actQtyAlertEvent(object sender, actQtyScannerEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void andonManager_combStickerAlertEvent(object sender, EventArgs e)
+        private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
         {
-            throw new NotImplementedException();
+            Plan tempPlan = null;
+            tempPlan = new Plan();
+
+           // tempPlan.BSerialNo = e.SerialNo;
+
+            
+
+            
+
         }
 
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
-           
+
+            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo;
+
+            dataAccess.UpdateUnit(barcode);
 
         }
 
@@ -249,6 +264,10 @@ namespace TestBenchApp
                                 mainFramePM.PrintBarcode(CurrentBodyPlan.ModelName,
                                     CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
                                     + CurrentBodyPlan.BSerialNo.ToString("D4"));
+
+                                //combinationPM.PrintCombSticker(CurrentBodyPlan.ModelName,
+                                //    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
+                                //    + CurrentBodyPlan.BSerialNo.ToString("D4"));
                             }
                             else
                             {
@@ -258,7 +277,7 @@ namespace TestBenchApp
                             }
                             dataAccess.InsertUnit(CurrentBodyPlan.ModelNumber, Model.Type.BODY, 
                                 CurrentBodyPlan.BSerialNo);
-                            dataAccess.UpdatePlan(CurrentBodyPlan);
+                            dataAccess.UpdateBSerial(CurrentBodyPlan);
 
 
                             
@@ -279,7 +298,7 @@ namespace TestBenchApp
                                 + CurrentFramePlan.FSerialNo.ToString("D4"));
 
                             dataAccess.InsertUnit(CurrentFramePlan.ModelNumber, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
-                            dataAccess.UpdatePlan(CurrentFramePlan);
+                            dataAccess.UpdateFSerial(CurrentFramePlan);
                             
                         }
                     }
