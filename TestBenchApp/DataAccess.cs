@@ -523,7 +523,7 @@ namespace TestBenchApp
 
 
             String qry = String.Empty;
-            qry = @"insert into [Unit](Model,SerialNo,Type,Status,PlanDate,Barcode)
+            qry = @"insert into [Unit](Model,SerialNo,[Type],Status,[Timestamp],Barcode)
                         values('{0}',{1},{2},'{3}','{4}','{5}')";
 
             DateTime ts = DateTime.Now;
@@ -540,24 +540,33 @@ namespace TestBenchApp
             con.Dispose();
         }
 
-        public void InsertUnitAssociation(String model, Model.Type type)
+        public void InsertUnitAssociation(String barcode, Model.Type type)
         {
             SqlConnection con = new SqlConnection(conStr);
             con.Open();
 
 
-//            String qry = String.Empty;
-//            qry = @"insert into [Unit](Model,SerialNo,Type,Status,PlanDate,Barcode)
-//                        values('{0}',{1},{2},'{3}','{4}','{5}')";
+             String qry = String.Empty;
+             DateTime ts = DateTime.Now;
+             if (type == Model.Type.BODY)
+             {
+                 qry = @"insert into [UnitAssociation] (BCode,BTimestamp)
+                        values('{0}','{1}')";
+             }
+             else if (type == Model.Type.FRAME)
+             {
+                 qry = @"insert into [UnitAssociation] (FCode,FTimestamp)
+                        values('{0}','{1}')";
+             }
 
-//            DateTime ts = DateTime.Now;
-//            String barcode = model + ((type == Model.Type.BODY) ? "A" : "") + ts.ToString("yyMMdd") + serialNo.ToString("D4");
+           
+            
 
-//            qry = String.Format(qry, model, serialNo, (int)type, "NG", ts.ToString("yyyy-MM-dd HH:mm:ss"), barcode);
-//            SqlCommand cmd = new SqlCommand(qry, con);
+            qry = String.Format(qry,  barcode, ts.ToString("yyyy-MM-dd HH:mm:ss"));
+            SqlCommand cmd = new SqlCommand(qry, con);
 
-//            cmd.ExecuteNonQuery();
-//            cmd.Dispose();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
 
 
             con.Close();
@@ -575,6 +584,104 @@ namespace TestBenchApp
 
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+
+
+        internal bool CheckOKStatus(string barcode)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            bool result = false;
+
+            String qry = String.Empty;
+            qry = @"SELECT [Status] from [Unit] where Barcode='{0}'";
+            qry = String.Format(qry, barcode);
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+
+            if( dt.Rows.Count == 0 ) return false;
+            if (dt.Rows.Count == 1)
+            {
+                if (dt.Rows[0][0] == DBNull.Value)
+                    return false;
+
+                return ((String)dt.Rows[0][0] == "OK");
+            }
+            else return false;
+
+        }
+
+        internal string UnitAssociated( Model.Type type)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            bool result = false;
+
+            String qry = String.Empty;
+            if (type == Model.Type.BODY)
+            {
+                qry = @"SELECT [FCode] from [UnitAssociation] where FCode is not null and BCode is null";
+            }
+            else if (type == Model.Type.FRAME)
+            {
+                qry = @"SELECT [BCode] from [UnitAssociation] where BCode is not null and FCode is null";
+            }
+           
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+
+            if (dt.Rows.Count == 0) return String.Empty;
+            if (dt.Rows.Count == 1)
+            {
+                if (dt.Rows[0][0] == DBNull.Value)
+                    return String.Empty;
+
+                return (String)dt.Rows[0][0] ;
+            }
+            else return String.Empty;
+        }
+
+        internal void UpdateAssociation(string barcode, Model.Type type, string assocationBarcode)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            DateTime ts = DateTime.Now;
+            if (type == Model.Type.BODY)
+            {
+                qry = @"update [UnitAssociation] set BCode='{0}',BTimestamp = '{1}'
+                        where [FCode]='{2}'";
+            }
+            else if (type == Model.Type.FRAME)
+            {
+                qry = @"update [UnitAssociation] set FCode='{0}',FTimestamp = '{1}'
+                        where [BCode]='{2}'";
+            }
+
+            qry = String.Format(qry, barcode, ts.ToString("yyyy-MM-dd HH:mm:ss"),assocationBarcode);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
 
             con.Close();
             con.Dispose();
@@ -1478,19 +1585,5 @@ namespace TestBenchApp
             con.Dispose();
         }
 
-        internal bool CheckOKStatus(string barcode)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal string UnitAssociated(string model, string p, Model.Type type)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void UpdateAssociation(string barcode, Model.Type type, string assocationBarcode)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

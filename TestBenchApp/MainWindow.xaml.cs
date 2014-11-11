@@ -101,7 +101,7 @@ namespace TestBenchApp
 
 
 
-            //andonManager.start();
+            andonManager.start();
             tickTimer.Start();
         }
 
@@ -203,21 +203,22 @@ namespace TestBenchApp
         }
 
         private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
-<<<<<<< HEAD
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
-            String model = e.ModelNumber.Remove(0,e.ModelNumber.Length-1);
+            
             String assocationBarcode = String.Empty;
             if (e.ModelNumber.Contains("A")) // if body
             {
+               
                 if (FBypass == false)  //if not bypassed
                 {
                     if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
                         return; //do nothing
                 }
 
-                assocationBarcode = dataAccess.UnitAssociated(model, e.Timestamp, Model.Type.FRAME);
+                assocationBarcode = dataAccess.UnitAssociated( Model.Type.BODY);
 
+               
                 if (assocationBarcode != String.Empty) // if association exists
                 {
                     dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode);
@@ -231,22 +232,25 @@ namespace TestBenchApp
             }
             else
             {
+               
+               
                 if (CBypass == false)  //if not bypassed
                 {
                     if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
                         return; //do nothing
                 }
 
-                assocationBarcode = dataAccess.UnitAssociated(model, e.Timestamp, Model.Type.BODY);
+                assocationBarcode = dataAccess.UnitAssociated( Model.Type.FRAME);
 
+              
                 if (assocationBarcode != String.Empty) // if association exists
                 {
-                    dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode);
+                    dataAccess.UpdateAssociation(barcode, Model.Type.FRAME, assocationBarcode);
                     generateCombinationCode(barcode);
                 }
                 else
                 {
-                    dataAccess.InsertUnitAssociation(barcode, Model.Type.BODY);
+                    dataAccess.InsertUnitAssociation(barcode, Model.Type.FRAME);
 
                 }
 
@@ -272,7 +276,7 @@ namespace TestBenchApp
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
 
-            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo;
+            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
 
             dataAccess.UpdateUnit(barcode);
 

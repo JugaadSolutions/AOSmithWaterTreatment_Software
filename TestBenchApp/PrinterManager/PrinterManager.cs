@@ -47,8 +47,8 @@ namespace Printer
                 String BarcodeData = File.ReadAllText(BarcodeFileName);
                 BarcodeData = BarcodeData.Replace("{MODEL}", Model);
                 BarcodeData = BarcodeData.Replace("{SERIAL}", SerialNo);
-                return Driver.NetworkPrint(BarcodeData);
-                //return true;
+                //return Driver.NetworkPrint(BarcodeData);
+                return true;
 
 
                 

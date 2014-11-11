@@ -732,12 +732,25 @@ namespace ias.andonmanager
         public String ModelNumber { get; set; } //alpha numeric
         public String Timestamp { get; set; }
         public int SerialNo { get; set; } //numeric
-
+ 
         public BCScannerEventArgs(String scanData)
         {
-            ModelNumber = scanData.Substring(0, 4);
-            Timestamp = scanData.Substring(4, 6);
-            SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+            if (scanData.Contains("A"))
+            {
+                ModelNumber = scanData.Substring(0, 5);
+                Timestamp = scanData.Substring(5, 6);
+
+                SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
+
+            }
+            else
+            {
+                ModelNumber = scanData.Substring(0, 4);
+                Timestamp = scanData.Substring(4, 6);
+
+                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+
+            }
         }
 
     }
