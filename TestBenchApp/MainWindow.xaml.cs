@@ -203,6 +203,7 @@ namespace TestBenchApp
         }
 
         private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
+<<<<<<< HEAD
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
             String model = e.ModelNumber.Remove(0,e.ModelNumber.Length-1);
@@ -255,8 +256,17 @@ namespace TestBenchApp
         }
 
         private void generateCombinationCode(string assocationBarcode)
+
         {
-            throw new NotImplementedException();
+            Plan tempPlan = null;
+            tempPlan = new Plan();
+
+           // tempPlan.BSerialNo = e.SerialNo;
+
+            
+
+            
+
         }
 
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
