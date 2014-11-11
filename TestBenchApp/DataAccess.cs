@@ -421,6 +421,43 @@ namespace TestBenchApp
             con.Dispose();
         }
 
+        public void UpdateFSerial(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set FSerial = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.FSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+
+        public void UpdateBSerial(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set BSerial = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.BSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
         public void UpdatePlanQuantity(Plan p)
         {
             SqlConnection con = new SqlConnection(conStr);
@@ -497,6 +534,30 @@ namespace TestBenchApp
 
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+
+            con.Close();
+            con.Dispose();
+        }
+
+        public void InsertUnitAssociation(String model, Model.Type type)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+//            String qry = String.Empty;
+//            qry = @"insert into [Unit](Model,SerialNo,Type,Status,PlanDate,Barcode)
+//                        values('{0}',{1},{2},'{3}','{4}','{5}')";
+
+//            DateTime ts = DateTime.Now;
+//            String barcode = model + ((type == Model.Type.BODY) ? "A" : "") + ts.ToString("yyMMdd") + serialNo.ToString("D4");
+
+//            qry = String.Format(qry, model, serialNo, (int)type, "NG", ts.ToString("yyyy-MM-dd HH:mm:ss"), barcode);
+//            SqlCommand cmd = new SqlCommand(qry, con);
+
+//            cmd.ExecuteNonQuery();
+//            cmd.Dispose();
 
 
             con.Close();
@@ -1415,6 +1476,21 @@ namespace TestBenchApp
 
             con.Close();
             con.Dispose();
+        }
+
+        internal bool CheckOKStatus(string barcode)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal string UnitAssociated(string model, string p, Model.Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void UpdateAssociation(string barcode, Model.Type type, string assocationBarcode)
+        {
+            throw new NotImplementedException();
         }
     }
 }

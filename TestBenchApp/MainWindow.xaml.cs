@@ -40,6 +40,8 @@ namespace TestBenchApp
         Plan CurrentBodyPlan = null;
 
         Timer tickTimer;
+        bool FBypass = false;
+        bool CBypass = false;
 
         public MainWindow()
         {
@@ -54,6 +56,8 @@ namespace TestBenchApp
             Mode = (mode == "MASTER") ? AndonManager.MODE.MASTER : AndonManager.MODE.SLAVE;
 
             comLayers = ConfigurationSettings.AppSettings["COM_LAYERS"].Split(',');
+
+            String combPrinterName = ConfigurationSettings.AppSettings["COMBINATION_BARCODE_PRINTER_NAME"];
 
             deviceQ = dataAccess.getDeviceQ();
             andonManager = new AndonManager(deviceQ, null, Mode);
@@ -76,7 +80,7 @@ namespace TestBenchApp
 
             mainBodyPM = new PrinterManager { Port = port, IPAddress = mainBodyipAddr, BarcodeFileName = mainBodybarcodeFile };
             mainFramePM = new PrinterManager { Port = port, IPAddress = mainFrameipAddr, BarcodeFileName = mainFrameBarcodeFile };
-            combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile };
+            combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile, combBarcodePrinterName = combPrinterName };
 
             mainBodyPM.SetupDriver();
             mainFramePM.SetupDriver();
@@ -97,7 +101,7 @@ namespace TestBenchApp
 
 
 
-            andonManager.start();
+            //andonManager.start();
             tickTimer.Start();
         }
 
@@ -175,35 +179,92 @@ namespace TestBenchApp
 
             Total = 0;
             Actual = 0;
+            int BSerial = 0;
             foreach (Plan p in BodyPlans)
             {
                 Total += p.Quantity;
                 Actual += p.Actual;
+                BSerial += p.BSerialNo;
             }
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
                                  BodyTotalPlan.Text = Total.ToString();
-                                 BodyTotalAct.Text = Actual.ToString();
+                                 BodyTotalAct.Text = BSerial.ToString();
                              }));
 
         }
 
 
         //Code added on 11 Nov
-        private void andonManager_actQtyAlertEvent(object sender, EventArgs e)
+        private void andonManager_actQtyAlertEvent(object sender, actQtyScannerEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void andonManager_combStickerAlertEvent(object sender, EventArgs e)
+        private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
+        {
+            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
+            String model = e.ModelNumber.Remove(0,e.ModelNumber.Length-1);
+            String assocationBarcode = String.Empty;
+            if (e.ModelNumber.Contains("A")) // if body
+            {
+                if (FBypass == false)  //if not bypassed
+                {
+                    if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
+                        return; //do nothing
+                }
+
+                assocationBarcode = dataAccess.UnitAssociated(model, e.Timestamp, Model.Type.FRAME);
+
+                if (assocationBarcode != String.Empty) // if association exists
+                {
+                    dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode);
+                    generateCombinationCode(assocationBarcode);
+                }
+                else
+                {
+                    dataAccess.InsertUnitAssociation(barcode, Model.Type.BODY);
+                    dataAccess.UpdateUnit(barcode);
+                }
+            }
+            else
+            {
+                if (CBypass == false)  //if not bypassed
+                {
+                    if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
+                        return; //do nothing
+                }
+
+                assocationBarcode = dataAccess.UnitAssociated(model, e.Timestamp, Model.Type.BODY);
+
+                if (assocationBarcode != String.Empty) // if association exists
+                {
+                    dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode);
+                    generateCombinationCode(barcode);
+                }
+                else
+                {
+                    dataAccess.InsertUnitAssociation(barcode, Model.Type.BODY);
+
+                }
+
+            }
+            
+
+        }
+
+        private void generateCombinationCode(string assocationBarcode)
         {
             throw new NotImplementedException();
         }
 
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
-           
+
+            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo;
+
+            dataAccess.UpdateUnit(barcode);
 
         }
 
@@ -249,6 +310,10 @@ namespace TestBenchApp
                                 mainFramePM.PrintBarcode(CurrentBodyPlan.ModelName,
                                     CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
                                     + CurrentBodyPlan.BSerialNo.ToString("D4"));
+
+                                //combinationPM.PrintCombSticker(CurrentBodyPlan.ModelName,
+                                //    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
+                                //    + CurrentBodyPlan.BSerialNo.ToString("D4"));
                             }
                             else
                             {
@@ -258,7 +323,7 @@ namespace TestBenchApp
                             }
                             dataAccess.InsertUnit(CurrentBodyPlan.ModelNumber, Model.Type.BODY, 
                                 CurrentBodyPlan.BSerialNo);
-                            dataAccess.UpdatePlan(CurrentBodyPlan);
+                            dataAccess.UpdateBSerial(CurrentBodyPlan);
 
 
                             
@@ -279,7 +344,7 @@ namespace TestBenchApp
                                 + CurrentFramePlan.FSerialNo.ToString("D4"));
 
                             dataAccess.InsertUnit(CurrentFramePlan.ModelNumber, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
-                            dataAccess.UpdatePlan(CurrentFramePlan);
+                            dataAccess.UpdateFSerial(CurrentFramePlan);
                             
                         }
                     }

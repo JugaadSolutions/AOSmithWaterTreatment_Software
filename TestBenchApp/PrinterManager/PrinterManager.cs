@@ -16,10 +16,10 @@ namespace Printer
         #region PublicVariables
 
         public String BarcodeFileName { get; set; }
-        public String CombinationCodeFileName { get; set; }
         public IPAddress IPAddress { get; set; }
         public int Port { get; set; }
-        public String combBarcodePrinter = ConfigurationSettings.AppSettings["COMBINATION_BARCODE_PRINTER"];
+        public String combBarcodePrinterName { get; set;}
+        
 
         #endregion
 
@@ -46,9 +46,9 @@ namespace Printer
             {
                 String BarcodeData = File.ReadAllText(BarcodeFileName);
                 BarcodeData = BarcodeData.Replace("{MODEL}", Model);
-                BarcodeData = BarcodeData.Replace("B1631401010000", SerialNo);
-                //return Driver.NetworkPrint(BarcodeData);
-                return true;
+                BarcodeData = BarcodeData.Replace("{SERIAL}", SerialNo);
+                return Driver.NetworkPrint(BarcodeData);
+                //return true;
 
 
                 
@@ -63,12 +63,12 @@ namespace Printer
         {
             try
             {
-                String CombStickerData = File.ReadAllText(CombinationCodeFileName);
-                CombStickerData = CombStickerData.Replace("{BARCODE1}", "B163" + DateTime.Now.ToString("yyMMdd") + "0001");
-                CombStickerData = CombStickerData.Replace("{BARCODE2}", "B163" + DateTime.Now.ToString("yyMMdd") + "0001");
+                String CombStickerData = File.ReadAllText(BarcodeFileName);
+                CombStickerData = CombStickerData.Replace("{BARCODE1}", SerialNo);
+                CombStickerData = CombStickerData.Replace("{BARCODE2}", SerialNo);
                 CombStickerData = CombStickerData.Replace("{MRP}", "600");
 
-                return clsPrint.SendStringToPrinter(combBarcodePrinter, CombStickerData);
+                return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
             }
             catch
             {

@@ -125,14 +125,14 @@ namespace ias.andonmanager
                     communicationPort = ConfigurationSettings.AppSettings["PORT"];
 
                     //Code added on 11 Nov BCPORT 
-                    bcScannerDriver = new SerialPortDriver(57600,8,StopBits.One,Parity.None,Handshake.None);
+                    bcScannerDriver = new SerialPortDriver(9600,8,StopBits.One,Parity.None,Handshake.None);
                     bccommunicationPort = ConfigurationSettings.AppSettings["BCPORT"];
 
-                    //csScannerDriver = new SerialPortDriver(57600, 8, StopBits.One, Parity.None, Handshake.None);
-                    //cscommunicationPort = ConfigurationSettings.AppSettings["CSPORT"];
+                    csScannerDriver = new SerialPortDriver(9600, 8, StopBits.One, Parity.None, Handshake.None);
+                    cscommunicationPort = ConfigurationSettings.AppSettings["CSPORT"];
 
-                    //actQtyScannerDriver = new SerialPortDriver(57600, 8, StopBits.One, Parity.None, Handshake.None); ;
-                    //actQtycommunicationPort = ConfigurationSettings.AppSettings["ACTQTYPORT"];
+                    actQtyScannerDriver = new SerialPortDriver(9600, 8, StopBits.One, Parity.None, Handshake.None); ;
+                    actQtycommunicationPort = ConfigurationSettings.AppSettings["ACTQTYPORT"];
 
 
                     comLayers = ConfigurationSettings.AppSettings["COM_LAYERS"].Split(',');
@@ -234,29 +234,29 @@ namespace ias.andonmanager
                     }
                 } while (--i > 0);
 
-                //csScannerDriver.open(cscommunicationPort);
-                //i = 3;
+                csScannerDriver.open(cscommunicationPort);
+                i = 3;
 
-                //do
-                //{
-                //    if(csScannerDriver.IsOpen == false)
-                //    {
-                //        csScannerDriver.Close();
-                //        Thread.Sleep(500);
-                //    }
-                //} while (--i > 0);
+                do
+                {
+                    if (csScannerDriver.IsOpen == false)
+                    {
+                        csScannerDriver.Close();
+                        Thread.Sleep(500);
+                    }
+                } while (--i > 0);
 
-                //actQtyScannerDriver.open(actQtycommunicationPort);
-                //i = 3;
+                actQtyScannerDriver.open(actQtycommunicationPort);
+                i = 3;
 
-                //do
-                //{
-                //    if (actQtyScannerDriver.IsOpen == false)
-                //    {
-                //        actQtyScannerDriver.Close();
-                //        Thread.Sleep(500);
-                //    }
-                //} while (--i > 0);
+                do
+                {
+                    if (actQtyScannerDriver.IsOpen == false)
+                    {
+                        actQtyScannerDriver.Close();
+                        Thread.Sleep(500);
+                    }
+                } while (--i > 0);
 
 
                 if (spDriver.IsOpen == false)
@@ -266,11 +266,11 @@ namespace ias.andonmanager
                 if (bcScannerDriver.IsOpen == false)
                     throw new Exception("unable to open Scanner Serial Port");
 
-                //if (csScannerDriver.IsOpen == false)
-                //    throw new Exception("unable to open Scanner Serial Port");
+                if (csScannerDriver.IsOpen == false)
+                    throw new Exception("unable to open Scanner Serial Port");
 
-                //if (actQtyScannerDriver.IsOpen == false)
-                //    throw new Exception("unable to open Scanner serial Port");
+                if (actQtyScannerDriver.IsOpen == false)
+                    throw new Exception("unable to open Scanner serial Port");
 
                 rxPacket = new List<byte>();
                 partialPacket = new List<byte>();
@@ -314,17 +314,17 @@ namespace ias.andonmanager
                 Thread.Sleep(10);
             }
 
-            //if (csScannerDriver != null)
-            //{
-            //    csScannerDriver.abort = true;
-            //    Thread.Sleep(10);
-            //}
+            if (csScannerDriver != null)
+            {
+                csScannerDriver.abort = true;
+                Thread.Sleep(10);
+            }
 
-            //if (actQtyScannerDriver != null)
-            //{
-            //    actQtyScannerDriver.abort = true;
-            //    Thread.Sleep(10);
-            //}
+            if (actQtyScannerDriver != null)
+            {
+                actQtyScannerDriver.abort = true;
+                Thread.Sleep(10);
+            }
 
             if( transactionTimer.Enabled )
             transactionTimer.Stop();
@@ -352,11 +352,11 @@ namespace ias.andonmanager
             if (!bcScannerDriver.IsOpen)
                 throw new AndonManagerException("Barcode Scanner Serial Port Closed");
 
-            //if (!csScannerDriver.IsOpen)
-            //    throw new AndonManagerException("Combination Sticker Barcode Scanner Serial Port Closed");
+            if (!csScannerDriver.IsOpen)
+                throw new AndonManagerException("Combination Sticker Barcode Scanner Serial Port Closed");
 
-            //if (!actQtyScannerDriver.IsOpen)
-            //    throw new AndonManagerException("Final Stage Barcode Scanner Serial Port Closed");
+            if (!actQtyScannerDriver.IsOpen)
+                throw new AndonManagerException("Final Stage Barcode Scanner Serial Port Closed");
 
             int bytesReceived = spDriver.BytesToRead;
 
@@ -431,19 +431,19 @@ namespace ias.andonmanager
                     ParsebcScannerData(bcScannerData);
             }
 
-            //if (csScannerDriver.BytesToRead > 0)
-            //{
-            //    String csScannerData = csScannerDriver.ReadLine();
-            //    if (csScannerData != null)
-            //        ParsecsScannerData(csScannerData);
-            //}
+            if (csScannerDriver.BytesToRead > 0)
+            {
+                String csScannerData = csScannerDriver.ReadLine();
+                if (csScannerData != null)
+                    ParsecsScannerData(csScannerData);
+            }
 
-            //if (actQtyScannerDriver.BytesToRead > 0)
-            //{
-            //    String actQtyScannerData = actQtyScannerDriver.ReadLine();
-            //    if (actQtyScannerData != null)
-            //        ParseActQtyScannerData(actQtyScannerData);
-            //}
+            if (actQtyScannerDriver.BytesToRead > 0)
+            {
+                String actQtyScannerData = actQtyScannerDriver.ReadLine();
+                if (actQtyScannerData != null)
+                    ParseActQtyScannerData(actQtyScannerData);
+            }
 
 
             startTransaction();
@@ -746,13 +746,26 @@ namespace ias.andonmanager
     {
         public String ModelNumber { get; set; } //alpha numeric
         public String Timestamp { get; set; }
+        
         public int SerialNo { get; set; } //numeric
+        
 
         public CSScannerEventArgs(String scanData)
         {
-            ModelNumber = scanData.Substring(0, 4);
-            Timestamp = scanData.Substring(4, 6);
-            SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+            if (scanData.Contains("A"))
+            {
+                ModelNumber = scanData.Substring(0, 5);
+                Timestamp = scanData.Substring(5, 6);
+                SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
+            }
+            else
+            {
+                ModelNumber = scanData.Substring(0, 4);
+                Timestamp = scanData.Substring(4, 6);
+                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+            }
+
+           
         }
 
     }

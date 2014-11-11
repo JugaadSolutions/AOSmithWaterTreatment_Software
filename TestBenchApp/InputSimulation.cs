@@ -43,6 +43,36 @@ namespace TestBenchApp
                         log.Add(le);
                         andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
                         break;
+
+                    case Key.F3:
+                        log = new List<LogEntry>();
+                        le = new LogEntry(2, 0, "");
+                        log.Add(le);
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        break;
+
+                    case Key.F4:
+                        log = new List<LogEntry>();
+                        le = new LogEntry(2, 0, "");
+                        log.Add(le);
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        break;
+
+                    case Key.F5:
+                        log = new List<LogEntry>();
+                        le = new LogEntry(2, 0, "");
+                        log.Add(le);
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        break;
+
+                    case Key.F6:
+                        log = new List<LogEntry>();
+                        le = new LogEntry(2, 0, "");
+                        log.Add(le);
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        break;
+
+                   
                     default: break;
                 }
             }
