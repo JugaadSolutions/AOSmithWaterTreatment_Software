@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Timers;
 using TestBenchApp.Entity;
 using TestBenchApp.Line;
+using Printer;
 
 
 namespace TestBenchApp.DashBoard
@@ -32,15 +33,15 @@ namespace TestBenchApp.DashBoard
 
     public partial class DashBoardView : UserControl
     {
-        
 
+        PrinterManager printerManager;
         BackgroundWorker worker;
-
+        
         public Boolean Admin = false;
 
         DataAccess dataAccess;
 
-        public  DashBoardView(Users users,String currentUser)
+        public DashBoardView(Users users, String currentUser, PrinterManager p)
         {
             InitializeComponent();
             
@@ -53,6 +54,8 @@ namespace TestBenchApp.DashBoard
            
 
             extendConstructor();
+
+            printerManager = p;
 
 
          

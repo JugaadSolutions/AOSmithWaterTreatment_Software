@@ -21,7 +21,7 @@ namespace TestBenchApp.DashBoard
 {
     public partial class DashBoardView : UserControl
     {
-       
+        
         public String CurrentUser { get; set; }
         Users Users;
 
@@ -80,11 +80,18 @@ namespace TestBenchApp.DashBoard
         {
             ModelsManager c = new ModelsManager();
             c.CancelClicked += c_btnCancelClicked;
+            c.TestPrintBtnClicked += c_TestPrintBtnClicked;
             Transient.Children.Clear();
             Transient.Children.Add(c);
             Transient.Visibility = System.Windows.Visibility.Visible;
         }
 
+        void c_TestPrintBtnClicked(object sender, TestEventArgs e)
+        {
+            printerManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, e.m.MRP, e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity));
+        }
+
+      
         private void c_btnCancelClicked(object sender, EventArgs e)
         {
             Transient.Children.Clear();

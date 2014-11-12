@@ -430,7 +430,7 @@ namespace TestBenchApp
                                                 new Action(() =>
                                                 {
                                                     BaseGrid.Children.Clear();
-                                                    DashBoardView db = new DashBoardView(Users,CurrentUser.Name);
+                                                    DashBoardView db = new DashBoardView(Users, CurrentUser.Name, combinationPM);
                                                     BaseGrid.Children.Add(db);
                                                 }));
             

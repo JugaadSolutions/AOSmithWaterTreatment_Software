@@ -25,6 +25,7 @@ namespace TestBenchApp.DashBoard
         DataAccess dataAccess;
         ObservableCollection<Model> Models;
         public event EventHandler<EventArgs> CancelClicked;
+        public event EventHandler<TestEventArgs> TestPrintBtnClicked;
 
         public ModelsManager()
         {
@@ -103,6 +104,12 @@ namespace TestBenchApp.DashBoard
 
         private void btnTestPrint_Click_1(object sender, RoutedEventArgs e)
         {
+            Model m = ModelDetailsControl.GetModel();
+
+            TestEventArgs t = new TestEventArgs(m);
+
+            if (TestPrintBtnClicked != null)
+                TestPrintBtnClicked(this, t);
 
         }
 
@@ -114,4 +121,22 @@ namespace TestBenchApp.DashBoard
 
        
     }
+
+
+    #region EVENT ARGS
+    public class TestEventArgs : EventArgs
+    {
+        public Model m { get; set; }
+
+
+        public TestEventArgs(Model model)
+        {
+            m = model;
+        }
+    }
+
+
+
+
+    #endregion
 }

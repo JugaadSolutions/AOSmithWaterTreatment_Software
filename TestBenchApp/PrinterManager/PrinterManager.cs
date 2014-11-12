@@ -59,13 +59,13 @@ namespace Printer
             }
         }
 
-        public bool PrintCombSticker(String Model, String SerialNo)
+        public bool PrintCombSticker(String barCode)
         {
             try
             {
                 String CombStickerData = File.ReadAllText(BarcodeFileName);
-                CombStickerData = CombStickerData.Replace("{BARCODE1}", SerialNo);
-                CombStickerData = CombStickerData.Replace("{BARCODE2}", SerialNo);
+                CombStickerData = CombStickerData.Replace("{BARCODE1}", barCode);
+                CombStickerData = CombStickerData.Replace("{BARCODE2}", barCode);
                 CombStickerData = CombStickerData.Replace("{MRP}", "600");
 
                 return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
@@ -75,6 +75,28 @@ namespace Printer
                 return false;
             }
         }
+
+       public bool combStickerTestPrint(String product, String productNo, String MRP, String modelName,
+                    String storageCapacity, String netQty)
+       {
+            try
+            {
+                String CombStickerData = File.ReadAllText(BarcodeFileName);
+                CombStickerData = CombStickerData.Replace("{PRODUCT}", product);
+                CombStickerData = CombStickerData.Replace("{PRODUCTNO}", productNo);
+                CombStickerData = CombStickerData.Replace("{MRP}", "600");
+                CombStickerData = CombStickerData.Replace("{MODELNAME}", modelName);
+                CombStickerData = CombStickerData.Replace("{STORAGECAPACITY}", storageCapacity);
+                CombStickerData = CombStickerData.Replace("{NETQTY}", netQty);
+
+                return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
 
         #endregion
