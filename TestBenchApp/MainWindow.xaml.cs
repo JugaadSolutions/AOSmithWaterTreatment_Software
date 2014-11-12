@@ -43,6 +43,12 @@ namespace TestBenchApp
         bool FBypass = false;
         bool CBypass = false;
 
+        Queue<String> FCodeQ;
+        Queue<String> BCodeQ;
+        Queue<String> CCodeQ;
+
+        bool APPSimulation = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -96,12 +102,22 @@ namespace TestBenchApp
             {
                 Simulation = true;
                 BaseWindow.KeyDown += Window_KeyDown;
+
+                FCodeQ = new Queue<string>();
+                BCodeQ = new Queue<string>();
+                CCodeQ = new Queue<string>();
+
+
+
             }
-            else Simulation = false;
+            else
+            {
+                Simulation = false;
+                andonManager.start();
+            }
 
 
-
-            andonManager.start();
+            
             tickTimer.Start();
         }
 
@@ -320,22 +336,20 @@ namespace TestBenchApp
                             CurrentBodyPlan.BSerialNo++;
                             if (Simulation)
                             {
-
+                                String bcode =  CurrentBodyPlan.ModelCode + "A" + DateTime.Now.ToString("yyMMdd")
+                                    + CurrentBodyPlan.BSerialNo.ToString("D4");
                                 mainFramePM.PrintBarcode(CurrentBodyPlan.ModelName,
-                                    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
-                                    + CurrentBodyPlan.BSerialNo.ToString("D4"));
+                                  bcode );
 
-                                //combinationPM.PrintCombSticker(CurrentBodyPlan.ModelName,
-                                //    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
-                                //    + CurrentBodyPlan.BSerialNo.ToString("D4"));
+                                BCodeQ.Enqueue(bcode);
                             }
                             else
                             {
                                 mainBodyPM.PrintBarcode(CurrentBodyPlan.ModelName,
-                                    CurrentBodyPlan.ModelNumber + "A" + DateTime.Now.ToString("yyMMdd")
+                                    CurrentBodyPlan.ModelCode + "A" + DateTime.Now.ToString("yyMMdd")
                                     + CurrentBodyPlan.BSerialNo.ToString("D4"));
                             }
-                            dataAccess.InsertUnit(CurrentBodyPlan.ModelNumber, Model.Type.BODY, 
+                            dataAccess.InsertUnit(CurrentBodyPlan.ModelCode, Model.Type.BODY, 
                                 CurrentBodyPlan.BSerialNo);
                             dataAccess.UpdateBSerial(CurrentBodyPlan);
 
@@ -352,12 +366,18 @@ namespace TestBenchApp
                         }
                         else
                         {
+                           
                             CurrentFramePlan.FSerialNo++;
-                            mainFramePM.PrintBarcode(CurrentFramePlan.ModelName,
-                                CurrentFramePlan.ModelNumber + DateTime.Now.ToString("yyMMdd") 
-                                + CurrentFramePlan.FSerialNo.ToString("D4"));
+                            String fcode = CurrentFramePlan.ModelCode + DateTime.Now.ToString("yyMMdd")
+                               + CurrentFramePlan.FSerialNo.ToString("D4");
 
-                            dataAccess.InsertUnit(CurrentFramePlan.ModelNumber, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
+                            mainFramePM.PrintBarcode(CurrentFramePlan.ModelName,
+                                fcode);
+
+                            if (Simulation)
+                                FCodeQ.Enqueue(fcode);
+
+                            dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
                             dataAccess.UpdateFSerial(CurrentFramePlan);
                             
                         }
@@ -432,7 +452,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in FramePlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentFramePlan = p;
                     dataAccess.UpdateFPlanStatus(CurrentFramePlan);
@@ -459,7 +479,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in FramePlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentFramePlan = p;
                     dataAccess.UpdateFPlanStatus(CurrentFramePlan);
@@ -486,7 +506,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in FramePlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentFramePlan = p;
                     dataAccess.UpdateFPlanStatus(CurrentFramePlan);
@@ -512,7 +532,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in FramePlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentFramePlan = p;
                     dataAccess.UpdateFPlanStatus(CurrentFramePlan);
@@ -543,7 +563,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in BodyPlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentBodyPlan = p;
                     dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
@@ -570,7 +590,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in BodyPlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentBodyPlan = p;
                     dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
@@ -597,7 +617,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in BodyPlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentBodyPlan = p;
                     dataAccess.UpdateBPlanStatus(CurrentBodyPlan);
@@ -623,7 +643,7 @@ namespace TestBenchApp
             }
             foreach (Plan p1 in BodyPlans)
             {
-                if (p.ModelNumber == p1.ModelNumber)
+                if (p.ModelCode == p1.ModelCode)
                 {
                     CurrentBodyPlan = p;
                     dataAccess.UpdateBPlanStatus(CurrentBodyPlan);

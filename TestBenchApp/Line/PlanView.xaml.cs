@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace TestBenchApp.Line
         public event EventHandler<EventArgs> btnDoneClicked;
 
         DataAccess da;
-        List<Model> Models;
+        ObservableCollection<Model> Models;
         List<Plan> plans;
 
         public PlanView()
@@ -94,7 +95,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelNumber = Models[ModelSelector1.SelectedIndex].Number,
+                        ModelCode = Models[ModelSelector1.SelectedIndex].Code,
                         Quantity = quantity1,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -120,7 +121,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelNumber = Models[ModelSelector2.SelectedIndex].Number,
+                        ModelCode = Models[ModelSelector2.SelectedIndex].Code,
                         Quantity = quantity2,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -145,7 +146,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelNumber = Models[ModelSelector3.SelectedIndex].Number,
+                        ModelCode = Models[ModelSelector3.SelectedIndex].Code,
                         Quantity = quantity3,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -170,7 +171,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelNumber = Models[ModelSelector4.SelectedIndex].Number,
+                        ModelCode = Models[ModelSelector4.SelectedIndex].Code,
                         Quantity = quantity4,
                         BSerialNo = 0,
                         FSerialNo = 0,

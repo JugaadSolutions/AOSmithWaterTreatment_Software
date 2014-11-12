@@ -79,7 +79,7 @@ namespace TestBenchApp.DashBoard
         private void Models_Click_1(object sender, RoutedEventArgs e)
         {
             ModelsManager c = new ModelsManager();
-            c.btnCancelClicked += c_btnCancelClicked;
+            c.CancelClicked += c_btnCancelClicked;
             Transient.Children.Clear();
             Transient.Children.Add(c);
             Transient.Visibility = System.Windows.Visibility.Visible;

@@ -324,7 +324,7 @@ namespace TestBenchApp
 
         #region MODEL
 
-        public List<Model> GetModels()
+        public ObservableCollection<Model> GetModels()
         {
             SqlConnection con = new SqlConnection(conStr);
             con.Open();
@@ -340,11 +340,28 @@ namespace TestBenchApp
             dr.Close();
             cmd.Dispose();
 
-            List<Model> models = new List<Model>();
+            ObservableCollection<Model> models = new ObservableCollection<Model>();
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                models.Add(new Model { Name = (string)dt.Rows[i]["Name"], Number = (string)dt.Rows[i]["Number"] });
+                models.Add(new Model 
+                { 
+                    SlNo = (int) dt.Rows[i]["SlNo"],
+                    Product = (string)dt.Rows[i]["Product"], 
+                    ProductNumber = (string)dt.Rows[i]["ProductNumber"],
+                    Name = (string)dt.Rows[i]["Name"], 
+                    Code = (string)dt.Rows[i]["Code"],
+                    NetQuantity = (double)dt.Rows[i]["NetQuantity"],
+                    StorageCapacity = (double)dt.Rows[i]["StorageCapacity"],
+                    MRP = (int)dt.Rows[i]["MRP"],
+                    CustomerCare = (string)dt.Rows[i]["CustomerCare"],
+                    Email = (string)dt.Rows[i]["Email"],
+                    EAN = (string)dt.Rows[i]["EAN"],
+                    Width = (int)dt.Rows[i]["Width"],
+                    Height = (int)dt.Rows[i]["Height"],
+                    Depth = (int)dt.Rows[i]["Depth"]
+
+                });
             }
 
 
@@ -363,7 +380,7 @@ namespace TestBenchApp
             con.Open();
 
             String qry = String.Empty;
-            qry = @"SELECT * from  Plans inner join Models on [Plans].Model = [Models].Number where timestamp > '{0}'" ;
+            qry = @"SELECT * from  Plans inner join Models on [Plans].Model = [Models].Code where timestamp > '{0}'" ;
 
             qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"));
 
@@ -382,7 +399,7 @@ namespace TestBenchApp
                 plans.Add(new Plan
                 {
                     slNumber = (int)dt.Rows[i]["slNo"],
-                    ModelNumber = (string)dt.Rows[i]["Model"],
+                    ModelCode = (string)dt.Rows[i]["Model"],
                     Actual = (int)dt.Rows[i]["Actual"],
                     Quantity = (int)dt.Rows[i]["Quantity"],
                     BSerialNo = (int)dt.Rows[i]["BSerial"], 
@@ -1554,7 +1571,7 @@ namespace TestBenchApp
             String qry = String.Empty;
             qry = @"insert into [Plans] ( Model, Quantity, timestamp)
                     values('{0}', {1}, '{2}')";
-            qry = String.Format(qry,p.ModelNumber, p.Quantity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            qry = String.Format(qry,p.ModelCode, p.Quantity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             SqlCommand cmd = new SqlCommand(qry, con);
 
             cmd.ExecuteNonQuery();
@@ -1585,5 +1602,51 @@ namespace TestBenchApp
             con.Dispose();
         }
 
+
+        internal void InsertModel(Model m)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"insert into [Models] ( Product, ProductNumber, Name,StorageCapacity,NetQuantity,
+                        Code,MRP,CustomerCare,Email,EAN,Width,Height,Depth)
+                    values('{0}', '{1}', '{2}',{3}, {4}, '{5}',{6},'{7}','{8}','{9}',{10},{11},{12})";
+            qry = String.Format(qry,
+                m.Product, m.ProductNumber, m.Name, m.StorageCapacity, m.NetQuantity, m.Code, m.MRP, m.CustomerCare,
+                m.Email, m.EAN, m.Width, m.Height, m.Depth);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+        internal void UpdateModel(Model m)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"Update [Models] set Product ='{0}' , ProductNumber = '{1}', Name =  '{2}' ,
+                    StorageCapacity = {3} ,NetQuantity ={4} ,
+                        Code = '{5}',MRP={6},CustomerCare='{7}',Email='{8}',EAN = '{9}',
+                        Width = {10},Height = {11},Depth = {12} where SlNo = {13}
+               ";
+            qry = String.Format(qry,
+                m.Product, m.ProductNumber, m.Name, m.StorageCapacity, m.NetQuantity, m.Code, m.MRP, m.CustomerCare,
+                m.Email, m.EAN, m.Width, m.Height, m.Depth,m.SlNo);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
     }
 }

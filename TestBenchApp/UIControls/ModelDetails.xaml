@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="TestBenchApp.UIControls.ModelDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="Auto" Width="Auto"
+    >
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="300"/>
+            <Setter Property="FontSize" Value="20"/>
+
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="MinWidth" Value="220"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+
+
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="30"/>
+        </Style>
+
+
+
+    </UserControl.Resources>
+    <Grid Background="Green">
+     
+            <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Content="Product" Foreground="White" FontWeight="Bold" Margin="5" 
+                           HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="ProductTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                             FontSize="20"  Text="{Binding Path=Product}"
+                      Margin="5" MinWidth="250" />
+                    <Label Content="Code" Foreground="White" FontWeight="Bold" Margin="25,5,0,4.6" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="CodeTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Code}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Label Content="Product No" Foreground="White" FontWeight="Bold" Margin="5" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="ProductNoTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=ProductNumber}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250"  />
+                    <Label Content="MRP (Rs)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="MRPTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=MRP}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Label Content="Model Name" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="ModelNameTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Name}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                    <Label Content="Customer Care No" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="CustomerCareNoTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=CustomerCare}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250"  />
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <Label Content="Storage Capacity (Kg)" Foreground="White" FontWeight="Bold" Margin="5" HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="StorageCapacityTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=StorageCapacity}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                    <Label Content="Email" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="EmailTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Email}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                </StackPanel>
+
+
+
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <Label Content="Net quantity (Liters)" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="NetQuantityTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=NetQuantity}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                    <Label Content="EAN Code" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBox Name="EANCodeTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=EAN}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="250" />
+                </StackPanel>
+
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <Label Content="Width (mm)" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <TextBox Name="WidthTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Width}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="100" />
+                <Label Content="Height (mm)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Right"
+                   HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                <TextBox Name="HeightTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Height}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                      Margin="5" MinWidth="100" />
+                <Label Content="Depth (mm)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Right"
+                   HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                <TextBox Name="DepthTextBox" 
+                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Depth}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                         FontSize="20" 
+                      Margin="5" MinWidth="100" />
+            </StackPanel>
+
+
+
+
+
+
+
+
+
+        </Grid>
+       
+    </Grid>
+</UserControl>

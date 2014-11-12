@@ -11,7 +11,7 @@ namespace TestBenchApp.Entity
     {
 
         public String ModelName { get; set; }
-        public String ModelNumber { get; set; }
+        public String ModelCode { get; set; }
 
         public int Quantity { get; set; }
 
