@@ -26,7 +26,7 @@ namespace TestBenchApp.UIControls
 
         public event EventHandler<EventArgs> modifyClicked;
 
-        public event EventHandler<EventArgs> deleteClicked;
+        public event EventHandler<AddModifyDeleteSelectionChangedEventArgs> deleteClicked;
 
         public String Header { get; set; }
         public AddDelete()
@@ -60,7 +60,7 @@ namespace TestBenchApp.UIControls
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (deleteClicked != null)
-                deleteClicked(this, new EventArgs());
+                deleteClicked(this, new AddModifyDeleteSelectionChangedEventArgs(dgItem.SelectedIndex));
 
 
         }

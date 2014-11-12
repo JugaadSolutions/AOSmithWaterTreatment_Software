@@ -1648,5 +1648,10 @@ namespace TestBenchApp
             con.Close();
             con.Dispose();
         }
+
+        internal void DeleteModel(Model model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

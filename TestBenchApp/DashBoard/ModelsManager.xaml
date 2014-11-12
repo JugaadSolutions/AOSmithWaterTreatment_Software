@@ -36,7 +36,7 @@
                             <RowDefinition Height="AUTO"/>
                         </Grid.RowDefinitions>
                     
-                    <UIControls:ModelDetails x:Name="ModelDetailsControl"  >
+                    <UIControls:ModelDetails x:Name="ModelDetailsControl"  Visibility="Visible" >
 
                     </UIControls:ModelDetails>
 

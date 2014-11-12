@@ -30,13 +30,13 @@ namespace TestBenchApp.UIControls
             {
                 currentModel = value;
                 this.DataContext = currentModel;
+                this.Visibility = System.Windows.Visibility.Visible;
             }
         }
         public ModelDetails()
         {
             InitializeComponent();
 
-           
         }
 
        

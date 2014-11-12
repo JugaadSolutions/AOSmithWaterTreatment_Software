@@ -30,9 +30,8 @@ namespace TestBenchApp.DashBoard
         {
             InitializeComponent();
             ModelAddDeleteControl.selectionChanged += ModelAddDeleteControl_selectionChanged;
-            ModelAddDeleteControl.addClicked += ModelAddDeleteControl_addClicked;
-            ModelAddDeleteControl.deleteClicked += ModelAddDeleteControl_deleteClicked;
 
+            ModelAddDeleteControl.deleteClicked += ModelAddDeleteControl_deleteClicked;
             ((Label)ModelAddDeleteControl.aMDGroupBox.Header).Content = "Models";
 
             dataAccess = new DataAccess();
@@ -40,26 +39,34 @@ namespace TestBenchApp.DashBoard
 
         }
 
+        void ModelAddDeleteControl_deleteClicked(object sender, 
+            UIControls.AddModifyDeleteSelectionChangedEventArgs e)
+        {
+            if(e.SelectedIndex == -1 ) return;
+            MessageBox.Show("Model will be Deleted. Press OK to Confirm", "Application Info",
+              MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            dataAccess.DeleteModel(Models[e.SelectedIndex]);
+
+            loadModels();
+        }
+
         void loadModels()
         {
-
+            ModelDetailsControl.Visibility = System.Windows.Visibility.Hidden;
             Models = dataAccess.GetModels();
             ModelAddDeleteControl.aMDGroupBox.DataContext = Models;
         }
-        void ModelAddDeleteControl_deleteClicked(object sender, EventArgs e)
-        {
-            
-        }
 
-        void ModelAddDeleteControl_addClicked(object sender, EventArgs e)
-        {
-            
-        }
+      
+
+       
 
         void ModelAddDeleteControl_selectionChanged(object sender, 
             UIControls.AddModifyDeleteSelectionChangedEventArgs e)
         {
             gbModelDetails.Visibility = System.Windows.Visibility.Hidden;
+
+            if (e.SelectedIndex == -1) return;
 
             ModelDetailsControl.CurrentModel = Models[e.SelectedIndex];
 
@@ -74,7 +81,11 @@ namespace TestBenchApp.DashBoard
             Model m = ModelDetailsControl.GetModel();
 
             dataAccess.UpdateModel(m);
-            MessageBox.Show("Model Saved Successfully", "Application Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Model Saved Successfully", "Application Info", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
+
+            loadModels();
+
         }
 
         private void btnSaveAs_Click_1(object sender, RoutedEventArgs e)
@@ -83,7 +94,9 @@ namespace TestBenchApp.DashBoard
              
             dataAccess.InsertModel(m);
 
-            MessageBox.Show("Model Saved Successfully", "Application Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Model Saved Successfully", "Application Info", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            loadModels();
 
 
         }
