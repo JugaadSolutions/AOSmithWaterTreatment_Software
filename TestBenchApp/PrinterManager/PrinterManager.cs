@@ -40,6 +40,9 @@ namespace Printer
         {
             Driver = new BcilNetwork { PrinterIP = IPAddress, PrinterPort = Port };
         }
+
+
+
         public bool PrintBarcode(String Model,String SerialNo)
         {
             try
@@ -84,7 +87,7 @@ namespace Printer
                 String CombStickerData = File.ReadAllText(BarcodeFileName);
                 CombStickerData = CombStickerData.Replace("{PRODUCT}", product);
                 CombStickerData = CombStickerData.Replace("{PRODUCTNO}", productNo);
-                CombStickerData = CombStickerData.Replace("{MRP}", "600");
+                CombStickerData = CombStickerData.Replace("{MRP}", MRP);
                 CombStickerData = CombStickerData.Replace("{MODELNAME}", modelName);
                 CombStickerData = CombStickerData.Replace("{STORAGECAPACITY}", storageCapacity);
                 CombStickerData = CombStickerData.Replace("{NETQTY}", netQty);

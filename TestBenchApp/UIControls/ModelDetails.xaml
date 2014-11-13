@@ -9,8 +9,8 @@
     <UserControl.Resources>
         <Style TargetType="TextBox">
             <Setter Property="MinWidth" Value="300"/>
-            <Setter Property="FontSize" Value="20"/>
-
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
 
         <Style TargetType="Label">
@@ -49,15 +49,15 @@
                            HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="ProductTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" 
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" 
                              FontSize="20"  Text="{Binding Path=Product}"
                       Margin="5" MinWidth="250" />
                     <Label Content="Code" Foreground="White" FontWeight="Bold" Margin="25,5,0,4.6" HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="CodeTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Code}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Code}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250" />
                 </StackPanel>
 
@@ -65,14 +65,15 @@
                     <Label Content="Product No" Foreground="White" FontWeight="Bold" Margin="5" HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="ProductNoTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=ProductNumber}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=ProductNumber}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" 
+                             FontSize="20" 
                       Margin="5" MinWidth="250"  />
                     <Label Content="MRP (Rs)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0" HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="MRPTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=MRP}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=MRP}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250" />
                 </StackPanel>
 
@@ -80,14 +81,14 @@
                     <Label Content="Model Name" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="ModelNameTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Name}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Name}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" 
                       Margin="5" MinWidth="250" />
                     <Label Content="Customer Care No" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="CustomerCareNoTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=CustomerCare}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=CustomerCare}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250"  />
                 </StackPanel>
 
@@ -95,14 +96,14 @@
                     <Label Content="Storage Capacity (Kg)" Foreground="White" FontWeight="Bold" Margin="5" HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="StorageCapacityTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=StorageCapacity}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=StorageCapacity}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" 
                       Margin="5" MinWidth="250" />
                     <Label Content="Email" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="EmailTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Email}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Email}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" 
                       Margin="5" MinWidth="250" />
                 </StackPanel>
 
@@ -112,14 +113,14 @@
                     <Label Content="Net quantity (Liters)" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="NetQuantityTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=NetQuantity}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=NetQuantity}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250" />
                     <Label Content="EAN Code" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     <TextBox Name="EANCodeTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=EAN}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=EAN}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250" />
                 </StackPanel>
 
@@ -127,20 +128,20 @@
                 <Label Content="Width (mm)" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                 <TextBox Name="WidthTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Width}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Width}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="100" />
                 <Label Content="Height (mm)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Right"
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
                 <TextBox Name="HeightTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Height}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Height}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="100" />
                 <Label Content="Depth (mm)" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Right"
                    HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
                 <TextBox Name="DepthTextBox" 
-                      Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Depth}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
+                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=Depth}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"  
                          FontSize="20" 
                       Margin="5" MinWidth="100" />
             </StackPanel>

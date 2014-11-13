@@ -40,19 +40,22 @@
                     <Label Foreground="White" Content="Manage" Background="Green" BorderBrush="Black" BorderThickness="0"
                              HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
                 </GroupBox.Header>
-                <UniformGrid  Name="ActionsGrid" HorizontalAlignment="Center" Rows="1" Columns="5">
+                <UniformGrid  Name="ActionsGrid" HorizontalAlignment="Center" Rows="1" Columns="6">
             
-                    <Button Grid.Column="0" Name="Password"  Content="Password"  Click="Password_Click_1" 
+                    <Button  Name="Password"  Content="Password"  Click="Password_Click_1" 
                          HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    <Button Grid.Column="1" Name="ByPass" Content="By Pass" 
+                    <Button Name="ByPass" Content="By Pass" 
                             Click="SetPlan_Click" />
-                    <Button Grid.Column="2" Name="Reports"  Content="Reports"  Click="Reports_Click"
+                    <Button  Name="Reports"  Content="Reports"  Click="Reports_Click"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button Grid.Column="2" Name="SetPlan" Content="Set Plan" 
+                    <Button Name="SetPlan" Content="Set Plan" 
                             Click="SetPlan_Click" 
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button Grid.Column="2" Name="Models" Content="Models" 
+                    <Button  Name="Models" Content="Models" 
                             Click="Models_Click_1"
+                         HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    <Button  Name="Reprint" Content="Reprint" 
+                            Click="Reprint_Click_1"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </UniformGrid>
             </GroupBox>

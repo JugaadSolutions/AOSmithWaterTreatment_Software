@@ -25,10 +25,6 @@ namespace TestBenchApp.DashBoard
         public String CurrentUser { get; set; }
         Users Users;
 
-        public UIElement TansientElement { get; set; }
-
-        
-
         #region MANAGE_PASSWORD
         private void Password_Click_1(object sender, RoutedEventArgs e)
         {
@@ -88,7 +84,8 @@ namespace TestBenchApp.DashBoard
 
         void c_TestPrintBtnClicked(object sender, TestEventArgs e)
         {
-            printerManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, e.m.MRP, e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity));
+            printerManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, 
+                e.m.MRP.ToString(), e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity));
         }
 
       
@@ -97,6 +94,13 @@ namespace TestBenchApp.DashBoard
             Transient.Children.Clear();
         }
 
+        #endregion
+
+        #region MANAGE_REPRINT
+        private void Reprint_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
 
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)

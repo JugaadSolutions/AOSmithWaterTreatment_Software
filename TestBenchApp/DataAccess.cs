@@ -1651,7 +1651,20 @@ namespace TestBenchApp
 
         internal void DeleteModel(Model model)
         {
-            throw new NotImplementedException();
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            qry = @"delete from [Models] where slNo = {0}";
+            qry = String.Format(qry,model.SlNo);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
         }
     }
 }
