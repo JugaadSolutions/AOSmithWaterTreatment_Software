@@ -70,7 +70,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1"  Name="FrameModelPanel1" Orientation="Horizontal">
-                                    <Label Name="FrameModelLabel1"  Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Name="FrameModelLabel1"  Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="FrametbPq1" Height="Auto" MinWidth="75" Margin="5,15" IsReadOnly="True"
                                  Text="{Binding Path=Quantity}" HorizontalContentAlignment="Center"
@@ -91,7 +91,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Orientation="Horizontal" Name="FrameModelPanel2">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="FrametbPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}" ></TextBox>
@@ -111,7 +111,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="3" Orientation="Horizontal" Name="FrameModelPanel3">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox  Name="FrametbPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"   Text="{Binding Path=Quantity}"></TextBox>
@@ -130,7 +130,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="4" Orientation="Horizontal" Name="FrameModelPanel4">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="FrametbPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}" TextChanged="FrametbPq4_TextChanged"></TextBox>
@@ -191,7 +191,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1"  Name="BodyModelPanel1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Label Name="BodyModelLabel1"  Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Name="BodyModelLabel1"  Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="BodytbPq1" Height="Auto" MinWidth="75" Margin="5,15" IsReadOnly="True"
                                  Text="{Binding Path=Quantity}" HorizontalContentAlignment="Center"
@@ -207,7 +207,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Orientation="Horizontal" Name="BodyModelPanel2" HorizontalAlignment="Center">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="BodytbPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}" ></TextBox>
@@ -222,7 +222,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="3" Orientation="Horizontal" Name="BodyModelPanel3" HorizontalAlignment="Center">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox  Name="BodytbPq3" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"   Text="{Binding Path=Quantity}"></TextBox>
@@ -237,7 +237,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="4" Orientation="Horizontal" Name="BodyModelPanel4" HorizontalAlignment="Center">
-                                    <Label Content="{Binding Path=ModelNumber}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
+                                    <Label Content="{Binding Path=ModelName}" Foreground="White" FontWeight="Bold" BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Margin="5" MinWidth="200"></Label>
                                     <TextBox Name="BodytbPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
                      HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  Text="{Binding Path=Quantity}"></TextBox>
