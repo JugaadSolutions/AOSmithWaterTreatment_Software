@@ -49,6 +49,8 @@ namespace TestBenchApp
 
         bool APPSimulation = false;
 
+        DashBoardView dbView;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -88,9 +90,9 @@ namespace TestBenchApp
             mainFramePM = new PrinterManager { Port = port, IPAddress = mainFrameipAddr, BarcodeFileName = mainFrameBarcodeFile };
             combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile, combBarcodePrinterName = combPrinterName };
 
-            mainBodyPM.SetupDriver();
+           // mainBodyPM.SetupDriver();
             mainFramePM.SetupDriver();
-            combinationPM.SetupDriver();
+           // combinationPM.SetupDriver();
 
             updatePlan();
 
@@ -228,8 +230,8 @@ namespace TestBenchApp
                
                 if (FBypass == false)  //if not bypassed
                 {
-                    if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
-                        return; //do nothing
+                    //if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
+                    //    return; //do nothing
                 }
 
                 assocationBarcode = dataAccess.UnitAssociated( Model.Type.BODY);
@@ -278,8 +280,8 @@ namespace TestBenchApp
         private void generateCombinationCode(string assocationBarcode)
 
         {
-            Plan tempPlan = null;
-            tempPlan = new Plan();
+
+            combinationPM.PrintCombSticker(assocationBarcode);
 
            // tempPlan.BSerialNo = e.SerialNo;
 
@@ -293,8 +295,43 @@ namespace TestBenchApp
         {
 
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
+            String ModelName = null;
 
-            dataAccess.UpdateUnit(barcode);
+            if (dbView != null)
+            {
+                if (dbView.cbF1Checked == true || dbView.cbM1Checked == true)
+                {
+                    if (e.ModelNumber.Contains("A") && dbView.cbM1Checked == true)
+                    {
+                        foreach (Plan p in BodyPlans)
+                        {
+                            if (p.ModelCode + "A" == e.ModelNumber)
+                                ModelName = p.ModelName;
+                        }
+
+                        mainBodyPM.PrintBarcode(ModelName, barcode);
+
+                    }
+                    else if (e.ModelNumber.Contains("A") == false && dbView.cbF1Checked == true)
+                    {
+                        foreach (Plan p in FramePlans)
+                        {
+                            if (p.ModelCode == e.ModelNumber)
+                                ModelName = p.ModelName;
+                        }
+
+                        mainFramePM.PrintBarcode(ModelName, barcode);
+                    }
+                }
+                else
+                {
+                    dataAccess.UpdateUnit(barcode);
+                }
+            }
+            else
+            {
+                dataAccess.UpdateUnit(barcode);
+            }   
 
         }
 
@@ -377,6 +414,8 @@ namespace TestBenchApp
                             if (Simulation)
                                 FCodeQ.Enqueue(fcode);
 
+                           
+
                             dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
                             dataAccess.UpdateFSerial(CurrentFramePlan);
                             
@@ -430,8 +469,8 @@ namespace TestBenchApp
                                                 new Action(() =>
                                                 {
                                                     BaseGrid.Children.Clear();
-                                                    DashBoardView db = new DashBoardView(Users, CurrentUser.Name, combinationPM);
-                                                    BaseGrid.Children.Add(db);
+                                                    dbView = new DashBoardView(Users, CurrentUser.Name, combinationPM, mainBodyPM, mainFramePM);
+                                                    BaseGrid.Children.Add(dbView);
                                                 }));
             
            

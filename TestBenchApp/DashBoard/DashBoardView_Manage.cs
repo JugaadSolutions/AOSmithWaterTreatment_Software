@@ -24,6 +24,9 @@ namespace TestBenchApp.DashBoard
         
         public String CurrentUser { get; set; }
         Users Users;
+        public bool cbM1Checked = false;
+        public bool cbF1Checked = false;
+        public bool cbCSChecked = false;
 
         #region MANAGE_PASSWORD
         private void Password_Click_1(object sender, RoutedEventArgs e)
@@ -84,8 +87,15 @@ namespace TestBenchApp.DashBoard
 
         void c_TestPrintBtnClicked(object sender, TestEventArgs e)
         {
-            printerManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, 
-                e.m.MRP.ToString(), e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity));
+            String slNo = null;
+
+            if (e.m.Name.Contains("Puritee"))
+                slNo = "B163" + DateTime.Now.ToString("yyMMdd") + "0001";
+
+            combPrinterManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, 
+                e.m.MRP.ToString(), e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity),
+                slNo);
+           
         }
 
       
@@ -99,7 +109,68 @@ namespace TestBenchApp.DashBoard
         #region MANAGE_REPRINT
         private void Reprint_Click_1(object sender, RoutedEventArgs e)
         {
+            ReprintManager r = new ReprintManager();
+            r.btnDoneClicked += r_btnDoneClicked;
+            r.cbM1Clicked += r_cbM1Clicked;
+            r.cbF1Clicked += r_cbF1Clicked;
+            r.cbCSClicked += r_cbCSClicked;
 
+            r.cbF1unChecked += r_cbF1unChecked;
+            r.cbCSunChecked += r_cbCSunChecked;
+            r.cbM1unChecked += r_cbM1unChecked;
+
+            Transient.Children.Clear();
+            Transient.Children.Add(r);
+            Transient.Visibility = System.Windows.Visibility.Visible;
+
+        }
+
+        void r_cbM1unChecked(object sender, EventArgs e)
+        {
+            cbM1Checked = false;
+        }
+
+        void r_cbCSunChecked(object sender, EventArgs e)
+        {
+            cbCSChecked = false;
+        }
+
+        void r_cbF1unChecked(object sender, EventArgs e)
+        {
+            cbF1Checked = false; 
+        }
+
+        void r_cbCSClicked(object sender, EventArgs e)
+        {
+            cbCSChecked = true;
+
+            cbF1Checked = false;
+            cbM1Checked = false;
+        }
+
+        void r_cbF1Clicked(object sender, EventArgs e)
+        {
+            cbF1Checked = true;
+
+            cbCSChecked = false;
+            cbM1Checked = false;
+        }
+
+        void r_cbM1Clicked(object sender, EventArgs e)
+        {
+            cbM1Checked = true;
+
+            cbCSChecked = false;
+            cbF1Checked = false;
+
+        }
+
+        private void r_btnDoneClicked(object sender, EventArgs e)
+        {
+            Transient.Children.Clear();
+            cbCSChecked = false;
+            cbF1Checked = false;
+            cbM1Checked = false;
         }
         #endregion
 

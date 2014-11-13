@@ -34,14 +34,17 @@ namespace TestBenchApp.DashBoard
     public partial class DashBoardView : UserControl
     {
 
-        PrinterManager printerManager;
+        PrinterManager combPrinterManager;
+        PrinterManager mainBodyPrinterManager;
+        PrinterManager mainFramePrinterManager;
+
         BackgroundWorker worker;
         
         public Boolean Admin = false;
 
         DataAccess dataAccess;
 
-        public DashBoardView(Users users, String currentUser, PrinterManager p)
+        public DashBoardView(Users users, String currentUser, PrinterManager p, PrinterManager mb, PrinterManager mf)
         {
             InitializeComponent();
             
@@ -55,7 +58,9 @@ namespace TestBenchApp.DashBoard
 
             extendConstructor();
 
-            printerManager = p;
+            combPrinterManager = p;
+            mainBodyPrinterManager = mb;
+            mainFramePrinterManager = mf;
 
 
          
@@ -63,8 +68,7 @@ namespace TestBenchApp.DashBoard
 
            
 
-            
-            
+                       
            
         }
 
@@ -86,6 +90,8 @@ namespace TestBenchApp.DashBoard
         {
 
         }
+
+
 
         
 

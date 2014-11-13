@@ -735,21 +735,28 @@ namespace ias.andonmanager
  
         public BCScannerEventArgs(String scanData)
         {
-            if (scanData.Contains("A"))
+            try
             {
-                ModelNumber = scanData.Substring(0, 5);
-                Timestamp = scanData.Substring(5, 6);
+                if (scanData.Contains("A"))
+                {
+                    ModelNumber = scanData.Substring(0, 5);
+                    Timestamp = scanData.Substring(5, 6);
 
-                SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
+                    SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
 
+                }
+                else
+                {
+                    ModelNumber = scanData.Substring(0, 4);
+                    Timestamp = scanData.Substring(4, 6);
+
+                    SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+
+                }
             }
-            else
+            catch (Exception e)
             {
-                ModelNumber = scanData.Substring(0, 4);
-                Timestamp = scanData.Substring(4, 6);
-
-                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
-
+               
             }
         }
 
@@ -767,21 +774,27 @@ namespace ias.andonmanager
 
         public CSScannerEventArgs(String scanData)
         {
-            if (scanData.Contains("A"))
+            try
             {
-                ModelNumber = scanData.Substring(0, 5);
-                Timestamp = scanData.Substring(5, 6);
+                if (scanData.Contains("A"))
+                {
+                    ModelNumber = scanData.Substring(0, 5);
+                    Timestamp = scanData.Substring(5, 6);
 
-                SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
+                    SerialNo = Convert.ToInt32(scanData.Substring(11, 4));
 
+                }
+                else
+                {
+                    ModelNumber = scanData.Substring(0, 4);
+                    Timestamp = scanData.Substring(4, 6);
+
+                    SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+
+                }
             }
-            else
+            catch (Exception e)
             {
-                ModelNumber = scanData.Substring(0, 4);
-                Timestamp = scanData.Substring(4, 6);
-
-                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
-
             }
 
            
@@ -797,9 +810,15 @@ namespace ias.andonmanager
 
         public actQtyScannerEventArgs(String scanData)
         {
-            ModelNumber = scanData.Substring(0, 4);
-            Timestamp = scanData.Substring(4, 6);
-            SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+            try
+            {
+                ModelNumber = scanData.Substring(0, 4);
+                Timestamp = scanData.Substring(4, 6);
+                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+            }
+            catch (Exception e)
+            {
+            }
         }
 
     }

@@ -39,6 +39,7 @@ namespace Printer
         public void SetupDriver()
         {
             Driver = new BcilNetwork { PrinterIP = IPAddress, PrinterPort = Port };
+            Driver.initialize();
         }
 
 
@@ -50,8 +51,8 @@ namespace Printer
                 String BarcodeData = File.ReadAllText(BarcodeFileName);
                 BarcodeData = BarcodeData.Replace("{MODEL}", Model);
                 BarcodeData = BarcodeData.Replace("{SERIAL}", SerialNo);
-                //return Driver.NetworkPrint(BarcodeData);
-                return true;
+                return Driver.NetworkPrint(BarcodeData);
+                //return true;
 
 
                 
@@ -80,7 +81,7 @@ namespace Printer
         }
 
        public bool combStickerTestPrint(String product, String productNo, String MRP, String modelName,
-                    String storageCapacity, String netQty)
+                    String storageCapacity, String netQty, String barcode)
        {
             try
             {
@@ -91,6 +92,7 @@ namespace Printer
                 CombStickerData = CombStickerData.Replace("{MODELNAME}", modelName);
                 CombStickerData = CombStickerData.Replace("{STORAGECAPACITY}", storageCapacity);
                 CombStickerData = CombStickerData.Replace("{NETQTY}", netQty);
+                CombStickerData = CombStickerData.Replace("{BARCODE1}", barcode);
 
                 return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
             }

@@ -151,7 +151,7 @@ namespace HDC_COMMSERVER
                 {
                     if (_IsSockConnected() == false)
                     {
-                        if (_InitializeSockClient() != false)                            
+                        if (_InitializeSockClient() == false)                            
                             return false;                            
                     }                    
                         
@@ -248,5 +248,14 @@ namespace HDC_COMMSERVER
                 GC.SuppressFinalize(true);
             }
             #endregion               
+
+            public void initialize()
+            {
+                if (_IsSockConnected() == false)
+                {
+                    _InitializeSockClient();
+                    
+                }              
+            }
     }
 }
