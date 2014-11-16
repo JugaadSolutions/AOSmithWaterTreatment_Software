@@ -111,13 +111,9 @@ namespace TestBenchApp.DashBoard
         {
             ReprintManager r = new ReprintManager();
             r.btnDoneClicked += r_btnDoneClicked;
-            r.cbM1Clicked += r_cbM1Clicked;
-            r.cbF1Clicked += r_cbF1Clicked;
-            r.cbCSClicked += r_cbCSClicked;
-
-            r.cbF1unChecked += r_cbF1unChecked;
-            r.cbCSunChecked += r_cbCSunChecked;
-            r.cbM1unChecked += r_cbM1unChecked;
+            r.F1Reprint += r_F1Reprint;
+            r.M1Reprint += r_M1Reprint;
+            r.CSReprint += r_CSReprint;
 
             Transient.Children.Clear();
             Transient.Children.Add(r);
@@ -125,52 +121,29 @@ namespace TestBenchApp.DashBoard
 
         }
 
-        void r_cbM1unChecked(object sender, EventArgs e)
+        void r_CSReprint(object sender, EventArgs e)
         {
-            cbM1Checked = false;
+            
         }
 
-        void r_cbCSunChecked(object sender, EventArgs e)
+        void r_M1Reprint(object sender, EventArgs e)
         {
-            cbCSChecked = false;
+            
         }
 
-        void r_cbF1unChecked(object sender, EventArgs e)
+        void r_F1Reprint(object sender, EventArgs e)
         {
-            cbF1Checked = false; 
+            
         }
 
-        void r_cbCSClicked(object sender, EventArgs e)
-        {
-            cbCSChecked = true;
+       
 
-            cbF1Checked = false;
-            cbM1Checked = false;
-        }
-
-        void r_cbF1Clicked(object sender, EventArgs e)
-        {
-            cbF1Checked = true;
-
-            cbCSChecked = false;
-            cbM1Checked = false;
-        }
-
-        void r_cbM1Clicked(object sender, EventArgs e)
-        {
-            cbM1Checked = true;
-
-            cbCSChecked = false;
-            cbF1Checked = false;
-
-        }
+       
 
         private void r_btnDoneClicked(object sender, EventArgs e)
         {
             Transient.Children.Clear();
-            cbCSChecked = false;
-            cbF1Checked = false;
-            cbM1Checked = false;
+           
         }
         #endregion
 

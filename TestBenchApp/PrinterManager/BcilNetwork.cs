@@ -74,7 +74,8 @@ namespace HDC_COMMSERVER
                 catch (Exception ex)
                 {
                     //_Logger.LogMessage(EventNotice.EventTypes.evtInfo, "_InitializeSockClient", ex.Message);                                                    
-                    throw ex;
+                    //throw ex;
+                    return false;
                 }
             }
 

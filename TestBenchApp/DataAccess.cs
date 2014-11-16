@@ -1666,5 +1666,45 @@ namespace TestBenchApp
             con.Close();
             con.Dispose();
         }
+
+        internal DataTable GetReprintSerialNos(string p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry  = String.Empty;
+
+            switch (p)
+            {
+                case "F1":
+                    qry = @"select Barcode as 'Barcode' from [Unit] where [status] = 'NG'
+                                and [Type] = {0}  and Timestamp >'{1}' and Timestamp <'{2}' ";
+                    qry = String.Format(qry, (int)Model.Type.FRAME, DateTime.Today.ToString("yyyy-MM-dd")
+                        ,DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
+
+                    break;
+                case "M1":
+                    qry = @"select Barcode as 'Barcode' from [Unit] where [status] = 'NG'
+                                and [Type] = {0}  and Timestamp >'{1}' and Timestamp <'{2}' ";
+                    qry = String.Format(qry, (int)Model.Type.BODY, DateTime.Today.ToString("yyyy-MM-dd")
+                        ,DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
+                    break;
+                case "CS":
+                    qry = @"select Barcode as 'Barcode' from [Unit] where [status] = 'NG'
+                                and [Type] = {0}  and Timestamp >'{1}' and Timestamp <'{2}' ";
+                    qry = String.Format(qry, (int)Model.Type.FRAME, DateTime.Today.ToString("yyyy-MM-dd")
+                        ,DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
+                    break;
+            }
+
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+
+            dt.Load(dr);
+            dr.Close();
+            return dt;
+
+        }
     }
 }
