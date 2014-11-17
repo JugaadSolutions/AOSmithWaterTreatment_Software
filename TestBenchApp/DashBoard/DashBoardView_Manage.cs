@@ -133,9 +133,9 @@ namespace TestBenchApp.DashBoard
             
         }
 
-        void r_F1Reprint(object sender, EventArgs e)
+        void r_F1Reprint(object sender, ReprintArgs e)
         {
-            
+            mainFramePrinterManager.PrintBarcode(e.Model, e.Barcode);
         }
 
        

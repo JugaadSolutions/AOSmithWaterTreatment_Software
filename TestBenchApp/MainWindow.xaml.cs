@@ -90,7 +90,7 @@ namespace TestBenchApp
             mainFramePM = new PrinterManager { Port = port, IPAddress = mainFrameipAddr, BarcodeFileName = mainFrameBarcodeFile };
             combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile, combBarcodePrinterName = combPrinterName };
 
-           // mainBodyPM.SetupDriver();
+            mainBodyPM.SetupDriver();
             mainFramePM.SetupDriver();
            // combinationPM.SetupDriver();
 
@@ -223,7 +223,7 @@ namespace TestBenchApp
         private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
-            
+            String model = String.Empty;
             String assocationBarcode = String.Empty;
             if (e.ModelNumber.Contains("A")) // if body
             {
@@ -244,7 +244,17 @@ namespace TestBenchApp
                 }
                 else
                 {
-                    dataAccess.InsertUnitAssociation(barcode, Model.Type.BODY);
+                    foreach (Plan p in BodyPlans)
+                    {
+                        if (p.ModelCode == e.ModelNumber)
+                        {
+                            model = p.ModelName;
+                            break;
+                        }
+                    }
+
+
+                    dataAccess.InsertUnitAssociation(model,barcode, Model.Type.BODY);
                     dataAccess.UpdateUnit(barcode);
                 }
             }
@@ -268,7 +278,15 @@ namespace TestBenchApp
                 }
                 else
                 {
-                    dataAccess.InsertUnitAssociation(barcode, Model.Type.FRAME);
+                    foreach (Plan p in FramePlans)
+                    {
+                        if (p.ModelCode == e.ModelNumber)
+                        {
+                            model = p.ModelName;
+                            break;
+                        }
+                    }
+                    dataAccess.InsertUnitAssociation(model,barcode, Model.Type.FRAME);
 
                 }
 
@@ -295,44 +313,10 @@ namespace TestBenchApp
         {
 
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
-            String ModelName = null;
-
-            if (dbView != null)
-            {
-                if (dbView.cbF1Checked == true || dbView.cbM1Checked == true)
-                {
-                    if (e.ModelNumber.Contains("A") && dbView.cbM1Checked == true)
-                    {
-                        foreach (Plan p in BodyPlans)
-                        {
-                            if (p.ModelCode + "A" == e.ModelNumber)
-                                ModelName = p.ModelName;
-                        }
-
-                        mainBodyPM.PrintBarcode(ModelName, barcode);
-
-                    }
-                    else if (e.ModelNumber.Contains("A") == false && dbView.cbF1Checked == true)
-                    {
-                        foreach (Plan p in FramePlans)
-                        {
-                            if (p.ModelCode == e.ModelNumber)
-                                ModelName = p.ModelName;
-                        }
-
-                        mainFramePM.PrintBarcode(ModelName, barcode);
-                    }
-                }
-                else
-                {
-                    dataAccess.UpdateUnit(barcode);
-                }
-            }
-            else
-            {
+           
+               
                 dataAccess.UpdateUnit(barcode);
-            }   
-
+            
         }
 
        

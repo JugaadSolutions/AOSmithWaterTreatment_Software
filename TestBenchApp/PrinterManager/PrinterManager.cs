@@ -50,7 +50,7 @@ namespace Printer
             {
                 String BarcodeData = File.ReadAllText(BarcodeFileName);
                 BarcodeData = BarcodeData.Replace("{MODEL}", Model);
-                BarcodeData = BarcodeData.Replace("{SERIAL}", SerialNo);
+                BarcodeData = BarcodeData.Replace("B123A>54567890123", SerialNo);
                 return Driver.NetworkPrint(BarcodeData);
                 //return true;
 
@@ -62,6 +62,8 @@ namespace Printer
                 return false;
             }
         }
+
+     
 
         public bool PrintCombSticker(String barCode)
         {

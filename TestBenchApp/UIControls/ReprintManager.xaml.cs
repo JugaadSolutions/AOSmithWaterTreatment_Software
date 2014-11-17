@@ -23,9 +23,9 @@ namespace TestBenchApp
     {
 
         public event EventHandler<EventArgs> btnDoneClicked;
-        public event EventHandler<EventArgs> CSReprint;
-        public event EventHandler<EventArgs> M1Reprint;
-        public event EventHandler<EventArgs> F1Reprint;
+        public event EventHandler<ReprintArgs> CSReprint;
+        public event EventHandler<ReprintArgs> M1Reprint;
+        public event EventHandler<ReprintArgs> F1Reprint;
 
         DataAccess dataAccess;
         DataTable f1Serial, M1Serial, CSSerial;
@@ -64,7 +64,11 @@ namespace TestBenchApp
             }
             if (F1Reprint != null)
             {
-                F1Reprint(this, new EventArgs());
+                String model = (String)((DataRowView)F1ReprintGrid.SelectedItem).Row["Model"];
+                String barcode =(String) ((DataRowView)F1ReprintGrid.SelectedItem).Row["Barcode"];
+
+
+                F1Reprint(this, new ReprintArgs(model,barcode));
             }
         }
 
@@ -78,7 +82,9 @@ namespace TestBenchApp
             }
             if (M1Reprint != null)
             {
-                M1Reprint(this, new EventArgs());
+                String model = (String)((DataRowView)M1ReprintGrid.SelectedItem).Row["Model"];
+                String barcode = (String)((DataRowView)M1ReprintGrid.SelectedItem).Row["Barcode"];
+                M1Reprint(this, new ReprintArgs(model,barcode));
             }
         }
 
@@ -92,12 +98,26 @@ namespace TestBenchApp
             }
             if (CSReprint != null)
             {
-                CSReprint(this, new EventArgs());
+                
+                String barcode = (String)((DataRow)CSReprintGrid.SelectedItem)["Barcode"];
+                CSReprint(this, new ReprintArgs("",barcode));
             }
         }
 
         
 
 
+    }
+
+    public class ReprintArgs : EventArgs
+    {
+        public String Model;
+        public String Barcode;
+
+        public ReprintArgs(String model,String bcode)
+        {
+            Model = model;
+            Barcode = bcode;
+        }
     }
 }
