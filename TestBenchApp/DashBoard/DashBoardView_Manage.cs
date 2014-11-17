@@ -16,6 +16,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using TestBenchApp.Entity;
 using TestBenchApp.Line;
+using TestBenchApp.UIControls;
 
 namespace TestBenchApp.DashBoard
 {
@@ -110,6 +111,7 @@ namespace TestBenchApp.DashBoard
         private void Reprint_Click_1(object sender, RoutedEventArgs e)
         {
             ReprintManager r = new ReprintManager();
+            r.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
             r.btnDoneClicked += r_btnDoneClicked;
             r.F1Reprint += r_F1Reprint;
             r.M1Reprint += r_M1Reprint;
@@ -144,6 +146,19 @@ namespace TestBenchApp.DashBoard
         {
             Transient.Children.Clear();
            
+        }
+        #endregion
+
+
+        #region MANAGE_REPORTS
+        private void Reports_Click(object sender, RoutedEventArgs e)
+        {
+            ReportManager r = new ReportManager();
+           
+
+            Transient.Children.Clear();
+            Transient.Children.Add(r);
+            Transient.Visibility = System.Windows.Visibility.Visible;
         }
         #endregion
 

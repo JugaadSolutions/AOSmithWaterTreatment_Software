@@ -36,10 +36,13 @@ namespace TestBenchApp
 
             dataAccess = new DataAccess();
             f1Serial = dataAccess.GetReprintSerialNos("F1");
-           // M1Serial = dataAccess.GetReprintSerialNos("M1");
-           // CSSerial = dataAccess.GetReprintSerialNos("CS");
+            M1Serial = dataAccess.GetReprintSerialNos("M1");
+            CSSerial = dataAccess.GetReprintSerialNos("CS");
 
             F1ReprintGrid.DataContext = f1Serial;
+            M1ReprintGrid.DataContext = M1Serial;
+            CSReprintGrid.DataContext = CSSerial;
+
         }
 
        
@@ -81,7 +84,7 @@ namespace TestBenchApp
 
         private void CombinationReprintButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CombinationReprintGrid.SelectedIndex == -1)
+            if (CSReprintGrid.SelectedIndex == -1)
             {
                 MessageBox.Show(" Please select Serial No to reprint", "Applicaiton Info", MessageBoxButton.OK,
                     MessageBoxImage.Information);

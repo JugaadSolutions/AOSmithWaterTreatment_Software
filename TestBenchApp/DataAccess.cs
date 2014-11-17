@@ -1690,9 +1690,9 @@ namespace TestBenchApp
                         ,DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
                     break;
                 case "CS":
-                    qry = @"select Barcode as 'Barcode' from [Unit] where [status] = 'NG'
-                                and [Type] = {0}  and Timestamp >'{1}' and Timestamp <'{2}' ";
-                    qry = String.Format(qry, (int)Model.Type.FRAME, DateTime.Today.ToString("yyyy-MM-dd")
+                    qry = @"select CombinationCode as 'Barcode' from [UnitAssociation] where ([status] = 'NG' or [status] is null)
+                                  and FGTimestamp >'{0}' and FGTimestamp <'{1}' ";
+                    qry = String.Format(qry,  DateTime.Today.ToString("yyyy-MM-dd")
                         ,DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
                     break;
             }

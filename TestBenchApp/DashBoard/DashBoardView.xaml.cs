@@ -86,10 +86,7 @@ namespace TestBenchApp.DashBoard
 
        
 
-        private void Reports_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
 
 

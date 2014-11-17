@@ -21,14 +21,14 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontSize" Value="15" />
         </Style>
-        <Style TargetType="Button">
+        <!--<Style TargetType="Button">
             <Setter Property="MinHeight" Value="30"/>
 
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="MinWidth" Value="100"/>
             <Setter Property="MinHeight" Value="40"/>
             <Setter Property="Margin" Value="10"/>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <DockPanel Background="Green" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Grid DockPanel.Dock="Bottom">
@@ -42,19 +42,24 @@
                 </GroupBox.Header>
                 <UniformGrid  Name="ActionsGrid" HorizontalAlignment="Center" Rows="1" Columns="6">
             
-                    <Button  Name="Password"  Content="Password"  Click="Password_Click_1" 
-                         HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    <Button Name="ByPass" Content="By Pass" 
+                    <Button  Name="Password"  Content="Password"  Click="Password_Click_1" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"   HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    <Button Name="ByPass" Content="By Pass" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"
                             Click="SetPlan_Click" />
-                    <Button  Name="Reports"  Content="Reports"  Click="Reports_Click"
+                    <Button  Name="Reports"  Content="Reports"  Click="Reports_Click" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button Name="SetPlan" Content="Set Plan" 
+                    <Button Name="SetPlan" Content="Set Plan" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"
                             Click="SetPlan_Click" 
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button  Name="Models" Content="Models" 
+                    <Button  Name="Models" Content="Models" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"
                             Click="Models_Click_1"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button  Name="Reprint" Content="Reprint" 
+                    <Button  Name="Reprint" Content="Reprint" MinHeight="30" FontSize="15" MinWidth="100"
+                      Margin="10"
                             Click="Reprint_Click_1"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </UniformGrid>
