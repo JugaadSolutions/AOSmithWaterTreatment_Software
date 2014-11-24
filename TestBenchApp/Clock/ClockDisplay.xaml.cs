@@ -51,14 +51,7 @@ namespace TestBenchApp.Clock
             this.DataContext = clock;
         }
 
-        private void UserControl_Unloaded_1(object sender, RoutedEventArgs e)
-        {
-            this.clock.clockUpdateTimer.Stop();
-            this.clock.clockUpdateTimer.Dispose();
-                
-
-        }
-
+       
 
     }
 
@@ -145,7 +138,7 @@ namespace TestBenchApp.Clock
         void clockUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
 
-            dateTime = dateTime.AddSeconds(1);
+            dateTime = DateTime.Now;
             Date = dateTime.ToString("dd-MM-yyyy");
             Time = dateTime.ToString("HH:mm:ss");
             clockUpdateTimer.Start();

@@ -804,17 +804,13 @@ namespace ias.andonmanager
 
     public class actQtyScannerEventArgs : EventArgs
     {
-        public String ModelNumber { get; set; } //alpha numeric
-        public String Timestamp { get; set; }
-        public int SerialNo { get; set; } //numeric
+        public String Barcode { get; set; }
 
         public actQtyScannerEventArgs(String scanData)
         {
             try
             {
-                ModelNumber = scanData.Substring(0, 4);
-                Timestamp = scanData.Substring(4, 6);
-                SerialNo = Convert.ToInt32(scanData.Substring(10, 4));
+                Barcode = scanData;
             }
             catch (Exception e)
             {

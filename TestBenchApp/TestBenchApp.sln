@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XbeeDriver", "Xbee\XbeeDriv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Printer", "PrinterManager\Printer.csproj", "{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "..\shared\shared.csproj", "{EA55806B-4135-4B15-B176-17E5D4A42DBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2F6B9E0-85BF-4490-BEAB-D04C387ADBEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA55806B-4135-4B15-B176-17E5D4A42DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA55806B-4135-4B15-B176-17E5D4A42DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA55806B-4135-4B15-B176-17E5D4A42DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA55806B-4135-4B15-B176-17E5D4A42DBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

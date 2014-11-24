@@ -68,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Entity\DeviceAssociation.cs" />
+    <Compile Include="Entity\Issue.cs" />
+    <Compile Include="Entity\Line.cs" />
+    <Compile Include="Entity\UnitAssociation.cs" />
     <Compile Include="UIControls\ReportManager.xaml.cs">
       <DependentUpon>ReportManager.xaml</DependentUpon>
     </Compile>
@@ -125,12 +129,6 @@
     <Compile Include="DashBoard\DashBoardView_Manage.cs" />
     <Compile Include="DashBoard\PasswordControl.xaml.cs" />
     <Compile Include="DataAccess.cs" />
-    <Compile Include="Entity\DeviceAssociation.cs" />
-    <Compile Include="Entity\Issue.cs" />
-    <Compile Include="Entity\Line.cs" />
-    <Compile Include="Entity\Model.cs" />
-    <Compile Include="Entity\Plan.cs" />
-    <Compile Include="Entity\User.cs" />
     <Compile Include="InputSimulation.cs" />
     <Compile Include="Line\PlanView.xaml.cs">
       <DependentUpon>PlanView.xaml</DependentUpon>
@@ -190,6 +188,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\shared\shared.csproj">
+      <Project>{ea55806b-4135-4b15-b176-17e5d4a42dbb}</Project>
+      <Name>shared</Name>
+    </ProjectReference>
     <ProjectReference Include="AndonManager\AndonManager.csproj">
       <Project>{967d7776-b429-42a8-b3b0-21d65fa7d4d8}</Project>
       <Name>AndonManager</Name>
@@ -202,6 +204,7 @@
   <ItemGroup>
     <Resource Include="Images\AOSmithLogo.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

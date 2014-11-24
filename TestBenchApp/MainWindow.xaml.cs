@@ -1,7 +1,10 @@
 ﻿using ias.andonmanager;
 using Printer;
+using shared;
+using shared.Entity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Net;
 using System.Timers;
@@ -30,11 +33,11 @@ namespace TestBenchApp
         Users Users;
         User CurrentUser;
 
-        PrinterManager mainBodyPM;
-        PrinterManager mainFramePM;
-        PrinterManager combinationPM;
+        PrinterManager PrinterManager;
 
         List<Plan> FramePlans,BodyPlans;
+
+        ObservableCollection<Model> Models;
 
         Plan CurrentFramePlan = null;
         Plan CurrentBodyPlan = null;
@@ -50,6 +53,9 @@ namespace TestBenchApp
         bool APPSimulation = false;
 
         DashBoardView dbView;
+
+        List<UnitAssociation> Associations;
+        int AssociationTimeout;
 
         public MainWindow()
         {
@@ -78,31 +84,34 @@ namespace TestBenchApp
 
 
             int port = Convert.ToInt32(ConfigurationSettings.AppSettings["PRINTER_PORT"]);
-            IPAddress mainBodyipAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["MAINBODY_PRINTER_IP"]);
-            IPAddress mainFrameipAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["MAINFRAME_PRINTER_IP"]);
-            IPAddress combinationIpAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["COMBINATION_PRINTER_IP"]);
+            IPAddress F1PrinterIPAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["F1_PRINTER_IP"]);
+            IPAddress M1PrinterIPAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["M1_PRINTER_IP"]);
+            IPAddress TOKPrinterIPAddr = IPAddress.Parse(ConfigurationSettings.AppSettings["TOK_PRINTER_IP"]);
 
-            string mainBodybarcodeFile = ConfigurationSettings.AppSettings["MAINBODY_BARCODE_TEMPLATE"];
-            string mainFrameBarcodeFile = ConfigurationSettings.AppSettings["MAINFRAME_BARCODE_TEMPLATE"];
-            string combinationBarcodeFile = ConfigurationSettings.AppSettings["COMBINATION_BARCODE_TEMPLATE"];
+            string F1BarcodeFile = ConfigurationSettings.AppSettings["F1_BARCODE_TEMPLATE"];
+            string M1BarcodeFile = ConfigurationSettings.AppSettings["M1_BARCODE_TEMPLATE"];
+            string TOKBarcodeFile = ConfigurationSettings.AppSettings["TOK_BARCODE_TEMPLATE"];
+            string CSDataFile = ConfigurationSettings.AppSettings["CS_BARCODE_TEMPLATE"];
 
-            mainBodyPM = new PrinterManager { Port = port, IPAddress = mainBodyipAddr, BarcodeFileName = mainBodybarcodeFile };
-            mainFramePM = new PrinterManager { Port = port, IPAddress = mainFrameipAddr, BarcodeFileName = mainFrameBarcodeFile };
-            combinationPM = new PrinterManager{ Port = port, IPAddress = combinationIpAddr, BarcodeFileName = combinationBarcodeFile, combBarcodePrinterName = combPrinterName };
-
-            mainBodyPM.SetupDriver();
-            mainFramePM.SetupDriver();
-           // combinationPM.SetupDriver();
-
+            PrinterManager = new Printer.PrinterManager();
+            PrinterManager.SetupDriver("F1Printer", F1PrinterIPAddr, port, F1BarcodeFile);
+            PrinterManager.SetupDriver("M1Printer", M1PrinterIPAddr, port, M1BarcodeFile);
+            PrinterManager.SetupDriver("TOKPrinter", TOKPrinterIPAddr, port, TOKBarcodeFile);
+            PrinterManager.CombinationPrinterName = combPrinterName;
+            PrinterManager.CombinationTemplate = CSDataFile; 
             updatePlan();
+
+            Models = dataAccess.GetModels();
 
             tickTimer = new Timer(1000);
             tickTimer.AutoReset = false;
             tickTimer.Elapsed += tickTimer_Elapsed;
 
+            Associations = new List<UnitAssociation>();
+
             if (ConfigurationSettings.AppSettings["PBSIMULATION"] == "Yes")
             {
-                Simulation = true;
+                PBSimulation = true;
                 BaseWindow.KeyDown += Window_KeyDown;
 
                 FCodeQ = new Queue<string>();
@@ -114,12 +123,16 @@ namespace TestBenchApp
             }
             else
             {
-                Simulation = false;
+                PBSimulation = false;
+                
+            }
+
+            if (ConfigurationSettings.AppSettings["SIMULATION"] != "Yes")
+            {
                 andonManager.start();
             }
 
-
-            
+            AssociationTimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["ASSOCIATION_TIMEOUT"]);
             tickTimer.Start();
         }
 
@@ -196,12 +209,12 @@ namespace TestBenchApp
                              }));
 
             Total = 0;
-            Actual = 0;
+            
             int BSerial = 0;
             foreach (Plan p in BodyPlans)
             {
                 Total += p.Quantity;
-                Actual += p.Actual;
+               
                 BSerial += p.BSerialNo;
             }
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
@@ -217,105 +230,97 @@ namespace TestBenchApp
         //Code added on 11 Nov
         private void andonManager_actQtyAlertEvent(object sender, actQtyScannerEventArgs e)
         {
-            throw new NotImplementedException();
+
+            dataAccess.UpdateAsscociationStatus( e.Barcode);
+            CurrentFramePlan.Actual++;
+            dataAccess.UpdateActual(CurrentFramePlan.Actual,CurrentFramePlan.slNumber);
         }
 
         private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
-            String model = String.Empty;
+
+
+            if (dataAccess.UpdateAssociation(barcode, Model.Type.COMBINED, barcode) == 0)
+                return;
+
+
+            foreach (Model m in Models)
+            {
+                if (m.Code == e.ModelNumber)
+                {
+                    PrinterManager.PrintCombSticker(m, barcode);
+                    break;
+                }
+            }
+            CurrentFramePlan.CombinationSerialNo++;
+            dataAccess.UpdateCSerial(CurrentFramePlan);
+
+            
+
+        }
+
+       
+
+        void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
+        {
+            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
+            
             String assocationBarcode = String.Empty;
             if (e.ModelNumber.Contains("A")) // if body
             {
-               
-                if (FBypass == false)  //if not bypassed
-                {
-                    //if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
-                    //    return; //do nothing
-                }
+                //foreach (UnitAssociation ua in Associations)
+                //{
+                //    if (ua.Model == e.ModelNumber.Substring(0, e.ModelNumber.Length - 1) && ua.BCode == String.Empty)
+                //    {
+                //        ua.BCode = barcode;
+                //        break;
 
-                assocationBarcode = dataAccess.UnitAssociated( Model.Type.BODY);
+                //    }
+                //}
 
-               
+                assocationBarcode = dataAccess.UnitAssociated(Model.Type.BODY,
+                    e.ModelNumber.Substring(0,e.ModelNumber.Length-1),AssociationTimeout);
+
+
                 if (assocationBarcode != String.Empty) // if association exists
                 {
                     dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode);
-                    generateCombinationCode(assocationBarcode);
+                    PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber.Substring(0, e.ModelNumber.Length - 1), 
+                        DateTime.Now.ToString("yyMMdd"), assocationBarcode.Substring(10, 4));
+
                 }
                 else
                 {
-                    foreach (Plan p in BodyPlans)
-                    {
-                        if (p.ModelCode == e.ModelNumber)
-                        {
-                            model = p.ModelName;
-                            break;
-                        }
-                    }
 
 
-                    dataAccess.InsertUnitAssociation(model,barcode, Model.Type.BODY);
-                    dataAccess.UpdateUnit(barcode);
+
+                    dataAccess.InsertUnitAssociation(e.ModelNumber.Substring(0, e.ModelNumber.Length - 1), barcode, Model.Type.BODY);
+                    //dataAccess.UpdateUnit(barcode);
                 }
             }
             else
             {
-               
-               
-                if (CBypass == false)  //if not bypassed
-                {
-                    if (dataAccess.CheckOKStatus(barcode) == false) // if not ok
-                        return; //do nothing
-                }
 
-                assocationBarcode = dataAccess.UnitAssociated( Model.Type.FRAME);
 
-              
+                assocationBarcode = dataAccess.UnitAssociated(Model.Type.FRAME,e.ModelNumber,AssociationTimeout);
+
+
                 if (assocationBarcode != String.Empty) // if association exists
                 {
                     dataAccess.UpdateAssociation(barcode, Model.Type.FRAME, assocationBarcode);
-                    generateCombinationCode(barcode);
+                    PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber, DateTime.Now.ToString("yyMMdd"), barcode.Substring(10,4));
                 }
                 else
                 {
-                    foreach (Plan p in FramePlans)
-                    {
-                        if (p.ModelCode == e.ModelNumber)
-                        {
-                            model = p.ModelName;
-                            break;
-                        }
-                    }
-                    dataAccess.InsertUnitAssociation(model,barcode, Model.Type.FRAME);
+                   
+                    dataAccess.InsertUnitAssociation(e.ModelNumber, barcode, Model.Type.FRAME);
 
                 }
 
             }
-            
 
-        }
-
-        private void generateCombinationCode(string assocationBarcode)
-
-        {
-
-            combinationPM.PrintCombSticker(assocationBarcode);
-
-           // tempPlan.BSerialNo = e.SerialNo;
-
-            
-
-            
-
-        }
-
-        void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
-        {
-
-            String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
            
-               
-                dataAccess.UpdateUnit(barcode);
             
         }
 
@@ -355,21 +360,11 @@ namespace TestBenchApp
                         else
                         {
                             CurrentBodyPlan.BSerialNo++;
-                            if (Simulation)
-                            {
-                                String bcode =  CurrentBodyPlan.ModelCode + "A" + DateTime.Now.ToString("yyMMdd")
-                                    + CurrentBodyPlan.BSerialNo.ToString("D4");
-                                mainFramePM.PrintBarcode(CurrentBodyPlan.ModelName,
-                                  bcode );
-
-                                BCodeQ.Enqueue(bcode);
-                            }
-                            else
-                            {
-                                mainBodyPM.PrintBarcode(CurrentBodyPlan.ModelName,
-                                    CurrentBodyPlan.ModelCode + "A" + DateTime.Now.ToString("yyMMdd")
-                                    + CurrentBodyPlan.BSerialNo.ToString("D4"));
-                            }
+                           
+                            PrinterManager.PrintBarcode("M1Printer",CurrentBodyPlan.ModelName,
+                                CurrentBodyPlan.ModelCode + "A" , DateTime.Now.ToString("yyMMdd"),
+                                 CurrentBodyPlan.BSerialNo.ToString("D4"));
+                           
                             dataAccess.InsertUnit(CurrentBodyPlan.ModelCode, Model.Type.BODY, 
                                 CurrentBodyPlan.BSerialNo);
                             dataAccess.UpdateBSerial(CurrentBodyPlan);
@@ -392,15 +387,16 @@ namespace TestBenchApp
                             String fcode = CurrentFramePlan.ModelCode + DateTime.Now.ToString("yyMMdd")
                                + CurrentFramePlan.FSerialNo.ToString("D4");
 
-                            mainFramePM.PrintBarcode(CurrentFramePlan.ModelName,
-                                fcode);
+                            PrinterManager.PrintBarcode("F1Printer",CurrentFramePlan.ModelName,CurrentFramePlan.ModelCode,
+                              DateTime.Now.ToString("yyMMdd"), CurrentFramePlan.FSerialNo.ToString("D4"));
 
-                            if (Simulation)
+                            if (PBSimulation)
                                 FCodeQ.Enqueue(fcode);
 
                            
 
-                            dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME, CurrentFramePlan.FSerialNo);
+                            dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME, 
+                                CurrentFramePlan.FSerialNo);
                             dataAccess.UpdateFSerial(CurrentFramePlan);
                             
                         }
@@ -453,7 +449,7 @@ namespace TestBenchApp
                                                 new Action(() =>
                                                 {
                                                     BaseGrid.Children.Clear();
-                                                    dbView = new DashBoardView(Users, CurrentUser.Name, combinationPM, mainBodyPM, mainFramePM);
+                                                    dbView = new DashBoardView(Users, CurrentUser.Name, PrinterManager);
                                                     BaseGrid.Children.Add(dbView);
                                                 }));
             

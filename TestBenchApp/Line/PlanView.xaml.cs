@@ -1,4 +1,6 @@
-﻿using System;
+﻿using shared;
+using shared.Entity;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,21 +29,111 @@ namespace TestBenchApp.Line
         public event EventHandler<EventArgs> btnDoneClicked;
 
         DataAccess da;
-        ObservableCollection<Model> Models;
+        ObservableCollection<Model> Models1,Models2,Models3,Models4;
         List<Plan> plans;
 
         public PlanView()
         {
             InitializeComponent();
             da = new DataAccess();
-            Models = da.GetModels();
+            Models1 = da.GetModels();
+            Models2 = da.GetModels();
+            Models3 = da.GetModels();
+            Models4 = da.GetModels();
+
 
             plans = da.GetPlans();
 
-            ModelSelector1.DataContext = Models;
-            ModelSelector2.DataContext = Models;
-            ModelSelector3.DataContext = Models;
-            ModelSelector4.DataContext = Models;
+            if (plans.Count > 0)
+            {
+                tbSetPq1.Text = plans[0].Quantity.ToString();
+                ModelSelector1.DataContext = Models1;
+                for (int i = 0; i < Models1.Count; i++)
+                {
+                    if (plans[0].ModelCode == Models1[i].Code)
+                    {
+                        ModelSelector1.SelectedIndex = i;
+                        ModelSelector1.IsEnabled = false;
+                    }
+                }
+
+            }
+            else
+            {
+                ModelSelector1.DataContext = Models1;
+                ModelSelector2.DataContext = Models2;
+                ModelSelector3.DataContext = Models3;
+                ModelSelector4.DataContext = Models4;
+            }
+
+            if (plans.Count > 1)
+            {
+                tbSetPq2.Text = plans[1].Quantity.ToString();
+                ModelSelector2.DataContext = Models2;
+                for (int i = 0; i < Models2.Count; i++)
+                {
+                    if (plans[1].ModelCode == Models2[i].Code)
+                    {
+                        ModelSelector2.SelectedIndex = i;
+                        ModelSelector2.IsEnabled = false;
+                    }
+                }
+                
+            }
+            else
+            {
+                
+                ModelSelector2.DataContext = Models2;
+                ModelSelector3.DataContext = Models3;
+                ModelSelector4.DataContext = Models4;
+            }
+
+
+            if (plans.Count > 2)
+            {
+                tbSetPq3.Text = plans[2].Quantity.ToString();
+                ModelSelector3.DataContext = Models3;
+                for (int i = 0; i < Models3.Count; i++)
+                {
+                    if (plans[2].ModelCode == Models3[i].Code)
+                    {
+                        ModelSelector3.SelectedIndex = i;
+                        ModelSelector3.IsEnabled = false;
+                    }
+                }
+
+            }
+            else
+            {
+
+                
+                ModelSelector3.DataContext = Models3;
+                ModelSelector4.DataContext = Models4;
+            }
+
+
+            if (plans.Count > 3)
+            {
+                tbSetPq4.Text = plans[3].Quantity.ToString();
+                ModelSelector4.DataContext = Models4;
+                for (int i = 0; i < Models2.Count; i++)
+                {
+                    if (plans[3].ModelCode == Models4[i].Code)
+                    {
+                        ModelSelector4.SelectedIndex = i;
+                        ModelSelector4.IsEnabled = false;
+                    }
+                }
+
+            }
+            else
+            {
+
+                
+                ModelSelector3.DataContext = Models3;
+                ModelSelector4.DataContext = Models4;
+            }
+            
 
 
 
@@ -95,7 +187,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelCode = Models[ModelSelector1.SelectedIndex].Code,
+                        ModelCode = Models1[ModelSelector1.SelectedIndex].Code,
                         Quantity = quantity1,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -121,7 +213,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelCode = Models[ModelSelector2.SelectedIndex].Code,
+                        ModelCode = Models2[ModelSelector2.SelectedIndex].Code,
                         Quantity = quantity2,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -146,7 +238,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelCode = Models[ModelSelector3.SelectedIndex].Code,
+                        ModelCode = Models3[ModelSelector3.SelectedIndex].Code,
                         Quantity = quantity3,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -171,7 +263,7 @@ namespace TestBenchApp.Line
                 {
                     newplans.Add(new Plan
                     {
-                        ModelCode = Models[ModelSelector4.SelectedIndex].Code,
+                        ModelCode = Models4[ModelSelector4.SelectedIndex].Code,
                         Quantity = quantity4,
                         BSerialNo = 0,
                         FSerialNo = 0,
@@ -226,7 +318,26 @@ namespace TestBenchApp.Line
 
         private void btnDelete4_Click_1(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Delete Plan?", "Delete Plan", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                if ((plans[3].FStatus == true) || (plans[3].BStatus == true))
+                {
+                    MessageBox.Show("Plan is currently Active", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (plans[3].Actual >= plans[3].Quantity)
+                {
+                    MessageBox.Show("Plan has been completed", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                da.DeletePlan(plans[0]);
+            }
         }
 
         private void btnModify4_Click_1(object sender, RoutedEventArgs e)
@@ -244,7 +355,26 @@ namespace TestBenchApp.Line
 
         private void btnDelete3_Click_1(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Delete Plan?", "Delete Plan", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                if ((plans[2].FStatus == true) || (plans[2].BStatus == true))
+                {
+                    MessageBox.Show("Plan is currently Active", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (plans[2].Actual >= plans[2].Quantity)
+                {
+                    MessageBox.Show("Plan has been completed", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                da.DeletePlan(plans[2]);
+            }
         }
 
         private void btnModify3_Click_1(object sender, RoutedEventArgs e)
@@ -262,7 +392,26 @@ namespace TestBenchApp.Line
 
         private void btnDelete2_Click_1(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Delete Plan?", "Delete Plan", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                if ((plans[1].FStatus == true) || (plans[1].BStatus == true))
+                {
+                    MessageBox.Show("Plan is currently Active", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (plans[1].Actual >= plans[1].Quantity)
+                {
+                    MessageBox.Show("Plan has been completed", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                da.DeletePlan(plans[0]);
+            }
         }
 
         private void btnModify2_Click_1(object sender, RoutedEventArgs e)
@@ -280,10 +429,24 @@ namespace TestBenchApp.Line
 
         private void btnDelete1_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result =  MessageBox.Show("Apply Changes", "Delete Plan", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult result =  MessageBox.Show("Delete Plan?", "Delete Plan", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
+                if ((plans[0].FStatus == true) || (plans[0].BStatus == true))
+                {
+                    MessageBox.Show("Plan is currently Active", "Application Info", 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (plans[0].Actual >= plans[0].Quantity)
+                {
+                    MessageBox.Show("Plan has been completed", "Application Info",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 da.DeletePlan(plans[0]);
             }
         }

@@ -42,7 +42,7 @@
                 </GroupBox.Header>
                 <UniformGrid  Name="ActionsGrid" HorizontalAlignment="Center" Rows="1" Columns="6">
             
-                    <Button  Name="Password"  Content="Password"  Click="Password_Click_1" MinHeight="30" FontSize="15" MinWidth="100"
+                    <Button  Name="Password"  Content="Passwords"  Click="Password_Click_1" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"   HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                     <Button Name="ByPass" Content="By Pass" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
@@ -50,15 +50,15 @@
                     <Button  Name="Reports"  Content="Reports"  Click="Reports_Click" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button Name="SetPlan" Content="Set Plan" MinHeight="30" FontSize="15" MinWidth="100"
+                    <Button Name="SetPlan" Content="Plans" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
                             Click="SetPlan_Click" 
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button  Name="Models" Content="Models" MinHeight="30" FontSize="15" MinWidth="100"
+                    <Button  Name="ModelsButton" Content="Models" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
                             Click="Models_Click_1"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    <Button  Name="Reprint" Content="Reprint" MinHeight="30" FontSize="15" MinWidth="100"
+                    <Button  Name="Reprint" Content="Reprints" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
                             Click="Reprint_Click_1"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>

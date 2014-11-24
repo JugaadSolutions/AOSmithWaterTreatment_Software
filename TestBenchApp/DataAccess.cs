@@ -10,6 +10,8 @@ using System.Data.Sql;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using TestBenchApp.Entity;
+using shared.Entity;
+using shared;
 
 
 namespace TestBenchApp
@@ -521,6 +523,24 @@ namespace TestBenchApp
         }
 
 
+        public void UpdateCSerial(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set CombinationSerial = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.CombinationSerialNo, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
         public void UpdateBSerial(Plan p)
         {
             SqlConnection con = new SqlConnection(conStr);
@@ -633,7 +653,23 @@ namespace TestBenchApp
             con.Dispose();
         }
 
+        internal void UpdateActual(int actual , int p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
 
+            String qry = String.Empty;
+            qry = @"update [Plans] set Actual = '{0}'
+                    where SlNo={1}";
+            qry = String.Format(qry, actual, p);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
         #endregion
 
 
@@ -677,8 +713,13 @@ namespace TestBenchApp
              }
              else if (type == Model.Type.FRAME)
              {
-                 qry = @"insert into [UnitAssociation] (FCode,FTimestamp,Model)
-                        values('{0}','{1}','{2}')";
+                 qry = @"begin
+                        insert into [UnitAssociation] (FCode,FTimestamp,Model)
+                        values('{0}','{1}','{2}')
+                        IF(SELECT COUNT(*) FROM Unit WHERE Status <>  'OK' AND Barcode = '{0}') > 0
+
+                        UPDATE [Unit] SET Status = 'OK', Timestamp = '{1}' where  Barcode= '{0}'
+                        END";
              }
 
            
@@ -715,6 +756,7 @@ namespace TestBenchApp
             con.Dispose();
         }
 
+      
 
 
         internal bool CheckOKStatus(string barcode)
@@ -747,7 +789,7 @@ namespace TestBenchApp
 
         }
 
-        internal string UnitAssociated( Model.Type type)
+        internal string UnitAssociated( Model.Type type, String model,int duration)
         {
             SqlConnection con = new SqlConnection(conStr);
             con.Open();
@@ -757,14 +799,16 @@ namespace TestBenchApp
             String qry = String.Empty;
             if (type == Model.Type.BODY)
             {
-                qry = @"SELECT [FCode] from [UnitAssociation] where FCode is not null and BCode is null";
+                qry = @"SELECT [FCode] from [UnitAssociation] where FCode is not null and BCode is null 
+                            and Model = '{0}' and DATEDIFF(ss,FTimestamp,GETDATE()) < {1} ";
             }
             else if (type == Model.Type.FRAME)
             {
-                qry = @"SELECT [BCode] from [UnitAssociation] where BCode is not null and FCode is null";
+                qry = @"SELECT [BCode] from [UnitAssociation] where BCode is not null and FCode is null 
+                        and Model = '{0}' and DATEDIFF(ss,BTimestamp,GETDATE()) < {1}";
             }
-           
 
+            qry = String.Format(qry, model, duration);
             SqlCommand cmd = new SqlCommand(qry, con);
             SqlDataReader dr = cmd.ExecuteReader();
             DataTable dt = new DataTable();
@@ -783,7 +827,7 @@ namespace TestBenchApp
             else return String.Empty;
         }
 
-        internal void UpdateAssociation(string barcode, Model.Type type, string assocationBarcode)
+        internal int UpdateAssociation(string barcode, Model.Type type, string assocationBarcode)
         {
             SqlConnection con = new SqlConnection(conStr);
             con.Open();
@@ -791,6 +835,9 @@ namespace TestBenchApp
 
             String qry = String.Empty;
             DateTime ts = DateTime.Now;
+
+            int result = 0;
+
             if (type == Model.Type.BODY)
             {
                 qry = @"update [UnitAssociation] set BCode='{0}',BTimestamp = '{1}'
@@ -798,13 +845,55 @@ namespace TestBenchApp
             }
             else if (type == Model.Type.FRAME)
             {
-                qry = @"update [UnitAssociation] set FCode='{0}',FTimestamp = '{1}'
-                        where [BCode]='{2}'";
+                qry = @"begin
+                        update [UnitAssociation] set FCode='{0}',FTimestamp = '{1}'
+                        where [BCode]='{2}'
+                         IF(SELECT COUNT(*) FROM Unit WHERE Status <>  'OK' AND Barcode = '{0}') > 0
+
+                        UPDATE [Unit] SET Status = 'OK', Timestamp = '{1}' where  Barcode= '{0}'
+                        END";
+            }
+            else if (type == Model.Type.COMBINED)
+            {
+                qry = @"begin
+                        update [UnitAssociation] set CCode='{0}',CTimestamp = '{1}'
+                        where [FCode]='{2}' and CCode is null
+
+                        IF(SELECT COUNT(*) FROM Unit WHERE Status <>  'OK' 
+                            AND Barcode = (select BCode from [UnitAssociation] where FCode='{0}')) > 0
+
+                        UPDATE [Unit] SET Status = 'OK', Timestamp = '{1}' where  Barcode= (select BCode from [UnitAssociation] where FCode='{0}')
+                        END";
             }
 
             qry = String.Format(qry, barcode, ts.ToString("yyyy-MM-dd HH:mm:ss"),assocationBarcode);
             SqlCommand cmd = new SqlCommand(qry, con);
 
+            result = cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+
+            con.Close();
+            con.Dispose();
+
+            return result;
+        }
+
+        internal void UpdateAsscociationStatus( string p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+
+            String qry = String.Empty;
+            DateTime ts = DateTime.Now;
+            
+            qry = @"update [UnitAssociation] set Status='OK',FGTimestamp = '{0}'
+                    where [FCode]='{1}' and [CCode]='{1}' and [Status]<>'OK'";
+
+            qry = String.Format(qry, ts.ToString("yyyy-MM-dd HH:mm:ss"), p);
+
+            SqlCommand cmd = new SqlCommand(qry, con);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -812,6 +901,8 @@ namespace TestBenchApp
             con.Close();
             con.Dispose();
         }
+
+       
 
         #endregion
 
@@ -841,8 +932,15 @@ namespace TestBenchApp
                         , DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
                     break;
                 case "CS":
-                    qry = @"select CombinationCode as 'Barcode' from [UnitAssociation] where ([status] = 'NG' or [status] is null)
-                                  and FGTimestamp >'{0}' and FGTimestamp <'{1}' ";
+                    qry = @"select CCode as 'Barcode' from [UnitAssociation] where ([status] = 'NG' or [status] is null)
+                                  and CTimestamp >'{0}' and CTimestamp <'{1}' ";
+                    qry = String.Format(qry, DateTime.Today.ToString("yyyy-MM-dd")
+                        , DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
+                    break;
+
+                case "TOK":
+                    qry = @"select FCode as 'Barcode' from [UnitAssociation] where ([status] = 'NG' or [status] is null)
+                                  and FTimestamp >'{0}' and FTimestamp <'{1}' ";
                     qry = String.Format(qry, DateTime.Today.ToString("yyyy-MM-dd")
                         , DateTime.Today.AddDays(1).ToString("yyyy-MM-dd"));
                     break;
@@ -1119,10 +1217,14 @@ namespace TestBenchApp
             return;
         }
 
-       
 
 
-        
+
+
+
+
+
+
 
         
     }

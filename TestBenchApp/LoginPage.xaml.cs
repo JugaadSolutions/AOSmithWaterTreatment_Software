@@ -1,4 +1,5 @@
-﻿using System;
+﻿using shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace TestBenchApp
                 MessageBox.Show("Incorrect Old Password. Please try again",
                     "Password Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 tbPassword.Clear();
+                return;
             }
 
             if (LoginEvent != null)

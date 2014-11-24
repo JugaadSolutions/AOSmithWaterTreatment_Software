@@ -9,31 +9,30 @@
     <Window.Resources>
         <clock:ClockDisplay x:Key="SystemClock" />
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TabControl  Name="BaseTabControl">
+    <Grid Background="Green">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"  Margin="10" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Source="./Images/AOSmithLogo.png"/>
+            <TextBlock Grid.Column="1" FontSize="40" Foreground="White" Text="Andon System" 
+                                       HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Center" TextAlignment="Center" Margin="60,0,0,0"/>
+            <clock:ClockDisplay Grid.Column="2" x:Name="SystemClock1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+        <TabControl  Name="BaseTabControl" Grid.Row="1">
             <TabItem Header="Shift Data" Name="tabProductionData" FontSize="15" Background="Green" Visibility="Visible" >
 
                 <Grid  Background="Green">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=".25*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0"  Margin="10" HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.25*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.25*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="./Images/AOSmithLogo.png"/>
-                        <TextBlock Grid.Column="1" FontSize="40" Foreground="White" Text="Andon System" 
-                                       HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Center" TextAlignment="Center" Margin="60,0,0,0"/>
-                        <clock:ClockDisplay Grid.Column="2" x:Name="SystemClock1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    </Grid>
-                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                  
+                    
+                    <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -270,82 +269,15 @@
 
 
                 <Grid  Background="Green">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=".25*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0"  Margin="10" HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.25*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.25*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="./Images/AOSmithLogo.png"/>
-                        <TextBlock Grid.Column="1" FontSize="40" Foreground="White" Text="Andon System" 
-                                       HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Center" TextAlignment="Center" Margin="60,0,0,0"/>
-                        <clock:ClockDisplay Grid.Column="2" x:Name="SystemClock" HorizontalAlignment="Right"/>
-                    </Grid>
-                    <Grid Name="BaseGrid" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    
+                   
+                    <Grid Name="BaseGrid"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 
                     </Grid>
                 </Grid>
             </TabItem>
-            <!--<TabItem Name="tabReports" Header="Reports"  FontSize="15" Background="Green" Visibility="Visible">
-                <Grid  Background="Green">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=".25*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-                        <Image Source="./Images/AOSmithLogo.png"/>
-                        <TextBlock FontSize="40" Foreground="White" Text="Water Treatment Test Bench" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" TextAlignment="Center" Margin="30,0,0,0"/>
-                    </StackPanel>
-                    <DockPanel Grid.Row="1">
-                        <GroupBox Header="Report Configuration" DockPanel.Dock="Top">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="5">
-                                    <Label Content="From:" HorizontalAlignment="Left" FontSize="12"  Width="Auto" />
-                                    <dg:DatePicker Name="dpFrom" FontSize="12" Height="Auto" VerticalAlignment="Top"
-                                               HorizontalAlignment="Left" Width="Auto" />
-                                    <Label Content="To:" HorizontalAlignment="Left" FontSize="12" Width="Auto" />
-                                    <dg:DatePicker Name="dpTo" FontSize="12" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Left"  />
-                                    <Button Name="btnGenerate"  Margin="5,0,0,0" Content="Generate" Click="btnGenerate_Click"/>
-                                    <Button Margin="5,0,0,0"  Name="btnExport" Content="Export" Click="btnExport_Click" 
-                                    HorizontalAlignment="Right"
-                                        VerticalAlignment="Top" Height="Auto" 
-                                        Width="Auto"/>
-
-                                </StackPanel>
-                                <StackPanel Margin="2" Orientation="Horizontal" Visibility="Hidden">
-                                    <Label Content="Data View :"/>
-                                    <ComboBox Name="cmbViewTypeSelector" HorizontalAlignment="Left" SelectedIndex="0">
-                                        <ComboBoxItem>Table</ComboBoxItem>
-                                        <ComboBoxItem>Pie Chart</ComboBoxItem>
-                                        <ComboBoxItem>Bar Graph</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                            </StackPanel>
-
-                        </GroupBox>
-                        <GroupBox Header="Report"  Height="Auto" Width="Auto" DockPanel.Dock="Bottom" >
-
-
-                            <dg:DataGrid Name="dgReportGrid" AutoGenerateColumns="True" IsReadOnly="True"
-                                             CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                                             ItemsSource="{Binding}" HorizontalAlignment="Left" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Height="Auto" Width="Auto" Visibility="Collapsed"
-                                 RowHeaderWidth="0" >
-                            </dg:DataGrid>
-
-
-                        </GroupBox>
-
-                    </DockPanel>
-                </Grid>
-            </TabItem>-->
+            
             <TabItem Header="LOG" Background="Green">
                 <DockPanel DockPanel.Dock="Bottom" Background="Green"  >
                     <TextBox Name="tbMsg" FontSize="12" 

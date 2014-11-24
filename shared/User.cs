@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Collections.ObjectModel;
 
-namespace TestBenchApp.Entity
+namespace shared
 {
     public class User
     {
@@ -25,7 +25,7 @@ namespace TestBenchApp.Entity
     {
         // need a parameterless constructor for serialization
         
-        internal  void ChangePassword(User user)
+        public  void ChangePassword(User user)
         {
             IEnumerator<User> enumerator = this.GetEnumerator();
             while (enumerator.MoveNext())

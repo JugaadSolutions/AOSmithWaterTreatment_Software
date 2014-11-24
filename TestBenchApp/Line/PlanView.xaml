@@ -29,34 +29,34 @@
                     <Label Content="PLAN" Foreground="White" FontWeight="Bold" FontSize="20" Margin="5" MinWidth="170" HorizontalContentAlignment="Right"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <ComboBox Name="ModelSelector1" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Name="PlanSelector1">
+                    <ComboBox Name="ModelSelector1" ItemsSource="{Binding }" DisplayMemberPath="Name" 
                       Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" 
                       Margin="5" MinWidth="300"/>
             <TextBox Name="tbSetPq1" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  ></TextBox>
             <Button Name="btnModify1" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify1_Click_1"/>
                     <Button Name="btnDelete1" HorizontalAlignment="Center" VerticalAlignment="Center"
                    MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete1_Click_1"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <ComboBox Name="ModelSelector2" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Name="PlanSelector2">
+                    <ComboBox Name="ModelSelector2" ItemsSource="{Binding }" DisplayMemberPath="Name" 
                       Foreground="Green" FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
                       FontSize="20" Margin="5" MinWidth="300"/>
             <TextBox Name="tbSetPq2" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  ></TextBox>
             <Button Name="btnModify2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify2_Click_1"/>
                     <Button Name="btnDelete2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete2_Click_1"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="3" Orientation="Horizontal">
-                    <ComboBox Name="ModelSelector3" ItemsSource="{Binding}" 
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Name="PlanSelector3">
+                    <ComboBox Name="ModelSelector3" ItemsSource="{Binding }" 
                       
                       DisplayMemberPath="Name" Foreground="Green"
                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" IsSynchronizedWithCurrentItem="False"
@@ -70,14 +70,14 @@
                    MinWidth="100" Content="Delete" FontSize="20" Margin="5" Click="btnDelete3_Click_1"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <ComboBox Name="ModelSelector4" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                <StackPanel Grid.Row="4" Orientation="Horizontal" Name="PlanSelector4">
+                    <ComboBox Name="ModelSelector4" ItemsSource="{Binding }" DisplayMemberPath="Name" 
                           Foreground="Green"  FontWeight="Bold" IsSynchronizedWithCurrentItem="False"
                               BorderBrush="White" BorderThickness="5"
                    HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" 
                               FontSize="20" Margin="5" MinWidth="300"/>
             <TextBox  Name="tbSetPq4" Height="Auto" MinWidth="75" Margin="5,15" HorizontalContentAlignment="Center"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" ></TextBox>
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"  ></TextBox>
             <Button Name="btnModify4" HorizontalAlignment="Center" VerticalAlignment="Center"
                    MinWidth="100" Content="Modify" FontSize="20" Margin="5" Click="btnModify4_Click_1"/>
                 <Button Name="btnDelete4" HorizontalAlignment="Center" VerticalAlignment="Center"

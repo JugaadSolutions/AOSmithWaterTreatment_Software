@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestBenchApp.Entity
+namespace shared.Entity
 {
     public class Model : INotifyPropertyChanged
     {
-        public enum Type { BODY=1 , FRAME=2 };
+        public enum Type { BODY = 1, FRAME = 2, COMBINED };
 
         public int SlNo {get;set;}
         public String Product {get;set;}

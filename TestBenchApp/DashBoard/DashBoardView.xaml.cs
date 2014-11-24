@@ -23,6 +23,9 @@ using System.Timers;
 using TestBenchApp.Entity;
 using TestBenchApp.Line;
 using Printer;
+using shared;
+using System.Collections.ObjectModel;
+using shared.Entity;
 
 
 namespace TestBenchApp.DashBoard
@@ -34,17 +37,16 @@ namespace TestBenchApp.DashBoard
     public partial class DashBoardView : UserControl
     {
 
-        PrinterManager combPrinterManager;
-        PrinterManager mainBodyPrinterManager;
-        PrinterManager mainFramePrinterManager;
+        PrinterManager PrinterManager;
 
         BackgroundWorker worker;
         
         public Boolean Admin = false;
 
         DataAccess dataAccess;
+        ObservableCollection<Model> Models;
 
-        public DashBoardView(Users users, String currentUser, PrinterManager p, PrinterManager mb, PrinterManager mf)
+        public DashBoardView(Users users, String currentUser, PrinterManager printerManager)
         {
             InitializeComponent();
             
@@ -52,16 +54,13 @@ namespace TestBenchApp.DashBoard
             Users = users;
 
             dataAccess = new DataAccess();
-            
 
+            Models = dataAccess.GetModels();
            
 
             extendConstructor();
 
-            combPrinterManager = p;
-            mainBodyPrinterManager = mb;
-            mainFramePrinterManager = mf;
-
+            PrinterManager = printerManager;
 
          
 

@@ -35,6 +35,7 @@ namespace HDC_COMMSERVER
 
                 public IPAddress PrinterIP { get; set; }
                 public int PrinterPort { get; set; }
+                public String Template { get; set; }
 
             #endregion
 
@@ -140,6 +141,9 @@ namespace HDC_COMMSERVER
                     throw ex;                        
                 }
             }
+
+
+
             /// <summary>
             /// SEND DATA FROM SOCKET
             /// </summary>
@@ -167,6 +171,9 @@ namespace HDC_COMMSERVER
                     return false;                                    
                 }
             }
+
+
+
             /// <summary>
             /// Get Network Printer Status
             /// </summary>
@@ -250,13 +257,17 @@ namespace HDC_COMMSERVER
             }
             #endregion               
 
-            public void initialize()
+            public bool initialize()
             {
                 if (_IsSockConnected() == false)
                 {
-                    _InitializeSockClient();
-                    
-                }              
+                    return _InitializeSockClient();
+
+                }
+                else
+                {
+                    return true;
+                }
             }
     }
 }

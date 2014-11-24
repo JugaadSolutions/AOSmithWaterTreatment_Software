@@ -26,9 +26,9 @@ namespace TestBenchApp
         public event EventHandler<ReprintArgs> CSReprint;
         public event EventHandler<ReprintArgs> M1Reprint;
         public event EventHandler<ReprintArgs> F1Reprint;
-
+        public event EventHandler<ReprintArgs> TOKReprint;
         DataAccess dataAccess;
-        DataTable f1Serial, M1Serial, CSSerial;
+        DataTable f1Serial, M1Serial, CSSerial,Tok;
 
         public ReprintManager()
         {
@@ -38,10 +38,12 @@ namespace TestBenchApp
             f1Serial = dataAccess.GetReprintSerialNos("F1");
             M1Serial = dataAccess.GetReprintSerialNos("M1");
             CSSerial = dataAccess.GetReprintSerialNos("CS");
+            Tok = dataAccess.GetReprintSerialNos("TOK");
 
             F1ReprintGrid.DataContext = f1Serial;
             M1ReprintGrid.DataContext = M1Serial;
             CSReprintGrid.DataContext = CSSerial;
+            TOKReprintGrid.DataContext = Tok;
 
         }
 
@@ -68,7 +70,7 @@ namespace TestBenchApp
                 String barcode =(String) ((DataRowView)F1ReprintGrid.SelectedItem).Row["Barcode"];
 
 
-                F1Reprint(this, new ReprintArgs(model,barcode));
+                F1Reprint(this, new ReprintArgs(model,barcode.Substring(0,4), barcode.Substring(4, 6), barcode.Substring(10, 4)));
             }
         }
 
@@ -84,7 +86,7 @@ namespace TestBenchApp
             {
                 String model = (String)((DataRowView)M1ReprintGrid.SelectedItem).Row["Model"];
                 String barcode = (String)((DataRowView)M1ReprintGrid.SelectedItem).Row["Barcode"];
-                M1Reprint(this, new ReprintArgs(model,barcode));
+                M1Reprint(this, new ReprintArgs(model,barcode.Substring(0,5), barcode.Substring(5,6),barcode.Substring(11,4)));
             }
         }
 
@@ -98,13 +100,29 @@ namespace TestBenchApp
             }
             if (CSReprint != null)
             {
-                
-                String barcode = (String)((DataRow)CSReprintGrid.SelectedItem)["Barcode"];
-                CSReprint(this, new ReprintArgs("",barcode));
+
+                String barcode = (String)((DataRowView)CSReprintGrid.SelectedItem).Row["Barcode"];
+                CSReprint(this, new ReprintArgs("", barcode.Substring(0, 4), barcode.Substring(4, 6), barcode.Substring(10, 4)));
             }
         }
 
-        
+        private void TOKReprintButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (F1ReprintGrid.SelectedIndex == -1)
+            {
+                MessageBox.Show(" Please select Serial No to reprint", "Applicaiton Info", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                return;
+            }
+            if (F1Reprint != null)
+            {
+                String model = (String)((DataRowView)F1ReprintGrid.SelectedItem).Row["Model"];
+                String barcode = (String)((DataRowView)F1ReprintGrid.SelectedItem).Row["Barcode"];
+
+
+                F1Reprint(this, new ReprintArgs(model, barcode.Substring(0, 4), barcode.Substring(4, 6), barcode.Substring(10, 4)));
+            }
+        }
 
 
     }
@@ -112,12 +130,16 @@ namespace TestBenchApp
     public class ReprintArgs : EventArgs
     {
         public String Model;
-        public String Barcode;
+        public String Code;
+        public String Date;
+        public String SerialNo;
 
-        public ReprintArgs(String model,String bcode)
+        public ReprintArgs(String model,String code,String date,String serialNo)
         {
             Model = model;
-            Barcode = bcode;
+            Code = code;
+            Date = date;
+            SerialNo = serialNo;
         }
     }
 }

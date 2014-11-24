@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestBenchApp.Entity
+namespace shared
 {
     public class Plan : INotifyPropertyChanged
     {

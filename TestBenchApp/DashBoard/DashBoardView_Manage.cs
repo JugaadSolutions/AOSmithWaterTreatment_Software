@@ -17,6 +17,8 @@ using System.Xml.Serialization;
 using TestBenchApp.Entity;
 using TestBenchApp.Line;
 using TestBenchApp.UIControls;
+using shared;
+using shared.Entity;
 
 namespace TestBenchApp.DashBoard
 {
@@ -93,10 +95,8 @@ namespace TestBenchApp.DashBoard
             if (e.m.Name.Contains("Puritee"))
                 slNo = "B163" + DateTime.Now.ToString("yyMMdd") + "0001";
 
-            combPrinterManager.combStickerTestPrint(e.m.Product, e.m.ProductNumber, 
-                e.m.MRP.ToString(), e.m.Name, Convert.ToString(e.m.StorageCapacity), Convert.ToString(e.m.NetQuantity),
-                slNo);
-           
+            PrinterManager.PrintCombSticker(e.m, e.m + DateTime.Now.ToString("yyMMdd") + "0000");
+               
         }
 
       
@@ -116,6 +116,7 @@ namespace TestBenchApp.DashBoard
             r.F1Reprint += r_F1Reprint;
             r.M1Reprint += r_M1Reprint;
             r.CSReprint += r_CSReprint;
+            r.TOKReprint += r_TOKReprint;
 
             Transient.Children.Clear();
             Transient.Children.Add(r);
@@ -123,19 +124,32 @@ namespace TestBenchApp.DashBoard
 
         }
 
-        void r_CSReprint(object sender, EventArgs e)
+        void r_TOKReprint(object sender, ReprintArgs e)
         {
+            PrinterManager.PrintBarcode("TOKPrinter", e.Model, e.Code, e.Date, e.SerialNo);
+        }
+
+        void r_CSReprint(object sender, ReprintArgs e)
+        {
+            foreach (Model m in Models)
+            {
+                if (m.Code == e.Code)
+                {
+                    PrinterManager.PrintCombSticker(m, e.Code+e.Date+e.SerialNo);
+                    break;
+                }
+            }
             
         }
 
-        void r_M1Reprint(object sender, EventArgs e)
+        void r_M1Reprint(object sender, ReprintArgs e)
         {
-            
+            PrinterManager.PrintBarcode("M1Printer", e.Model, e.Code, e.Date, e.SerialNo);
         }
 
         void r_F1Reprint(object sender, ReprintArgs e)
         {
-            mainFramePrinterManager.PrintBarcode(e.Model, e.Barcode);
+            PrinterManager.PrintBarcode("F1Printer",e.Model,e.Code, e.Date,e.SerialNo);
         }
 
        

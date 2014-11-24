@@ -20,14 +20,14 @@ namespace TestBenchApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool Simulation = false;
+        bool PBSimulation = false;
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 
             List<LogEntry> log;
             LogEntry le;
-            if (Simulation)
+            if (PBSimulation)
             {
                 switch (e.Key)
                 {
@@ -45,10 +45,11 @@ namespace TestBenchApp
                         break;
 
                     case Key.F3:
-                        log = new List<LogEntry>();
-                        le = new LogEntry(2, 0, "");
-                        log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        if (FCodeQ.Count > 0)
+                        {
+
+                            andonManager_actQtyAlertEvent(this, new actQtyScannerEventArgs(FCodeQ.Dequeue()));
+                        }
                         break;
 
                     case Key.F4:

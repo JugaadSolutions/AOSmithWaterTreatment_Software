@@ -1,5 +1,6 @@
 ﻿using HDC_COMMSERVER;
 using prjParagon_WMS;
+using shared.Entity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,44 +16,52 @@ namespace Printer
     {
         #region PublicVariables
 
-        public String BarcodeFileName { get; set; }
+        public String CombinationTemplate { get; set; }
         public IPAddress IPAddress { get; set; }
         public int Port { get; set; }
-        public String combBarcodePrinterName { get; set;}
+        public String CombinationPrinterName { get; set;}
         
 
         #endregion
 
 
-        BcilNetwork Driver;
+        Dictionary<String,BcilNetwork> Drivers;
         #region Constructor
         public PrinterManager()
         {
 
-
+            Drivers = new Dictionary<string, BcilNetwork>();
             
         }
         #endregion
 
         #region Public Methods
 
-        public void SetupDriver()
+        public void SetupDriver(String name, IPAddress ipaddr, int port, String template)
         {
-            Driver = new BcilNetwork { PrinterIP = IPAddress, PrinterPort = Port };
-            Driver.initialize();
+            BcilNetwork Driver = new BcilNetwork {
+                            PrinterIP = ipaddr, 
+                            PrinterPort = port,
+                            Template = template};
+            if (Driver.initialize())
+                Drivers.Add(name, Driver);
         }
 
 
 
-        public bool PrintBarcode(String Model,String SerialNo)
+        public bool PrintBarcode(String name, String Model,String ModelCode, String date,String serialno)
         {
             try
             {
-                String BarcodeData = File.ReadAllText(BarcodeFileName);
-                BarcodeData = BarcodeData.Replace("{MODEL}", Model);
-                BarcodeData = BarcodeData.Replace("B123A>54567890123", SerialNo);
-                return Driver.NetworkPrint(BarcodeData);
-                //return true;
+                if (Drivers.ContainsKey(name))
+                {
+
+                    String BarcodeData = File.ReadAllText(Drivers[name].Template);
+                    BarcodeData = BarcodeData.Replace("{MODEL}", Model);
+                    BarcodeData = BarcodeData.Replace("B163A>51401010001", ModelCode + ">5" + date + serialno);
+                    return Drivers[name].NetworkPrint(BarcodeData);
+                }
+                return false;
 
 
                 
@@ -65,38 +74,28 @@ namespace Printer
 
      
 
-        public bool PrintCombSticker(String barCode)
+       
+
+        public bool PrintCombSticker(Model m, String barCode)
         {
             try
             {
-                String CombStickerData = File.ReadAllText(BarcodeFileName);
-                CombStickerData = CombStickerData.Replace("{BARCODE1}", barCode);
-                CombStickerData = CombStickerData.Replace("{BARCODE2}", barCode);
-                CombStickerData = CombStickerData.Replace("{MRP}", "600");
+                String CombStickerData = File.ReadAllText(CombinationTemplate);
+                CombStickerData = CombStickerData.Replace("PRODUCT", m.Product);
+                CombStickerData = CombStickerData.Replace("PRODNO", m.ProductNumber);
+                CombStickerData = CombStickerData.Replace("{MRP}", m.MRP.ToString());
+                CombStickerData = CombStickerData.Replace("MODELNAME", m.Name);
+                CombStickerData = CombStickerData.Replace("STORAGECAPACITY", Convert.ToInt32(m.StorageCapacity).ToString());
+                CombStickerData = CombStickerData.Replace("NETQUANTITY", Convert.ToInt32(m.NetQuantity).ToString());
+                CombStickerData = CombStickerData.Replace("B163A>51401010001", m.Code + ">5" + barCode.Substring(4,6) + barCode.Substring(10,4));
+                CombStickerData = CombStickerData.Replace("{W}X{D}X{H}", Convert.ToInt32(m.Width).ToString()
+                    +" X "+Convert.ToInt32(m.Depth).ToString()+" X " +Convert.ToInt32(m.Height).ToString());
+                CombStickerData = CombStickerData.Replace("MM/YYYY", barCode.Substring(6, 2) + "/" + "20" + barCode.Substring(4, 2));
 
-                return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
-            }
-            catch
-            {
-                return false;
-            }
-        }
+                CombStickerData = CombStickerData.Replace("12345678901234", barCode);
 
-       public bool combStickerTestPrint(String product, String productNo, String MRP, String modelName,
-                    String storageCapacity, String netQty, String barcode)
-       {
-            try
-            {
-                String CombStickerData = File.ReadAllText(BarcodeFileName);
-                CombStickerData = CombStickerData.Replace("{PRODUCT}", product);
-                CombStickerData = CombStickerData.Replace("{PRODUCTNO}", productNo);
-                CombStickerData = CombStickerData.Replace("{MRP}", MRP);
-                CombStickerData = CombStickerData.Replace("{MODELNAME}", modelName);
-                CombStickerData = CombStickerData.Replace("{STORAGECAPACITY}", storageCapacity);
-                CombStickerData = CombStickerData.Replace("{NETQTY}", netQty);
-                CombStickerData = CombStickerData.Replace("{BARCODE1}", barcode);
 
-                return clsPrint.SendStringToPrinter(combBarcodePrinterName, CombStickerData);
+                return clsPrint.SendStringToPrinter(CombinationPrinterName, CombStickerData);
             }
             catch
             {
