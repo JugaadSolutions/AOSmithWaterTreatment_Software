@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="TestBenchApp.UIControls.PlanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Background="Green" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+    <Grid Background="Green" Margin="10" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <ComboBox Grid.Column="0" Name="ModelSelector" ItemsSource="{Binding Path=Models }" 
+                  DisplayMemberPath="Name" IsReadOnly="True" MinWidth="200" Margin="10"/>
+        <TextBox Name="QuantityTextBox" Grid.Column="1" Text="{Binding Path=Plan.Quantity}" MinWidth="50" Margin="10"/>
+        <Button Name="SetButton" Content="Set" Margin="10" Grid.Column="2" MinWidth="50" Click="SetButton_Click"/>
+        <Button Name="ModifyButton" Content="Modify" Margin="10" Grid.Column="3" MinWidth="50" Click="ModifyButton_Click"/>
+        <!--<Button Name="DeleteButton" Content="Delete" Margin="10" Grid.Column="4" MinWidth="50"/>-->
+    </Grid>
+</UserControl>

@@ -440,15 +440,16 @@ namespace TestBenchApp
         #endregion
 
         #region PLAN
-        public List<Plan> GetPlans()
+        public List<Plan> GetPlans(Model.Type unitType)
         {
             SqlConnection con = new SqlConnection(conStr);
             con.Open();
 
             String qry = String.Empty;
-            qry = @"SELECT * from  Plans inner join Models on [Plans].Model = [Models].Code where timestamp > '{0}'" ;
+            qry = @"SELECT * from  Plans inner join Models on [Plans].Model = [Models].Code where timestamp > '{0}'
+                    and UnitType = {1}" ;
 
-            qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"));
+            qry = String.Format(qry, DateTime.Now.ToString("yyyy-MM-dd"),(int)unitType);
 
 
             SqlCommand cmd = new SqlCommand(qry, con);
@@ -473,7 +474,8 @@ namespace TestBenchApp
                     CombinationSerialNo = (int)dt.Rows[i]["CombinationSerial"],
                     BStatus = (bool)dt.Rows[i]["BStatus"],
                     FStatus = (bool)dt.Rows[i]["FStatus"],
-                    ModelName = (String)dt.Rows[i]["Name"]
+                    ModelName = (String)dt.Rows[i]["Name"],
+                    UnitType = (Model.Type)dt.Rows[i]["UnitType"]
                 });
             }
 
@@ -503,6 +505,26 @@ namespace TestBenchApp
             con.Close();
             con.Dispose();
         }
+
+        public void ModifyPlan(Plan p)
+        {
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"update [Plans] set Quantity = {0}
+                    where SlNo={1}";
+            qry = String.Format(qry, p.Quantity, p.slNumber);
+            SqlCommand cmd = new SqlCommand(qry, con);
+
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            con.Close();
+            con.Dispose();
+        }
+
+
 
         public void UpdateFSerial(Plan p)
         {
@@ -620,9 +642,9 @@ namespace TestBenchApp
 
 
             String qry = String.Empty;
-            qry = @"insert into [Plans] ( Model, Quantity, timestamp)
-                    values('{0}', {1}, '{2}')";
-            qry = String.Format(qry, p.ModelCode, p.Quantity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            qry = @"insert into [Plans] ( Model, Quantity, timestamp,UnitType)
+                    values('{0}', {1}, '{2}',{3})";
+            qry = String.Format(qry, p.ModelCode, p.Quantity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),(int) p.UnitType);
             SqlCommand cmd = new SqlCommand(qry, con);
 
             cmd.ExecuteNonQuery();
@@ -1217,15 +1239,33 @@ namespace TestBenchApp
             return;
         }
 
+        internal DataTable GetAssociationData()
+        {
+
+            SqlConnection con = new SqlConnection(conStr);
+            con.Open();
+
+            String qry = String.Empty;
+            qry = @"select  CONVERT(nvarchar,GETDATE(),105)as [Date] , FCode as [Frame Barcode],BCode as [Body Barcode],
+                CCode as [Combination Code]
+                ,Status=
+                case [Status] 
+                when 'OK' then 'Completed'
+                else 'Pending'
+                end
 
 
+                from UnitAssociation where CTimestamp >  CONVERT(nvarchar,GETDATE(),101)";
+          
+            
 
-
-
-
-
-
-
-        
+            SqlCommand cmd = new SqlCommand(qry, con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dr.Close();
+            cmd.Dispose();
+            return dt;
+        }
     }
 }

@@ -30,7 +30,8 @@
         <DockPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="btnAdd" Content="+" Click="btnAdd_Click" VerticalAlignment="Bottom" Margin="5" Visibility="Collapsed"/>
+                <Button Name="btnAdd" Content="+" Click="btnAdd_Click" VerticalAlignment="Bottom" Margin="5" 
+                        Visibility="Collapsed"/>
 
                 <Button Name="btnDelete" Content="Delete" Click="btnDelete_Click" VerticalAlignment="Bottom" Margin="5"/>
 

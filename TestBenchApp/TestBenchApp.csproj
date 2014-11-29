@@ -72,6 +72,12 @@
     <Compile Include="Entity\Issue.cs" />
     <Compile Include="Entity\Line.cs" />
     <Compile Include="Entity\UnitAssociation.cs" />
+    <Compile Include="UIControls\PlanManager.xaml.cs">
+      <DependentUpon>PlanManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\PlanView.xaml.cs">
+      <DependentUpon>PlanView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\ReportManager.xaml.cs">
       <DependentUpon>ReportManager.xaml</DependentUpon>
     </Compile>
@@ -100,10 +106,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Line\PlanView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,9 +132,6 @@
     <Compile Include="DashBoard\PasswordControl.xaml.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="InputSimulation.cs" />
-    <Compile Include="Line\PlanView.xaml.cs">
-      <DependentUpon>PlanView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -140,6 +139,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UIControls\PlanManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\PlanView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UIControls\ReportManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

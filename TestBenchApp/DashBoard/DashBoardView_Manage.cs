@@ -15,7 +15,7 @@ using System.Xml;
 
 using System.Xml.Serialization;
 using TestBenchApp.Entity;
-using TestBenchApp.Line;
+
 using TestBenchApp.UIControls;
 using shared;
 using shared.Entity;
@@ -64,10 +64,11 @@ namespace TestBenchApp.DashBoard
         #region MANAGE_PLAN
         private void SetPlan_Click(object sender, RoutedEventArgs e)
         {
-            PlanView p = new PlanView();
-            p.btnDoneClicked += p_btnDoneClicked; 
+            PlanManager PM = new PlanManager();
+
+
             Transient.Children.Clear();
-            Transient.Children.Add(p);
+            Transient.Children.Add(PM);
             Transient.Visibility = System.Windows.Visibility.Visible;
         }
 

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
         xmlns:clock="clr-namespace:TestBenchApp.Clock"
-        
+        xmlns:wpftoolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
         Title="Water Treatment Andon System" 
         WindowState="Maximized" Name="BaseWindow" WindowStyle="SingleBorderWindow" >
     <Window.Resources>
@@ -26,7 +26,7 @@
                                    VerticalAlignment="Center" TextAlignment="Center" Margin="60,0,0,0"/>
             <clock:ClockDisplay Grid.Column="2" x:Name="SystemClock1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </Grid>
-        <TabControl  Name="BaseTabControl" Grid.Row="1">
+        <TabControl  Name="BaseTabControl" Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Shift Data" Name="tabProductionData" FontSize="15" Background="Green" Visibility="Visible" >
 
                 <Grid  Background="Green">
@@ -289,6 +289,12 @@
                      Margin="2"
                      BorderThickness="0"/>
                 </DockPanel>
+            </TabItem>
+            <TabItem Header="Live Screen" FontSize="15" Background="Green" Name="tabLiveScreen" >
+                <wpftoolkit:DataGrid Name="AssociationGrid" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                                     CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False"
+                                     IsReadOnly="True" ItemsSource="{Binding}" />
+                
             </TabItem>
         </TabControl>
     </Grid>

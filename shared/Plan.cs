@@ -1,5 +1,7 @@
-﻿using System;
+﻿using shared.Entity;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -106,6 +108,22 @@ namespace shared
                 OnPropertyChanged("CombinationSerialNo");
             }
         }
+
+        Model.Type unitType;
+        public Model.Type UnitType
+        {
+            get
+            {
+                return (Model.Type)unitType;
+            }
+            set
+            {
+                unitType = (Model.Type)value;
+                OnPropertyChanged("UnitType");
+            }
+        }
+
+
         #region INotifyPropetyChangedHandler
         public event PropertyChangedEventHandler PropertyChanged;
         // Create the OnPropertyChanged method to raise the event
@@ -119,4 +137,78 @@ namespace shared
         }
         #endregion
     }
+
+
+    public class PlanViewModel : INotifyPropertyChanged
+    {
+        public Plan Plan {get;set;}
+
+         ObservableCollection<Model> models;
+        public ObservableCollection<Model> Models
+        {
+            get
+        { 
+            return models; 
+        }
+            set
+            {
+                models = value;
+                OnPropertyChanged("Models");
+            }
+        }
+        public Boolean IsSetEnabled { get; set; }
+        public Boolean IsModifyEnabled { get; set; }
+        public Boolean IsDeleteEnabled { get; set; }
+        public int ModelSelectedIndex { get; set; }
+        public Boolean IsSelectionEnabled { get; set; }
+
+        public PlanViewModel(ObservableCollection<Model> availableModels, Model.Type unitType)
+        {
+            Plan = new Plan();
+
+            Models = availableModels;
+
+            IsSetEnabled = true;
+            IsModifyEnabled = false;
+            IsDeleteEnabled = false;
+
+            ModelSelectedIndex = -1;
+            IsSelectionEnabled = true;
+            Plan.UnitType = unitType;
+        }
+
+        public PlanViewModel(Plan P,ObservableCollection<Model> usedModels )
+        {
+            Plan = P;
+            Models = usedModels;
+            for(int i = 0 ;i < Models.Count ;i++)
+            {
+                if( Models[i].Code == Plan.ModelCode )
+                {
+                    ModelSelectedIndex = i;
+                    IsSelectionEnabled = false;
+
+                    IsSetEnabled = false;
+                    IsModifyEnabled = true;
+                    IsDeleteEnabled = true;
+                    break;
+                }
+            }
+        }
+
+        #region INotifyPropetyChangedHandler
+        public event PropertyChangedEventHandler PropertyChanged;
+        // Create the OnPropertyChanged method to raise the event
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+    }
+
+
 }

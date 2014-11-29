@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using TestBenchApp.DashBoard;
 using TestBenchApp.Entity;
-using TestBenchApp.Line;
+
 
 
 namespace TestBenchApp
@@ -35,42 +35,51 @@ namespace TestBenchApp
                          log= new List<LogEntry>();
                          le= new LogEntry(1, 0, "");
                          log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 1, log));
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
                         break;
                     case Key.F2:
                          log = new List<LogEntry>();
                         le = new LogEntry(2, 0, "");
                         log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 1, log));
                         break;
 
                     case Key.F3:
                         if (FCodeQ.Count > 0)
                         {
-
-                            andonManager_actQtyAlertEvent(this, new actQtyScannerEventArgs(FCodeQ.Dequeue()));
+                            String code = FCodeQ.Dequeue();
+                            andonManager_barcodeAlertEvent(this, new BCScannerEventArgs(code));
+                            CCodeQ.Enqueue(code);
                         }
                         break;
 
                     case Key.F4:
-                        log = new List<LogEntry>();
-                        le = new LogEntry(2, 0, "");
-                        log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+
+                        if (BCodeQ.Count > 0)
+                        {
+
+                            andonManager_barcodeAlertEvent(this, new BCScannerEventArgs(BCodeQ.Dequeue()));
+                        }
+                      
                         break;
 
                     case Key.F5:
-                        log = new List<LogEntry>();
-                        le = new LogEntry(2, 0, "");
-                        log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                         if (CCodeQ.Count > 0)
+                        {
+                            String code = CCodeQ.Dequeue();
+                            andonManager_combStickerAlertEvent(this, new CSScannerEventArgs(code));
+                             ACodeQ.Enqueue(code);
+                           
+                        }
                         break;
 
+
                     case Key.F6:
-                        log = new List<LogEntry>();
-                        le = new LogEntry(2, 0, "");
-                        log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
+                        {
+                            String code = ACodeQ.Dequeue();
+                            andonManager_actQtyAlertEvent(this, new actQtyScannerEventArgs(code));
+
+                        }
                         break;
 
                    
