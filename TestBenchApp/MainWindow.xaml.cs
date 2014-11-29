@@ -469,7 +469,7 @@ namespace TestBenchApp
 
 
 
-                    if (e.StationId == 2)
+                    if (e.StationId == 1)
                     {
                         if (CurrentBodyPlan.BSerialNo > CurrentBodyPlan.Quantity)
                         {
@@ -479,8 +479,8 @@ namespace TestBenchApp
                         else
                         {
                             CurrentBodyPlan.BSerialNo++;
-                            String bcode = CurrentFramePlan.ModelCode + "A"+ DateTime.Now.ToString("yyMMdd")
-                             + CurrentFramePlan.FSerialNo.ToString("D4");
+                            String bcode = CurrentBodyPlan.ModelCode + "A"+ DateTime.Now.ToString("yyMMdd")
+                             + CurrentBodyPlan.BSerialNo.ToString("D4");
 
                             if (PBSimulation)
                                 BCodeQ.Enqueue(bcode);
@@ -498,7 +498,7 @@ namespace TestBenchApp
                            
                         }
                     }
-                    else if (e.StationId == 1)
+                    else if (e.StationId == 2)
                     {
                         if (CurrentFramePlan.FSerialNo > CurrentFramePlan.Quantity)
                         {

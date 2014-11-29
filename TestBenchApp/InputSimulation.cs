@@ -33,13 +33,13 @@ namespace TestBenchApp
                 {
                     case Key.F1:
                          log= new List<LogEntry>();
-                         le= new LogEntry(1, 0, "");
+                         le= new LogEntry(2, 0, "");
                          log.Add(le);
                         andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
                         break;
                     case Key.F2:
                          log = new List<LogEntry>();
-                        le = new LogEntry(2, 0, "");
+                        le = new LogEntry(1, 0, "");
                         log.Add(le);
                         andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 1, log));
                         break;
