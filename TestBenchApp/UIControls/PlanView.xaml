@@ -13,9 +13,14 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+        <Grid Grid.Column="0" Name="ModelTag">
         <ComboBox Grid.Column="0" Name="ModelSelector" ItemsSource="{Binding Path=Models }" 
-                  DisplayMemberPath="Name" IsReadOnly="True" MinWidth="200" Margin="10"/>
+                  DisplayMemberPath="Name" IsReadOnly="True" MinWidth="250" Margin="10"/>
+
+            <TextBox Name="TagTextBox" FontSize="15" Foreground="Black" MinWidth="250" HorizontalAlignment="Center"
+                  VerticalAlignment="Center" HorizontalContentAlignment="Center" Visibility="Collapsed" 
+                     IsReadOnly="True"/>
+        </Grid>
         <TextBox Name="QuantityTextBox" Grid.Column="1" Text="{Binding Path=Plan.Quantity}" MinWidth="50" Margin="10"/>
         <Button Name="SetButton" Content="Set" Margin="10" Grid.Column="2" MinWidth="50" Click="SetButton_Click"/>
         <Button Name="ModifyButton" Content="Modify" Margin="10" Grid.Column="3" MinWidth="50" Click="ModifyButton_Click"/>

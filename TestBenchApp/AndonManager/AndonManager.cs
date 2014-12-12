@@ -810,7 +810,7 @@ namespace ias.andonmanager
         {
             try
             {
-                Barcode = scanData;
+                Barcode = scanData.Replace("\r","");
             }
             catch (Exception e)
             {

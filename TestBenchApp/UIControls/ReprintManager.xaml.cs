@@ -108,19 +108,19 @@ namespace TestBenchApp
 
         private void TOKReprintButton_Click(object sender, RoutedEventArgs e)
         {
-            if (F1ReprintGrid.SelectedIndex == -1)
+            if (TOKReprintGrid.SelectedIndex == -1)
             {
                 MessageBox.Show(" Please select Serial No to reprint", "Applicaiton Info", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return;
             }
-            if (F1Reprint != null)
+            if (TOKReprint != null)
             {
-                String model = (String)((DataRowView)F1ReprintGrid.SelectedItem).Row["Model"];
-                String barcode = (String)((DataRowView)F1ReprintGrid.SelectedItem).Row["Barcode"];
+                
+                String barcode = (String)((DataRowView)TOKReprintGrid.SelectedItem).Row["Barcode"];
 
 
-                F1Reprint(this, new ReprintArgs(model, barcode.Substring(0, 4), barcode.Substring(4, 6), barcode.Substring(10, 4)));
+                TOKReprint(this, new ReprintArgs("", barcode.Substring(0, 4), barcode.Substring(4, 6), barcode.Substring(10, 4)));
             }
         }
 

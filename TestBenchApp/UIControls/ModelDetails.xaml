@@ -116,13 +116,7 @@
                        FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=NetQuantity}"
                    HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
                       Margin="5" MinWidth="250" />
-                    <Label Content="EAN Code" Foreground="White" FontWeight="Bold" Margin="25,0,0,0"  HorizontalContentAlignment="Left"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                    <TextBox Name="EANCodeTextBox" 
-                       FontWeight="Bold" BorderBrush="White" BorderThickness="5" Text="{Binding Path=EAN}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="20" 
-                      Margin="5" MinWidth="250" />
-                </StackPanel>
+            </StackPanel>
 
             <StackPanel Grid.Row="5" Orientation="Horizontal">
                 <Label Content="Width (mm)" Foreground="White" FontWeight="Bold" Margin="5"  HorizontalContentAlignment="Left"

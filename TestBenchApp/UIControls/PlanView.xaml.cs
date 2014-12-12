@@ -63,8 +63,25 @@ namespace TestBenchApp.UIControls
                 {
                     if (PVM.Plan.ModelCode == PVM.Models[i].Code)
                     {
-                        ModelSelector.SelectedIndex = i;
-                        ModelSelector.IsEnabled = false;
+                        //ModelTag.Children.Clear();
+                        //TextBox TagTextBox = new TextBox();
+                        //TagTextBox.Text = PVM.Models[i].Name;
+                        //TagTextBox.FontSize = 20;
+                        //TagTextBox.Foreground = Brushes.Black;
+                        //TagTextBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                        //TagTextBox.IsReadOnly = true;
+                        //TagTextBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                        //TagTextBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                        //TagTextBox.MinWidth = 250;
+
+                        //ModelTag.Children.Add(TagTextBox);
+
+                        ModelSelector.Visibility = System.Windows.Visibility.Collapsed;
+                        TagTextBox.Text = PVM.Models[i].Name;
+                        TagTextBox.Visibility = System.Windows.Visibility.Visible;
+
+                        //ModelSelector.SelectedIndex = i;
+                        //ModelSelector.IsEnabled = false;
                     }
                 }
                 SetButton.IsEnabled = false;
@@ -83,7 +100,8 @@ namespace TestBenchApp.UIControls
             if (ModelSelector.SelectedIndex == -1)
                 return false;
             int Quantity;
-            if (int.TryParse(QuantityTextBox.Text, out Quantity) == false)
+            bool parseResult = int.TryParse(QuantityTextBox.Text, out Quantity);
+            if ( parseResult == false || Quantity == 0)
             {
                 MessageBox.Show(" Invalid Quantity ", "Application Info", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;

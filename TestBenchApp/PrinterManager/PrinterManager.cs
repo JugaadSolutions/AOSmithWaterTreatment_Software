@@ -57,7 +57,7 @@ namespace Printer
                 {
 
                     String BarcodeData = File.ReadAllText(Drivers[name].Template);
-                    BarcodeData = BarcodeData.Replace("{MODEL}", Model);
+                    BarcodeData = BarcodeData.Replace("MODEL", Model);
                     BarcodeData = BarcodeData.Replace("B163A>51401010001", ModelCode + ">5" + date + serialno);
                     return Drivers[name].NetworkPrint(BarcodeData);
                 }

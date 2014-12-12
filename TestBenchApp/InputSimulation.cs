@@ -20,30 +20,36 @@ namespace TestBenchApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool PBSimulation = false;
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 
             List<LogEntry> log;
             LogEntry le;
-            if (PBSimulation)
+            if (ControllerSimulation)
             {
                 switch (e.Key)
                 {
                     case Key.F1:
-                         log= new List<LogEntry>();
-                         le= new LogEntry(2, 0, "");
-                         log.Add(le);
-                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
-                        break;
-                    case Key.F2:
-                         log = new List<LogEntry>();
+                        log = new List<LogEntry>();
                         le = new LogEntry(1, 0, "");
                         log.Add(le);
                         andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 1, log));
                         break;
+                    case Key.F2:
+                        log = new List<LogEntry>();
+                        le = new LogEntry(2, 0, "");
+                        log.Add(le);
+                        andonManager_andonAlertEvent(this, new AndonAlertEventArgs(DateTime.Now, 2, log));
 
+                        break;
+                }
+            }
+
+            if (ScannerSimulation)
+            {
+                switch (e.Key)
+                {
                     case Key.F3:
                         if (FCodeQ.Count > 0)
                         {
@@ -60,16 +66,16 @@ namespace TestBenchApp
 
                             andonManager_barcodeAlertEvent(this, new BCScannerEventArgs(BCodeQ.Dequeue()));
                         }
-                      
+
                         break;
 
                     case Key.F5:
-                         if (CCodeQ.Count > 0)
+                        if (CCodeQ.Count > 0)
                         {
                             String code = CCodeQ.Dequeue();
                             andonManager_combStickerAlertEvent(this, new CSScannerEventArgs(code));
-                             ACodeQ.Enqueue(code);
-                           
+                            ACodeQ.Enqueue(code);
+
                         }
                         break;
 
@@ -81,17 +87,14 @@ namespace TestBenchApp
 
                         }
                         break;
-
-                   
-                    default: break;
                 }
             }
+
+
+
+
+
         }
 
-
-
-
-
-        
     }
 }

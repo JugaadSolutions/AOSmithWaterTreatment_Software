@@ -69,7 +69,6 @@ namespace TestBenchApp.UIControls
             CurrentModel.MRP = mrp;
             CurrentModel.CustomerCare = CustomerCareNoTextBox.Text;
             CurrentModel.Email = EmailTextBox.Text;
-            CurrentModel.EAN = EANCodeTextBox.Text;
             CurrentModel.Width = width;
             CurrentModel.Height = height;
             CurrentModel.Depth = depth;

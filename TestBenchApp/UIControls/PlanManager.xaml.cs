@@ -58,20 +58,7 @@ namespace TestBenchApp.UIControls
             UsedFrameModels = new ObservableCollection<Model>();
             UsedBodyModels = new ObservableCollection<Model>();
 
-            foreach (Plan p in FramePlans)
-            {
-                foreach (Model m in AvailableFrameModels)
-                    if (p.ModelCode == m.Code)
-                    {
-                        
-                        UsedFrameModels.Add(m);
-                    }
-
-               
-            }
-
-            foreach( Model m in UsedFrameModels )
-                AvailableFrameModels.Remove(m);
+            updateAvailableModels();
 
             foreach (Plan p in FramePlans)
             {
@@ -79,21 +66,7 @@ namespace TestBenchApp.UIControls
 
                 addPlanViews(pvm);
             }
-
-
-            foreach (Plan p in BodyPlans)
-            {
-                foreach (Model m in AvailableBodyModels)
-                    if (p.ModelCode == m.Code)
-                    {
-                       
-                        UsedBodyModels.Add(m);
-                    }
-
-            }
-            foreach (Model m in UsedBodyModels)
-                AvailableBodyModels.Remove(m);
-
+            
             foreach (Plan p in BodyPlans)
             {
                 PlanViewModel pvm = new PlanViewModel(p, UsedBodyModels);
@@ -117,14 +90,18 @@ namespace TestBenchApp.UIControls
 
             if (e.PVM.Plan.UnitType == Model.Type.FRAME)
             {
+                FramePlans = da.GetPlans(Model.Type.FRAME);
                 FramePlanAddButton.IsEnabled = true;
             }
             else
             {
+                BodyPlans = da.GetPlans(Model.Type.BODY);
                 BodyPlanAddButton.IsEnabled = true;
             }
 
             MessageBox.Show(" Plan Set ", "Application Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            updateAvailableModels();
             return;
         }
 
@@ -137,7 +114,41 @@ namespace TestBenchApp.UIControls
 
         }
 
-    
+
+        void updateAvailableModels()
+        {
+            foreach (Plan p in FramePlans)
+            {
+                foreach (Model m in AvailableFrameModels)
+                    if (p.ModelCode == m.Code)
+                    {
+
+                        UsedFrameModels.Add(m);
+                    }
+
+
+            }
+
+            foreach (Model m in UsedFrameModels)
+                AvailableFrameModels.Remove(m);
+
+
+
+
+            foreach (Plan p in BodyPlans)
+            {
+                foreach (Model m in AvailableBodyModels)
+                    if (p.ModelCode == m.Code)
+                    {
+
+                        UsedBodyModels.Add(m);
+                    }
+
+            }
+            foreach (Model m in UsedBodyModels)
+                AvailableBodyModels.Remove(m);
+        }
+
 
 
 

@@ -96,7 +96,7 @@ namespace TestBenchApp.DashBoard
             if (e.m.Name.Contains("Puritee"))
                 slNo = "B163" + DateTime.Now.ToString("yyMMdd") + "0001";
 
-            PrinterManager.PrintCombSticker(e.m, e.m + DateTime.Now.ToString("yyMMdd") + "0000");
+            PrinterManager.PrintCombSticker(e.m, e.m.Code + DateTime.Now.ToString("yyMMdd") + "0000");
                
         }
 

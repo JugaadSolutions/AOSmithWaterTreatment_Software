@@ -36,7 +36,7 @@ namespace TestBenchApp
 
         PrinterManager PrinterManager;
 
-        List<Plan> FramePlans,BodyPlans;
+        List<Plan> FramePlans, BodyPlans;
 
         ObservableCollection<Model> Models;
 
@@ -52,7 +52,10 @@ namespace TestBenchApp
         Queue<String> CCodeQ;
         Queue<String> ACodeQ;
 
-        bool APPSimulation = false;
+        bool PrinterSimulation = false;
+
+        bool ScannerSimulation = false;
+        bool ControllerSimulation = false;
 
         DashBoardView dbView;
 
@@ -80,9 +83,9 @@ namespace TestBenchApp
             andonManager.andonAlertEvent += andonManager_andonAlertEvent;
 
             //Code added on 11 Nov
-            andonManager.barcodeAlertEvent += andonManager_barcodeAlertEvent; 
-            andonManager.combStickerAlertEvent +=andonManager_combStickerAlertEvent;
-            andonManager.actQtyAlertEvent +=andonManager_actQtyAlertEvent;
+            andonManager.barcodeAlertEvent += andonManager_barcodeAlertEvent;
+            andonManager.combStickerAlertEvent += andonManager_combStickerAlertEvent;
+            andonManager.actQtyAlertEvent += andonManager_actQtyAlertEvent;
 
 
             int port = Convert.ToInt32(ConfigurationSettings.AppSettings["PRINTER_PORT"]);
@@ -95,8 +98,8 @@ namespace TestBenchApp
             string TOKBarcodeFile = ConfigurationSettings.AppSettings["TOK_BARCODE_TEMPLATE"];
             string CSDataFile = ConfigurationSettings.AppSettings["CS_BARCODE_TEMPLATE"];
 
-          
-            
+
+
 
             Models = dataAccess.GetModels();
 
@@ -106,36 +109,56 @@ namespace TestBenchApp
 
             Associations = new List<UnitAssociation>();
 
-            if (ConfigurationSettings.AppSettings["PBSIMULATION"] == "Yes")
+            if (ConfigurationSettings.AppSettings["CONTROLLER_SIMULATION"] == "Yes")
             {
-                PBSimulation = true;
-                BaseWindow.KeyDown += Window_KeyDown;
+                ControllerSimulation = true;
 
+
+
+            }
+
+            if (ConfigurationSettings.AppSettings["SCANNER_SIMULATION"] == "Yes")
+            {
+                ScannerSimulation = true;
                 FCodeQ = new Queue<string>();
                 BCodeQ = new Queue<string>();
                 CCodeQ = new Queue<string>();
                 ACodeQ = new Queue<string>();
 
+            }
+
+            if (ConfigurationSettings.AppSettings["PRINTER_SIMULATION"] == "Yes")
+            {
+                PrinterSimulation = true;
 
 
             }
-            else
+
+            if (PrinterSimulation || ScannerSimulation || ControllerSimulation)
             {
-                PBSimulation = false;
+                BaseWindow.KeyDown += Window_KeyDown;
+            }
+
+
+
+
+
+
+            if (!PrinterSimulation)
+            {
+
                 PrinterManager = new Printer.PrinterManager();
                 PrinterManager.SetupDriver("F1Printer", F1PrinterIPAddr, port, F1BarcodeFile);
                 PrinterManager.SetupDriver("M1Printer", M1PrinterIPAddr, port, M1BarcodeFile);
                 PrinterManager.SetupDriver("TOKPrinter", TOKPrinterIPAddr, port, TOKBarcodeFile);
                 PrinterManager.CombinationPrinterName = combPrinterName;
-                PrinterManager.CombinationTemplate = CSDataFile; 
-                
+                PrinterManager.CombinationTemplate = CSDataFile;
+
             }
 
-            if (ConfigurationSettings.AppSettings["SIMULATION"] != "Yes")
+            if (!ControllerSimulation)
             {
                 andonManager.start();
-
-                
             }
 
             AssociationTimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["ASSOCIATION_TIMEOUT"]);
@@ -148,11 +171,12 @@ namespace TestBenchApp
         {
             tickTimer.Stop();
             updatePlan();
-            updateAssociation();
+            dataAccess.DeleteAssociationTimeouts(AssociationTimeout);
+            updateUnitData();
             tickTimer.Start();
         }
 
-        private void updateAssociation()
+        private void updateUnitData()
         {
             DataTable dt = dataAccess.GetAssociationData();
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
@@ -173,7 +197,7 @@ namespace TestBenchApp
                               new Action(() =>
                               {
                                   FrameModelPanel1.DataContext = FramePlans[0];
-                                 
+
                               }));
 
             }
@@ -183,7 +207,7 @@ namespace TestBenchApp
                              new Action(() =>
                              {
                                  FrameModelPanel2.DataContext = FramePlans[1];
-                                 
+
                              }));
             }
             if (FramePlans.Count > 2)
@@ -192,7 +216,7 @@ namespace TestBenchApp
                              new Action(() =>
                              {
                                  FrameModelPanel3.DataContext = FramePlans[2];
-                                
+
                              }));
 
             }
@@ -202,7 +226,7 @@ namespace TestBenchApp
                              new Action(() =>
                              {
                                  FrameModelPanel4.DataContext = FramePlans[3];
-                                 
+
                              }));
 
             }
@@ -212,7 +236,7 @@ namespace TestBenchApp
                 this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                               new Action(() =>
                               {
-                                  
+
                                   BodyModelPanel1.DataContext = BodyPlans[0];
                               }));
 
@@ -222,7 +246,7 @@ namespace TestBenchApp
                 this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
-                                 
+
                                  BodyModelPanel2.DataContext = BodyPlans[1];
                              }));
             }
@@ -231,7 +255,7 @@ namespace TestBenchApp
                 this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
-                                 
+
                                  BodyModelPanel3.DataContext = BodyPlans[2];
                              }));
 
@@ -241,7 +265,7 @@ namespace TestBenchApp
                 this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                              new Action(() =>
                              {
-                                 
+
                                  BodyModelPanel4.DataContext = BodyPlans[3];
                              }));
 
@@ -268,12 +292,12 @@ namespace TestBenchApp
                              }));
 
             int BodyTotal = 0;
-            
+
             int BSerial = 0;
             foreach (Plan p in BodyPlans)
             {
                 BodyTotal += p.Quantity;
-               
+
                 BSerial += p.BSerialNo;
             }
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
@@ -290,16 +314,18 @@ namespace TestBenchApp
         private void andonManager_actQtyAlertEvent(object sender, actQtyScannerEventArgs e)
         {
 
-            dataAccess.UpdateAsscociationStatus( e.Barcode);
-            CurrentFramePlan.Actual++;
-            dataAccess.UpdateActual(CurrentFramePlan.Actual,CurrentFramePlan.slNumber);
+            if (dataAccess.UpdateAsscociationStatus(e.Barcode))
+            {
+                CurrentFramePlan.Actual++;
+                dataAccess.UpdateActual(CurrentFramePlan.Actual, CurrentFramePlan.slNumber);
 
-            tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                                          new Action(() =>
-                                          {
-                                              tbMsg.Text += "Actual Updated" + DateTime.Now.ToString()
-                                                  + Environment.NewLine;
-                                          }));
+                tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                              new Action(() =>
+                                              {
+                                                  tbMsg.Text += "Actual Updated" + DateTime.Now.ToString()
+                                                      + Environment.NewLine;
+                                              }));
+            }
         }
 
         private void andonManager_combStickerAlertEvent(object sender, CSScannerEventArgs e)
@@ -315,11 +341,11 @@ namespace TestBenchApp
             {
                 if (m.Code == e.ModelNumber)
                 {
-                    if (!PBSimulation)
+                    if (!PrinterSimulation)
                     {
                         PrinterManager.PrintCombSticker(m, barcode);
-                        
-                        
+
+
                     }
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                            new Action(() =>
@@ -333,23 +359,26 @@ namespace TestBenchApp
             CurrentFramePlan.CombinationSerialNo++;
             dataAccess.UpdateCSerial(CurrentFramePlan);
 
-            
+
 
         }
 
-       
+
 
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
-            
+
+            if (dataAccess.UnitProcessed(barcode) == true) return;
+
             String assocationBarcode = String.Empty;
             if (e.ModelNumber.Contains("A")) // if body
             {
-               
+
+                
 
                 assocationBarcode = dataAccess.UnitAssociated(Model.Type.BODY,
-                    e.ModelNumber.Substring(0,e.ModelNumber.Length-1),AssociationTimeout);
+                    e.ModelNumber.Substring(0, e.ModelNumber.Length - 1), AssociationTimeout);
 
 
                 if (assocationBarcode != String.Empty) // if association exists
@@ -362,12 +391,19 @@ namespace TestBenchApp
                                                    + Environment.NewLine;
                                            }));
 
-                    if (!PBSimulation)
+                    if (!PrinterSimulation)
                     {
-                        PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber.Substring(0, e.ModelNumber.Length - 1),
-                            DateTime.Now.ToString("yyMMdd"), assocationBarcode.Substring(10, 4));
+                        bool result = false;
+                        int count = 0;
+                        do
+                        {
+                            result = PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber.Substring(0, e.ModelNumber.Length - 1),
+                               DateTime.Now.ToString("yyMMdd"), assocationBarcode.Substring(10, 4));
+                            count++;
+                        } while ((result == false) && (count < 3));
 
-                       
+
+
                     }
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                               new Action(() =>
@@ -389,15 +425,15 @@ namespace TestBenchApp
                                                tbMsg.Text += "Main Body Unit Scanned" + DateTime.Now.ToString()
                                                    + Environment.NewLine;
                                            }));
-                            
-                    
+
+
                 }
             }
             else //if main frame
             {
 
 
-                assocationBarcode = dataAccess.UnitAssociated(Model.Type.FRAME,e.ModelNumber,AssociationTimeout);
+                assocationBarcode = dataAccess.UnitAssociated(Model.Type.FRAME, e.ModelNumber, AssociationTimeout);
 
 
                 if (assocationBarcode != String.Empty) // if association exists
@@ -410,11 +446,18 @@ namespace TestBenchApp
                                                    + Environment.NewLine;
                                            }));
 
-                    if (!PBSimulation)
+                    if (!PrinterSimulation)
                     {
-                        PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber, DateTime.Now.ToString("yyMMdd"), barcode.Substring(10, 4));
+                        bool result = false;
+                        int count = 0;
+                        do
+                        {
+                            result =
+                           PrinterManager.PrintBarcode("TOKPrinter", "", e.ModelNumber, DateTime.Now.ToString("yyMMdd"), barcode.Substring(10, 4));
+                            count++;
+                        } while ((result == false) && (count < 3));
 
-                        
+
                     }
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                                new Action(() =>
@@ -425,7 +468,7 @@ namespace TestBenchApp
                 }
                 else
                 {
-                   
+
                     dataAccess.InsertUnitAssociation(e.ModelNumber, barcode, Model.Type.FRAME);
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                            new Action(() =>
@@ -433,18 +476,18 @@ namespace TestBenchApp
                                                tbMsg.Text += "Main Frame Unit Scanned" + DateTime.Now.ToString()
                                                    + Environment.NewLine;
                                            }));
-                            
+
 
                 }
 
             }
 
-           
-            
+
+
         }
 
-       
-       
+
+
 
         void andonManager_andonAlertEvent(object sender, AndonAlertEventArgs e)
         {
@@ -469,9 +512,16 @@ namespace TestBenchApp
 
 
 
-                    if (e.StationId == 1)
+                    if (e.StationId == 2)
                     {
-                        if (CurrentBodyPlan.BSerialNo > CurrentBodyPlan.Quantity)
+
+                        if (CurrentBodyPlan == null)
+                        {
+                            MessageBox.Show(" Please Select Plan to continue",
+                                "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        if (CurrentBodyPlan.BSerialNo >= CurrentBodyPlan.Quantity)
                         {
                             MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
                                 "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -479,54 +529,80 @@ namespace TestBenchApp
                         else
                         {
                             CurrentBodyPlan.BSerialNo++;
-                            String bcode = CurrentBodyPlan.ModelCode + "A"+ DateTime.Now.ToString("yyMMdd")
+                            String bcode = CurrentBodyPlan.ModelCode + "A" + DateTime.Now.ToString("yyMMdd")
                              + CurrentBodyPlan.BSerialNo.ToString("D4");
 
-                            if (PBSimulation)
+                            if (ScannerSimulation)
                                 BCodeQ.Enqueue(bcode);
-                            else
+
+                            if (!PrinterSimulation)
                             {
-                                PrinterManager.PrintBarcode("M1Printer", CurrentBodyPlan.ModelName,
+                                bool result = false;
+                                int count = 0;
+                                do
+                                {
+                                    result =
+                                    PrinterManager.PrintBarcode("M1Printer", CurrentBodyPlan.ModelName,
                                     CurrentBodyPlan.ModelCode + "A", DateTime.Now.ToString("yyMMdd"),
                                      CurrentBodyPlan.BSerialNo.ToString("D4"));
+                                    count++;
+                                } while ((result == false) && (count < 3));
+
                             }
-                           
-                            dataAccess.InsertUnit(CurrentBodyPlan.ModelCode, Model.Type.BODY, 
+
+                            dataAccess.InsertUnit(CurrentBodyPlan.ModelCode, Model.Type.BODY,
                                 CurrentBodyPlan.BSerialNo);
                             dataAccess.UpdateBSerial(CurrentBodyPlan);
 
-                           
+
                         }
                     }
-                    else if (e.StationId == 2)
+                    else if (e.StationId == 1)
                     {
-                        if (CurrentFramePlan.FSerialNo > CurrentFramePlan.Quantity)
+
+                        if (CurrentFramePlan == null)
+                        {
+                            MessageBox.Show(" Please Select Plan to continue",
+                                "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        if (CurrentFramePlan.FSerialNo >= CurrentFramePlan.Quantity)
                         {
                             MessageBox.Show("Current Plan Completed. Please Modify plan or Select another plan to continue",
                                 "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                         else
                         {
-                           
+
                             CurrentFramePlan.FSerialNo++;
                             String fcode = CurrentFramePlan.ModelCode + DateTime.Now.ToString("yyMMdd")
                                + CurrentFramePlan.FSerialNo.ToString("D4");
 
-                          
 
-                            if (PBSimulation)
+
+                            if (ScannerSimulation)
                                 FCodeQ.Enqueue(fcode);
-                            else
 
-                                PrinterManager.PrintBarcode("F1Printer", CurrentFramePlan.ModelName, CurrentFramePlan.ModelCode,
-                            DateTime.Now.ToString("yyMMdd"), CurrentFramePlan.FSerialNo.ToString("D4"));
+                            if (!PrinterSimulation)
+                            {
+                                bool result = false;
+                                int count = 0;
+                                do
+                                {
+                                    result =
+                                        PrinterManager.PrintBarcode("F1Printer", CurrentFramePlan.ModelName, CurrentFramePlan.ModelCode,
+                                    DateTime.Now.ToString("yyMMdd"), CurrentFramePlan.FSerialNo.ToString("D4"));
+                                    count++;
+                                } while ((result == false) && (count < 3));
 
-                            dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME, 
+                            }
+                            dataAccess.InsertUnit(CurrentFramePlan.ModelCode, Model.Type.FRAME,
                                 CurrentFramePlan.FSerialNo);
                             dataAccess.UpdateFSerial(CurrentFramePlan);
 
-                          
-                            
+
+
                         }
                     }
 
@@ -547,7 +623,7 @@ namespace TestBenchApp
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
 
         }
@@ -555,33 +631,33 @@ namespace TestBenchApp
         private void tabPlan_Loaded(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-          
-                Users = dataAccess.GetUsers();
-                tabPlan.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                                                new Action(() =>
-                                                {
-                                                    BaseGrid.Children.Clear();
-                                                    LoginPage lp = new LoginPage(Users);
-                                                    lp.LoginEvent += lp_LoginEvent;
-                                                    BaseGrid.Children.Add(lp);
-                                                }));
-           
+
+            Users = dataAccess.GetUsers();
+            tabPlan.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                            new Action(() =>
+                                            {
+                                                BaseGrid.Children.Clear();
+                                                LoginPage lp = new LoginPage(Users);
+                                                lp.LoginEvent += lp_LoginEvent;
+                                                BaseGrid.Children.Add(lp);
+                                            }));
+
         }
 
         void lp_LoginEvent(object sender, LoginEventArgs e)
         {
-             
-                CurrentUser = e.User;
 
-                BaseGrid.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                                                new Action(() =>
-                                                {
-                                                    BaseGrid.Children.Clear();
-                                                    dbView = new DashBoardView(Users, CurrentUser.Name, PrinterManager);
-                                                    BaseGrid.Children.Add(dbView);
-                                                }));
-            
-           
+            CurrentUser = e.User;
+
+            BaseGrid.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                            new Action(() =>
+                                            {
+                                                BaseGrid.Children.Clear();
+                                                dbView = new DashBoardView(Users, CurrentUser.Name, PrinterManager);
+                                                BaseGrid.Children.Add(dbView);
+                                            }));
+
+
         }
 
 
@@ -611,7 +687,7 @@ namespace TestBenchApp
                     dataAccess.UpdateFPlanStatus(p1);
                 }
             }
-            
+
         }
 
         private void Framecb2_Click(object sender, RoutedEventArgs e)
@@ -691,10 +767,10 @@ namespace TestBenchApp
                     dataAccess.UpdateFPlanStatus(p1);
                 }
             }
-            
+
         }
 
-    
+
 
 
 
@@ -801,13 +877,13 @@ namespace TestBenchApp
                     p1.BStatus = false;
                     dataAccess.UpdateBPlanStatus(p1);
                 }
-            }   
+            }
 
         }
 
-        
 
-        
+
+
 
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -816,7 +892,7 @@ namespace TestBenchApp
             {
                 if (this.IsLoaded)
                 {
-                    
+
                     if (BaseTabControl.SelectedIndex == 1)
                     {
                         Users = dataAccess.GetUsers();
@@ -836,7 +912,7 @@ namespace TestBenchApp
                 }
             }
 
-           
+
         }
 
         private void FrametbPq4_TextChanged(object sender, TextChangedEventArgs e)
