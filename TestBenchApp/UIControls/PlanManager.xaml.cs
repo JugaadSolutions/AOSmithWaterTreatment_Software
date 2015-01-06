@@ -154,6 +154,11 @@ namespace TestBenchApp.UIControls
 
         private void FramePlanAddButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AvailableFrameModels.Count <= 0)
+            {
+                MessageBox.Show("Application Info", "No Models Available", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             PlanViewModel pvm = new PlanViewModel(AvailableFrameModels,Model.Type.FRAME);
 
 
@@ -189,6 +194,11 @@ namespace TestBenchApp.UIControls
 
         private void BodyPlanAddButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AvailableBodyModels.Count <= 0)
+            {
+                MessageBox.Show("No Models Available", "Application Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             PlanViewModel pvm = new PlanViewModel(AvailableBodyModels,Model.Type.BODY);
 
 

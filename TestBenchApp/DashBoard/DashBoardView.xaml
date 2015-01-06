@@ -44,9 +44,7 @@
             
                     <Button  Name="Password"  Content="Passwords"  Click="Password_Click_1" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"   HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    <Button Name="ByPass" Content="By Pass" MinHeight="30" FontSize="15" MinWidth="100"
-                      Margin="10"
-                            Click="SetPlan_Click" />
+                 
                     <Button  Name="Reports"  Content="Reports"  Click="Reports_Click" MinHeight="30" FontSize="15" MinWidth="100"
                       Margin="10"
                          HorizontalAlignment="Center" VerticalAlignment="Bottom"/>

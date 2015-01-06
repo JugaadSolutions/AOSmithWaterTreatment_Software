@@ -17,15 +17,18 @@
             </GroupBox.Header>
 
                 <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center">
-                    <Label Content="From:" HorizontalAlignment="Right" FontSize="12"  Width="Auto"  Foreground="White"/>
-                    <dg:DatePicker Name="dpFrom" FontSize="12" Height="Auto" VerticalAlignment="Center"
+                    <Label Content="From:" HorizontalAlignment="Right"   Width="Auto"  
+                           Foreground="White" FontSize="20"/>
+                    <dg:DatePicker Name="dpFrom" FontSize="20" Height="Auto" VerticalAlignment="Center"
                                                HorizontalAlignment="Left" Width="Auto" />
-                    <Label Content="To:" HorizontalAlignment="Left" FontSize="12" Width="Auto" Foreground="White" />
-                    <dg:DatePicker Name="dpTo" FontSize="12" Height="Auto" VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Left"  />
-                    <Button Name="ReportGenerateButton"  Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    <Label Content="To:" HorizontalAlignment="Left" FontSize="20" Width="Auto" Foreground="White" />
+                    <dg:DatePicker Name="dpTo" FontSize="20" Height="Auto" VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Left"  />
+                    <Button Name="ReportGenerateButton"  Margin="5,0,0,0" HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" FontSize="15"
                             Content="Generate" Click="ReportGenerateButton_Click"/>
                     <Button Margin="5,0,0,0"  Name="ReportExportButton" Content="Export" Click="ReportExportButton_Click" 
-                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto"    Width="Auto"/>
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="Auto"   
+                            Width="Auto" FontSize="15"/>
 
                 </StackPanel>
               
@@ -39,9 +42,12 @@
             </GroupBox.Header>
 
             <dg:DataGrid Name="dgReportGrid" AutoGenerateColumns="True" IsReadOnly="True"
-                                             CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                                             ItemsSource="{Binding}" HorizontalAlignment="Left" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Height="Auto" Width="Auto" Visibility="Collapsed"
+                         CanUserAddRows="False" CanUserDeleteRows="False" VerticalAlignment="Top"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                         ItemsSource="{Binding}" HorizontalAlignment="Center" 
+                         ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Height="Auto" Width="Auto" 
+                         Visibility="Collapsed"
                                  RowHeaderWidth="0" >
             </dg:DataGrid>
 

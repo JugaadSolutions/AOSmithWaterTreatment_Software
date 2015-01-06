@@ -55,7 +55,7 @@ namespace TestBenchApp
                         {
                             String code = FCodeQ.Dequeue();
                             andonManager_barcodeAlertEvent(this, new BCScannerEventArgs(code));
-                            CCodeQ.Enqueue(code);
+                            //CCodeQ.Enqueue(code);
                         }
                         break;
 
@@ -70,11 +70,11 @@ namespace TestBenchApp
                         break;
 
                     case Key.F5:
-                        if (CCodeQ.Count > 0)
+                        if (ICodeQ.Count > 0)
                         {
-                            String code = CCodeQ.Dequeue();
+                            String code = ICodeQ.Dequeue();
                             andonManager_combStickerAlertEvent(this, new CSScannerEventArgs(code));
-                            ACodeQ.Enqueue(code);
+                            
 
                         }
                         break;
@@ -82,8 +82,11 @@ namespace TestBenchApp
 
                     case Key.F6:
                         {
-                            String code = ACodeQ.Dequeue();
-                            andonManager_actQtyAlertEvent(this, new actQtyScannerEventArgs(code));
+                            if (CCodeQ.Count > 0)
+                            {
+                                String code = ACodeQ.Dequeue();
+                                andonManager_actQtyAlertEvent(this, new actQtyScannerEventArgs(code));
+                            }
 
                         }
                         break;

@@ -110,7 +110,7 @@ namespace HDC_COMMSERVER
             {
                 try
                 {
-                    if (_Sock != null && _Sock.Connected)                        
+                    if (_Sock != null )                        
                         _Sock.Close();                        
                     _Sock = null;
                 }
@@ -154,13 +154,13 @@ namespace HDC_COMMSERVER
                 byte[] _dBuffer = System.Text.Encoding.ASCII.GetBytes(data);
                 try
                 {
-                    if (_IsSockConnected() == false)
-                    {
-                        if (_InitializeSockClient() == false)                            
-                            return false;                            
-                    }                    
+                   
+                    if (_InitializeSockClient() == false)                            
+                        return false;                            
+                                        
                         
                     _Sock.Send(_dBuffer);
+                    _Sock.Close();
                     return true;                        
                 }
                 catch (Exception ex)

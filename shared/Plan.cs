@@ -93,6 +93,19 @@ namespace shared
             }
         }
 
+        int integratedSerialNo;
+        public int IntegratedSerialNo
+        {
+            get
+            {
+                return integratedSerialNo;
+            }
+            set
+            {
+                integratedSerialNo = value;
+                OnPropertyChanged("IntegratedSerialNo");
+            }
+        }
 
   
         int combinationSerialNo;

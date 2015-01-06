@@ -62,8 +62,34 @@ namespace TestBenchApp.DashBoard
 
             PrinterManager = printerManager;
 
-         
+            switch (currentUser)
+            {
+                case "Supervisor":
+                    Password.Visibility = System.Windows.Visibility.Hidden;
+                    //ByPass.Visibility = System.Windows.Visibility.Visible;
+                    ModelsButton.Visibility = System.Windows.Visibility.Visible;
+                    Reprint.Visibility = System.Windows.Visibility.Visible;
+                    SetPlan.Visibility = System.Windows.Visibility.Visible;
+                    Reports.Visibility = System.Windows.Visibility.Visible;
+                    break;
 
+                case "Operator":
+
+                    Password.Visibility = System.Windows.Visibility.Hidden;
+                    //ByPass.Visibility = System.Windows.Visibility.Hidden;
+                    ModelsButton.Visibility = System.Windows.Visibility.Hidden;
+                    Reprint.Visibility = System.Windows.Visibility.Hidden;
+                    Reports.Visibility = System.Windows.Visibility.Hidden;
+                    break;
+
+                default:
+                    Password.Visibility = System.Windows.Visibility.Visible;
+                    //ByPass.Visibility = System.Windows.Visibility.Visible;
+                    ModelsButton.Visibility = System.Windows.Visibility.Visible;
+                    Reprint.Visibility = System.Windows.Visibility.Visible;
+                    SetPlan.Visibility = System.Windows.Visibility.Visible;
+                    break;
+            }
 
            
 

@@ -40,11 +40,17 @@ namespace TestBenchApp
                 MessageBox.Show("Incorrect Old Password. Please try again",
                     "Password Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 tbPassword.Clear();
+                tbPassword.Focus();
                 return;
             }
 
             if (LoginEvent != null)
                 LoginEvent(this, new LoginEventArgs((User)UserSelector.SelectedItem));
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbPassword.Focus();
         }
 
 

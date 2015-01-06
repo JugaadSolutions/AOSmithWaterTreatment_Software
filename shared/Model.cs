@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace shared.Entity
 {
+    public enum MODEL_TYPE { NONE = 0, ACTUAL = 1, DUMMY_ELEC, DUMMY_MECH };
     public class Model : INotifyPropertyChanged
     {
-        public enum Type { BODY = 1, FRAME = 2, COMBINED };
+        public enum Type { NONE = 0, BODY = 1, FRAME = 2, COMBINED };
 
         public int SlNo {get;set;}
         public String Product {get;set;}
@@ -25,7 +26,7 @@ namespace shared.Entity
         public int Width { get; set; }
         public int Height { get; set; }
         public int Depth { get; set; }
-
+        public MODEL_TYPE ModelType { get; set; }
 
         public Model()
         {

@@ -93,11 +93,17 @@ namespace TestBenchApp.DashBoard
         {
             String slNo = null;
 
-            if (e.m.Name.Contains("Puritee"))
-                slNo = "B163" + DateTime.Now.ToString("yyMMdd") + "0001";
-
-            PrinterManager.PrintCombSticker(e.m, e.m.Code + DateTime.Now.ToString("yyMMdd") + "0000");
-               
+                    if (e.m.Name.Contains("Dummy"))
+                    {
+                        PrinterManager.PrintCombSticker(e.m, e.m.Code + DateTime.Now.ToString("yyMMdd") + "0000",
+                            PrinterManager.TemplatePath + e.m.Name + ".prn");
+                    }
+                    else
+                        PrinterManager.PrintCombSticker(e.m, e.m.Code + DateTime.Now.ToString("yyMMdd") + "0000",
+                            PrinterManager.TemplatePath + "CS.prn");
+                    
+                
+            
         }
 
       
@@ -118,6 +124,7 @@ namespace TestBenchApp.DashBoard
             r.M1Reprint += r_M1Reprint;
             r.CSReprint += r_CSReprint;
             r.TOKReprint += r_TOKReprint;
+            r.BatchPrint += r_BatchPrint;
 
             Transient.Children.Clear();
             Transient.Children.Add(r);
@@ -125,9 +132,91 @@ namespace TestBenchApp.DashBoard
 
         }
 
+        void r_BatchPrint(object sender, BatchPrintArgs e)
+        {
+            String fileName = String.Empty;
+            switch (e.ReprintStage)
+            {
+                case REPRINT_STAGE.F1:
+                    if (e.Model.Contains("Dummy"))
+                    {
+                        fileName = "DummyF1.prn";
+                    }
+                    else fileName = "F1.prn";
+                    for (int i = e.SerialNo; i <= e.Quantity; i++)
+                    {
+                        PrinterManager.PrintBarcode("F1Printer", e.Model, e.Code, e.Date, i.ToString("D4"),
+                            PrinterManager.TemplatePath+fileName);
+                        
+                    }
+                    
+
+                    break;
+                case REPRINT_STAGE.M1:
+                    if( e.Model.Contains("Dummy"))
+                    {
+                        fileName = "DummyM1.prn";
+                    }
+                    else fileName = "M1.prn";
+                    for (int i = e.SerialNo; i <= e.Quantity; i++)
+                    {
+                         
+                        PrinterManager.PrintBarcode("M1Printer", e.Model, e.Code + "A", e.Date, i.ToString("D4"),
+                            PrinterManager.TemplatePath+fileName);
+                        
+                    }
+                    
+                    break;
+                case REPRINT_STAGE.INTEGRATED:
+                    if (e.Model.Contains("Dummy"))
+                    {
+                        fileName = "DummyIntegrated.prn";
+                    }
+                    else fileName = "Integrated.prn";
+                    for (int i = e.SerialNo; i <= e.Quantity; i++)
+                    {
+                        PrinterManager.PrintBarcode("F2Printer", e.Model, e.Code, e.Date, i.ToString("D4"),
+                            PrinterManager.TemplatePath+fileName);
+                       
+                    }
+                    
+                    break;
+                case REPRINT_STAGE.COMBINATION:
+                    for (int i = e.SerialNo; i <= e.Quantity; i++)
+                    {
+                        foreach (Model m in Models)
+                        {
+                            if (m.Code == e.Code)
+                            {
+                                if (m.Name.Contains("Dummy"))
+                                {
+                                    PrinterManager.PrintCombSticker(m, e.Code + e.Date + i.ToString("D4"),
+                                        PrinterManager.TemplatePath+ m.Name + ".prn");
+                                }
+                                else
+                                PrinterManager.PrintCombSticker(m, e.Code + e.Date + i.ToString("D4"));
+                                break;
+                            }
+                        }
+                        
+                    }
+                    
+                    break;
+                default:
+                    break;
+            }
+        }
+
         void r_TOKReprint(object sender, ReprintArgs e)
         {
-            PrinterManager.PrintBarcode("TOKPrinter", e.Model, e.Code, e.Date, e.SerialNo);
+            String fileName = string.Empty;
+            if (e.Model.Contains("Dummy"))
+            {
+                fileName = "DummyIntegrated.prn";
+            }
+            else fileName = "Integrated.prn";
+            PrinterManager.PrintBarcode("F2Printer", e.Model, e.Code, e.Date, e.SerialNo,
+                PrinterManager.TemplatePath+fileName);
         }
 
         void r_CSReprint(object sender, ReprintArgs e)
@@ -136,7 +225,26 @@ namespace TestBenchApp.DashBoard
             {
                 if (m.Code == e.Code)
                 {
-                    PrinterManager.PrintCombSticker(m, e.Code+e.Date+e.SerialNo);
+                    bool result = false;
+                    int count = 0;
+                    if (m.Name.Contains("Dummy"))
+                    {
+                        do
+                        {
+                           result = 
+                               PrinterManager.PrintCombSticker(m, e.Code + e.Date + e.SerialNo, PrinterManager.TemplatePath + m.Name + ".prn");
+                        } while ((result == false) && (count < 3));
+                    }
+                    else
+                    {
+                       
+                        do
+                        {
+                            result = PrinterManager.PrintCombSticker(m, e.Code + e.Date + e.SerialNo);
+                            count++;
+                        } while ((result == false) && (count < 3));
+                    }
+                        
                     break;
                 }
             }
@@ -145,12 +253,26 @@ namespace TestBenchApp.DashBoard
 
         void r_M1Reprint(object sender, ReprintArgs e)
         {
-            PrinterManager.PrintBarcode("M1Printer", e.Model, e.Code, e.Date, e.SerialNo);
+            String fileName = string.Empty;
+            if (e.Model.Contains("Dummy"))
+            {
+                fileName = "DummyM1.prn";
+            }
+            else fileName = "M1.prn";
+            PrinterManager.PrintBarcode("M1Printer", e.Model, e.Code, e.Date, e.SerialNo,
+                PrinterManager.TemplatePath+fileName);
         }
 
         void r_F1Reprint(object sender, ReprintArgs e)
         {
-            PrinterManager.PrintBarcode("F1Printer",e.Model,e.Code, e.Date,e.SerialNo);
+            String fileName = string.Empty;
+            if (e.Model.Contains("Dummy"))
+            {
+                fileName = "DummyF1.prn";
+            }
+            else fileName = "F1.prn";
+            PrinterManager.PrintBarcode("F1Printer",e.Model,e.Code, e.Date,e.SerialNo,
+                PrinterManager.TemplatePath+fileName);
         }
 
        

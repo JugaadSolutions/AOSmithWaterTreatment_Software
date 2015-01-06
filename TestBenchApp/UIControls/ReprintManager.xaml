@@ -4,132 +4,185 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
-             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Green">
+    <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <GroupBox   Background="Green" Margin="10">
-        <GroupBox.Header>
-            <Label Foreground="White" Content="Reprint" Background="Green" BorderBrush="Green" BorderThickness="0"
+        <GroupBox   Background="Green" Margin="10,10,10,0">
+            <GroupBox.Header>
+                <Label Foreground="White" Content="Reprint" Background="Green" BorderBrush="Green" BorderThickness="0"
                      FontSize="15"        HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
-        </GroupBox.Header>
-
-        <Grid Name="BaseGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            </GroupBox.Header>
 
 
-            <GroupBox Grid.Column="0" Margin="10" VerticalAlignment="Top" MinHeight="250" MinWidth="200">
-                <GroupBox.Header>
-                    <Label Foreground="White" Content="F1" Background="Green" BorderBrush="Green" BorderThickness="0"
+
+            <Grid>
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0" Margin="10,0,10,0" VerticalAlignment="Top" MinHeight="250" MinWidth="200">
+                    <GroupBox.Header>
+                        <Label Foreground="White" Content="F1" Background="Green" BorderBrush="Green" BorderThickness="0"
                        FontSize="15"      HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <dg:DataGrid Name="F1ReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <dg:DataGrid Name="F1ReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
                              CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
                                      HorizontalScrollBarVisibility="Auto" MinWidth="300" FontSize="12" HorizontalAlignment="Stretch"
                              ItemsSource="{Binding}"  ScrollViewer.CanContentScroll="True" 
                              ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                      Height="Auto" Width="Auto" Visibility="Visible" RowHeaderWidth="0" >
-                    </dg:DataGrid>
-                    <Button Margin="5" Name="F1ReprintButton" Grid.Row="1"
+                        </dg:DataGrid>
+                        <Button Margin="5" Name="F1ReprintButton" Grid.Row="1"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Content="Reprint" FontSize="20" Click="F1ReprintButton_Click"/>
 
-                </Grid>
+                    </Grid>
 
-            </GroupBox>
+                </GroupBox>
 
-            <GroupBox Grid.Column="1" Margin="10" VerticalAlignment="Top" MinHeight="250">
-                <GroupBox.Header>
-                    <Label Foreground="White" Content="M1" Background="Green" BorderBrush="Green" BorderThickness="0"
+                <GroupBox Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Top" MinHeight="250">
+                    <GroupBox.Header>
+                        <Label Foreground="White" Content="M1" Background="Green" BorderBrush="Green" BorderThickness="0"
                         FontSize="15"     HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <dg:DataGrid Name="M1ReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <dg:DataGrid Name="M1ReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
                              CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
                                      HorizontalScrollBarVisibility="Auto" MinWidth="300" FontSize="12"
                              ItemsSource="{Binding}" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True" 
                              ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                      Height="Auto" Width="Auto" Visibility="Visible" RowHeaderWidth="0" >
-                    </dg:DataGrid>
-                    <Button Margin="5" Name="M1ReprintButton" Grid.Row="1"
+                        </dg:DataGrid>
+                        <Button Margin="5" Name="M1ReprintButton" Grid.Row="1"
                                 HorizontalAlignment="Center" VerticalAlignment="Top"
                                 Content="Reprint" FontSize="20" Click="M1ReprintButton_Click"/>
 
-                </Grid>
+                    </Grid>
 
-            </GroupBox>
+                </GroupBox>
 
-            <GroupBox Grid.Column="2" Margin="10" VerticalAlignment="Top" MinHeight="250" MinWidth="200">
-                <GroupBox.Header>
-                    <Label Foreground="White" Content="Tested Ok" Background="Green" BorderBrush="Green" BorderThickness="0"
+                <GroupBox Grid.Column="2" Margin="10,0,10,0" VerticalAlignment="Top" MinHeight="250" MinWidth="200">
+                    <GroupBox.Header>
+                        <Label Foreground="White" Content="Integrated" Background="Green" BorderBrush="Green" BorderThickness="0"
                        FontSize="15"      HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <dg:DataGrid Name="TOKReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <dg:DataGrid Name="TOKReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
                              CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
                                      HorizontalScrollBarVisibility="Auto" MinWidth="200" FontSize="12" HorizontalAlignment="Stretch"
                              ItemsSource="{Binding}"  ScrollViewer.CanContentScroll="True" 
                              ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                      Height="Auto" Width="Auto" Visibility="Visible" RowHeaderWidth="0" >
-                    </dg:DataGrid>
-                    <Button Margin="5" Name="TOKReprintButton" Grid.Row="1"
+                        </dg:DataGrid>
+                        <Button Margin="5" Name="TOKReprintButton" Grid.Row="1"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Content="Reprint" FontSize="20" Click="TOKReprintButton_Click"/>
 
-                </Grid>
+                    </Grid>
 
-            </GroupBox>
+                </GroupBox>
 
-            <GroupBox Grid.Column="3" Margin="10" VerticalAlignment="Top" MinHeight="250">
-                <GroupBox.Header>
-                    <Label Foreground="White" Content="Combination" Background="Green" BorderBrush="Green" BorderThickness="0"
+                <GroupBox Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Top" MinHeight="250">
+                    <GroupBox.Header>
+                        <Label Foreground="White" Content="Combination" Background="Green" BorderBrush="Green" BorderThickness="0"
                         FontSize="15"     HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <dg:DataGrid Name="CSReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <dg:DataGrid Name="CSReprintGrid" AutoGenerateColumns="True" IsReadOnly="True" Grid.Row="0"
                              CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
                                      HorizontalScrollBarVisibility="Auto" MinWidth="200" FontSize="12"
                              ItemsSource="{Binding}" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True" 
                              ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                      Height="Auto" Width="Auto" Visibility="Visible" RowHeaderWidth="0" >
-                    </dg:DataGrid>
-                    <Button Margin="5" Name="CombinationReprintButton" Grid.Row="1"
+                        </dg:DataGrid>
+                        <Button Margin="5" Name="CombinationReprintButton" Grid.Row="1"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Content="Reprint" FontSize="20" Click="CombinationReprintButton_Click"/>
 
+                    </Grid>
+
+                </GroupBox>
+
+            </Grid>
+
+
+
+
+
+
+
+
+
+
+        </GroupBox>
+        <GroupBox Background="Green" Grid.Row="1" Margin="10,5,10,10" VerticalAlignment="Top"  MinWidth="200">
+            <GroupBox.Header>
+                <Label Foreground="White" Content="Batch Print" Background="Green" BorderBrush="Green" BorderThickness="0"
+                       FontSize="15"      HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" MinWidth="20"/>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <dg:DatePicker Name="PrintDatePicker" FontSize="15"  Margin="5"/>
+                        <Label Content="Model:" FontSize="15" Foreground="White" Margin="5" HorizontalContentAlignment="Right"/>
+                        <ComboBox Name="ModelSelectorComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" MinWidth="350" FontSize="15" VerticalAlignment="Center" Margin="5" />
+                        <Label Content="From Serial No:" FontSize="15" Foreground="White" Margin="5" HorizontalContentAlignment="Right"/>
+                        <TextBox MaxLines="1" FontSize="15" MinWidth="50" Name="InitialSerialNoTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Label Content="To Serial No:" FontSize="15" Foreground="White" Margin="5" HorizontalContentAlignment="Right"/>
+                        <TextBox MaxLines="1" FontSize="15" MinWidth="50" Name="QuantityTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <RadioButton Name="F1RadioButton" GroupName="PrintSelection" VerticalAlignment="Center"  Margin="20,5,0,5" />
+                        <Label Content="Frame" FontSize="15" Foreground="White" Margin="0,5,5,5" HorizontalContentAlignment="Left"/>
+                        <RadioButton Name="M1RadioButton" GroupName="PrintSelection" VerticalAlignment="Center"  Margin="20,5,0,5" />
+                        <Label Content="Body" FontSize="15" Foreground="White" Margin="0,5,5,5" HorizontalContentAlignment="Left"/>
+                        <RadioButton Name="IntegratedRadioButton" GroupName="PrintSelection" VerticalAlignment="Center"  Margin="20,5,0,5" />
+                        <Label Content="Integrated" FontSize="15" Foreground="White" Margin="0,5,5,5" HorizontalContentAlignment="Left"/>
+                        <RadioButton Name="CombinationRadioButton" GroupName="PrintSelection" VerticalAlignment="Center"  Margin="20,5,0,5" />
+                        <Label Content="Combination" FontSize="15" Foreground="White" Margin="0,5,5,5" HorizontalContentAlignment="Left"/>
+                    </StackPanel>
                 </Grid>
 
-            </GroupBox>
+                <Button Margin="5" Name="BatchPrintButton" Grid.Row="1"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Content="Print" FontSize="20" Click="BatchPrintButton_Click"/>
 
+            </Grid>
 
-
-
-
-
-
-
-
-        </Grid>
-    </GroupBox>
-
+        </GroupBox>
+    </Grid>
 </UserControl>

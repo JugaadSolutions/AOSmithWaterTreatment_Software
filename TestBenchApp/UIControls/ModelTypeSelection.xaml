@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="TestBenchApp.UIControls.ModelTypeSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                 Background="Green" BorderBrush="White" BorderThickness="2" MinHeight="100" MinWidth="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+        <StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <RadioButton GroupName="ModelSelection" Name="ActualRadioButton" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="Actual" HorizontalAlignment="Left" FontSize="15"  
+                       MinWidth="150"  Foreground="White" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <RadioButton GroupName="ModelSelection" Name="DummyMechRadioButton" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="Dummy Mech" HorizontalAlignment="Left" FontSize="15"  
+                       MinWidth="150"  Foreground="White" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <RadioButton GroupName="ModelSelection" Name="DummyElecRadioButton" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             />
+                <Label Content="Dummy Elec" HorizontalAlignment="Left" FontSize="15"  
+                       MinWidth="150"  Foreground="White" HorizontalContentAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button Name="SelectButton" Grid.Row="1" Content="Select" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SelectButton_Click"
+                Margin="5"/>
+
+    </Grid>
+</UserControl>
