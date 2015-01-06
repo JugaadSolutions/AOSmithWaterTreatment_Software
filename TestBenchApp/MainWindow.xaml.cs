@@ -380,6 +380,7 @@ namespace TestBenchApp
         {
             String iCode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
            
+            Plan plan= null;
 
             if (dataAccess.CheckIntegrationStatus(iCode) == false)
                 return;
@@ -389,8 +390,16 @@ namespace TestBenchApp
             {
                 if (m.Code == e.ModelNumber)
                 {
-                    CurrentFramePlan.CombinationSerialNo++;
-                    String csCode = e.ModelNumber + DateTime.Now.ToString("yyMMdd") + CurrentFramePlan.CombinationSerialNo.ToString("D4");
+                    foreach (Plan p in FramePlans)
+                    {
+                        if (p.ModelCode == m.Code)
+                        {
+                            plan = p;
+                            break;
+                        }
+                    }
+                    plan.CombinationSerialNo++;
+                    String csCode = e.ModelNumber + DateTime.Now.ToString("yyMMdd") + plan.CombinationSerialNo.ToString("D4");
 
                     dataAccess.UpdateAssociation(csCode, Model.Type.COMBINED, "", iCode);
 
@@ -422,11 +431,11 @@ namespace TestBenchApp
                 }
             }
 
-            
 
 
 
-            dataAccess.UpdateCSerial(CurrentFramePlan);
+
+            dataAccess.UpdateCSerial(plan);
 
 
 
@@ -437,6 +446,8 @@ namespace TestBenchApp
         void andonManager_barcodeAlertEvent(object sender, BCScannerEventArgs e)
         {
             String barcode = e.ModelNumber + e.Timestamp + e.SerialNo.ToString("D4");
+
+            Plan plan = null;
 
             if (dataAccess.UnitExists(barcode) == false)
             {
@@ -509,9 +520,17 @@ namespace TestBenchApp
                 
                 if (assocationBarcode != String.Empty) // if association exists
                 {
-                    CurrentFramePlan.IntegratedSerialNo++;
+                    foreach (Plan p in FramePlans)
+                    {
+                        if (p.ModelCode == modelCode)
+                        {
+                            plan = p;
+                            break;
+                        }
+                    }
+                    plan.IntegratedSerialNo++;
                     String iCode =
-                        e.ModelNumber.Substring(0, e.ModelNumber.Length - 1) + DateTime.Now.ToString("yyMMdd") + CurrentFramePlan.IntegratedSerialNo.ToString("D4");
+                        e.ModelNumber.Substring(0, e.ModelNumber.Length - 1) + DateTime.Now.ToString("yyMMdd") + plan.IntegratedSerialNo.ToString("D4");
                     dataAccess.UpdateAssociation(barcode, Model.Type.BODY, assocationBarcode, iCode);
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                            new Action(() =>
@@ -528,7 +547,7 @@ namespace TestBenchApp
                         do
                         {
                             result = PrinterManager.PrintBarcode("F2Printer", modelName, e.ModelNumber.Substring(0, e.ModelNumber.Length - 1),
-                               DateTime.Now.ToString("yyMMdd"), CurrentFramePlan.IntegratedSerialNo.ToString("D4"), template);
+                               DateTime.Now.ToString("yyMMdd"), plan.IntegratedSerialNo.ToString("D4"), template);
                             count++;
                         } while ((result == false) && (count < 3));
 
@@ -545,7 +564,7 @@ namespace TestBenchApp
                     {
                         ICodeQ.Enqueue(iCode);
                     }
-                    dataAccess.UpdateISerial(CurrentFramePlan);
+                    dataAccess.UpdateISerial(plan);
                 }
                 else
                 {
@@ -620,9 +639,17 @@ namespace TestBenchApp
 
                 if (assocationBarcode != String.Empty) // if association exists
                 {
-                    CurrentFramePlan.IntegratedSerialNo++;
+                    foreach (Plan p in FramePlans)
+                    {
+                        if (p.ModelCode == modelCode)
+                        {
+                            plan = p;
+                            break;
+                        }
+                    }
+                    plan.IntegratedSerialNo++;
                     String iCode =
-                       e.ModelNumber + DateTime.Now.ToString("yyMMdd") + CurrentFramePlan.IntegratedSerialNo.ToString("D4");
+                       e.ModelNumber + DateTime.Now.ToString("yyMMdd") + plan.IntegratedSerialNo.ToString("D4");
                     dataAccess.UpdateAssociation(barcode, Model.Type.FRAME, assocationBarcode,iCode);
                     tbMsg.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                            new Action(() =>
@@ -640,7 +667,7 @@ namespace TestBenchApp
                         {
                             result =
                            PrinterManager.PrintBarcode("F2Printer", modelName, e.ModelNumber, DateTime.Now.ToString("yyMMdd"),
-                           CurrentFramePlan.IntegratedSerialNo.ToString("D4"), template);
+                           plan.IntegratedSerialNo.ToString("D4"), template);
                             count++;
                         } while ((result == false) && (count < 3));
 
@@ -658,7 +685,7 @@ namespace TestBenchApp
                         ICodeQ.Enqueue(iCode);
                     }
 
-                    dataAccess.UpdateISerial(CurrentFramePlan);
+                    dataAccess.UpdateISerial(plan);
                 }
                 else
                 {
