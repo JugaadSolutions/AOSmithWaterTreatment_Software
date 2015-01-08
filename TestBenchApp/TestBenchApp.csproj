@@ -203,6 +203,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModbusTCP_Master\ModbusTCP_Master.csproj">
+      <Project>{701491f7-fd89-436d-aa33-97eb60fcf843}</Project>
+      <Name>ModbusTCP_Master</Name>
+    </ProjectReference>
     <ProjectReference Include="..\shared\shared.csproj">
       <Project>{ea55806b-4135-4b15-b176-17e5d4a42dbb}</Project>
       <Name>shared</Name>

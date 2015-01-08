@@ -121,8 +121,8 @@ namespace ias.andonmanager
 
                 if (simulation != "Yes")
                 {
-                    spDriver = new SerialPortDriver(57600, 8, StopBits.One, Parity.None, Handshake.None);
-                    communicationPort = ConfigurationSettings.AppSettings["PORT"];
+                    //spDriver = new SerialPortDriver(57600, 8, StopBits.One, Parity.None, Handshake.None);
+                    //communicationPort = ConfigurationSettings.AppSettings["PORT"];
 
                     //Code added on 11 Nov BCPORT 
                     bcScannerDriver = new SerialPortDriver(9600,8,StopBits.One,Parity.None,Handshake.None);
@@ -203,23 +203,24 @@ namespace ias.andonmanager
         {
             try
             {
+                int i = 3;
             	if( simulation == "Yes")
             	{
             		simulationTimer.Start();
             		return;
             		
             	}
-                spDriver.open(communicationPort);
+                //spDriver.open(communicationPort);
 
-                int i = 3;
-                do
-                {
-                    if (spDriver.IsOpen == false)
-                    {
-                        spDriver.Close();
-                        Thread.Sleep(500);
-                    }
-                } while (--i > 0);
+                //
+                //do
+                //{
+                //    if (spDriver.IsOpen == false)
+                //    {
+                //        spDriver.Close();
+                //        Thread.Sleep(500);
+                //    }
+                //} while (--i > 0);
 
 
                 //Code added on 11 Nov BCPORT 
@@ -259,8 +260,8 @@ namespace ias.andonmanager
                 } while (--i > 0);
 
 
-                if (spDriver.IsOpen == false)
-                    throw new Exception("unable to open serial port");
+                //if (spDriver.IsOpen == false)
+                //    throw new Exception("unable to open serial port");
 
                 //Code added on 11 Nov BCPORT 
                 if (bcScannerDriver.IsOpen == false)
@@ -301,11 +302,11 @@ namespace ias.andonmanager
             	}
             rxPacket = null;
 
-            if (spDriver != null)
-            {
-                spDriver.abort = true;
-                Thread.Sleep(10);
-            }
+            //if (spDriver != null)
+            //{
+            //    spDriver.abort = true;
+            //    Thread.Sleep(10);
+            //}
 
             //Code added on 11 Nov BCPORT
             if (bcScannerDriver != null)
@@ -342,11 +343,11 @@ namespace ias.andonmanager
 
             transactionTimer.Stop();
 
-            if (!spDriver.IsOpen)
-            {
-                throw new AndonManagerException("Serial Port Closed");
+            //if (!spDriver.IsOpen)
+            //{
+            //    throw new AndonManagerException("Serial Port Closed");
 
-            }
+            //}
 
             //Code added on 11 Nov BCPORT
             if (!bcScannerDriver.IsOpen)
@@ -358,70 +359,70 @@ namespace ias.andonmanager
             if (!actQtyScannerDriver.IsOpen)
                 throw new AndonManagerException("Final Stage Barcode Scanner Serial Port Closed");
 
-            int bytesReceived = spDriver.BytesToRead;
+            //int bytesReceived = spDriver.BytesToRead;
 
-            if (bytesReceived > 0)  //check whether bytes have been received
-            {
-                Byte[] tempBuff = new Byte[spDriver.BytesToRead];
-
-
-                spDriver.Read(tempBuff, 0, bytesReceived); //copy the received bytes into temp buffer
-
-                for (int i = 0; i < bytesReceived; i++)   //copy from temp buffer to packet
-                {
-                    rxPacket.Add(tempBuff[i]);
-                }
-                List<Byte> parsedRxPacket;
-                if (comLayers.Contains<String>("XBee"))
-                {
-                    parsedRxPacket = xbeeDriver.parseRxPacket(rxPacket);
-                }
-                else
-                {
-                    parsedRxPacket = rxPacket;
-                }
+            //if (bytesReceived > 0)  //check whether bytes have been received
+            //{
+            //    Byte[] tempBuff = new Byte[spDriver.BytesToRead];
 
 
-                if( parsedRxPacket == null )
-                {
-                    retries++;
-                    if (retries >= NO_OF_RETRIES)
-                    {
-                        retries = 0;
-                        rxPacket.Clear();
-                        startTransaction();
-                        return;
-                    }
-                    transactionTimer.Start();
-                    return;
-                }
-                retries = 0;
-                parsedRxPacket.InsertRange(0,partialPacket.GetRange(0,partialPacket.Count));
-                partialPacket.Clear();
+            //    spDriver.Read(tempBuff, 0, bytesReceived); //copy the received bytes into temp buffer
 
-                while (parsedRxPacket.Contains(RESP_SOF) && parsedRxPacket.Contains(RESP_EOF))     // if the packet contains start of frame
-                {
+            //    for (int i = 0; i < bytesReceived; i++)   //copy from temp buffer to packet
+            //    {
+            //        rxPacket.Add(tempBuff[i]);
+            //    }
+            //    List<Byte> parsedRxPacket;
+            //    if (comLayers.Contains<String>("XBee"))
+            //    {
+            //        parsedRxPacket = xbeeDriver.parseRxPacket(rxPacket);
+            //    }
+            //    else
+            //    {
+            //        parsedRxPacket = rxPacket;
+            //    }
 
-                    startIndex = parsedRxPacket.FindIndex(findRespSof);
 
-                    endIndex = parsedRxPacket.FindIndex(findRespEof);
+            //    if( parsedRxPacket == null )
+            //    {
+            //        retries++;
+            //        if (retries >= NO_OF_RETRIES)
+            //        {
+            //            retries = 0;
+            //            rxPacket.Clear();
+            //            startTransaction();
+            //            return;
+            //        }
+            //        transactionTimer.Start();
+            //        return;
+            //    }
+            //    retries = 0;
+            //    parsedRxPacket.InsertRange(0,partialPacket.GetRange(0,partialPacket.Count));
+            //    partialPacket.Clear();
 
-                    if (startIndex > endIndex)
-                    {
-                        parsedRxPacket.RemoveRange(0, startIndex);
-                        continue;
-                    }
+            //    while (parsedRxPacket.Contains(RESP_SOF) && parsedRxPacket.Contains(RESP_EOF))     // if the packet contains start of frame
+            //    {
 
-                    packet = new List<byte>();
-                    packet.AddRange(parsedRxPacket.GetRange(startIndex, (endIndex - startIndex) + 1));
+            //        startIndex = parsedRxPacket.FindIndex(findRespSof);
 
-                    processResponse(packet);      //process it
+            //        endIndex = parsedRxPacket.FindIndex(findRespEof);
 
-                    parsedRxPacket.RemoveRange(0, endIndex + 1);
+            //        if (startIndex > endIndex)
+            //        {
+            //            parsedRxPacket.RemoveRange(0, startIndex);
+            //            continue;
+            //        }
 
-                }
-                partialPacket.AddRange( parsedRxPacket.GetRange(0 , parsedRxPacket.Count));
-            }
+            //        packet = new List<byte>();
+            //        packet.AddRange(parsedRxPacket.GetRange(startIndex, (endIndex - startIndex) + 1));
+
+            //        processResponse(packet);      //process it
+
+            //        parsedRxPacket.RemoveRange(0, endIndex + 1);
+
+            //    }
+            //    partialPacket.AddRange( parsedRxPacket.GetRange(0 , parsedRxPacket.Count));
+            //}
 
             //Code added on 11 Nov BCPORT
             if (bcScannerDriver.BytesToRead > 0)
@@ -499,62 +500,62 @@ namespace ias.andonmanager
 
         void startTransaction()
         {
-            if (mode == MODE.MASTER)
-            {
-                List<Byte> rs485packet = null;
-                List<Byte> txPacket = null;
+            //if (mode == MODE.MASTER)
+            //{
+            //    List<Byte> rs485packet = null;
+            //    List<Byte> txPacket = null;
 
 
-                if (transactionQ.Count > 0)
-                {
-                    TransactionInfo tInfo = transactionQ.Dequeue();
-                    rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)tInfo.command, tInfo.data);
+            //    if (transactionQ.Count > 0)
+            //    {
+            //        TransactionInfo tInfo = transactionQ.Dequeue();
+            //        rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)tInfo.command, tInfo.data);
 
-                    if (rs485packet != null)
-                    {
-                        if (comLayers.Contains<string>("XBee"))
-                            txPacket = xbeeDriver.getTxPacket(tInfo.deviceId, rs485packet);
-                        else
-                        {
-                            txPacket = rs485packet;
-                        }
-                        byte[] txBuffer = txPacket.ToArray();
-                        //spDriver.WriteToPort(txPacket.ToArray());
-                        spDriver.Write(txBuffer, 0, txPacket.Count);
+            //        if (rs485packet != null)
+            //        {
+            //            if (comLayers.Contains<string>("XBee"))
+            //                txPacket = xbeeDriver.getTxPacket(tInfo.deviceId, rs485packet);
+            //            else
+            //            {
+            //                txPacket = rs485packet;
+            //            }
+            //            byte[] txBuffer = txPacket.ToArray();
+            //            //spDriver.WriteToPort(txPacket.ToArray());
+            //            spDriver.Write(txBuffer, 0, txPacket.Count);
 
-                    }
-                }
-                else
-                {
-
-
-                    byte curStation = (Byte)stations.Dequeue();
+            //        }
+            //    }
+            //    else
+            //    {
 
 
-
-                    if (comLayers.Contains<String>("RS485"))
-                    {
-                        rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)AndonCommand.CMD_GET_STATUS, null);
-                        stations.Enqueue(curStation);
+            //        byte curStation = (Byte)stations.Dequeue();
 
 
-                        if (rs485packet != null)
-                        {
-                            if (comLayers.Contains<string>("XBee"))
-                                txPacket = xbeeDriver.getTxPacket(curStation, rs485packet);
-                            else
-                            {
-                                txPacket = rs485packet;
-                            }
-                            byte[] txBuffer = txPacket.ToArray();
-                            //spDriver.WriteToPort(txPacket.ToArray());
-                            spDriver.Write(txBuffer, 0, txPacket.Count);
 
-                        }
-                    }
-                }
+            //        if (comLayers.Contains<String>("RS485"))
+            //        {
+            //            rs485packet = rs485Driver.Packetize((Byte)0xFA, (Byte)AndonCommand.CMD_GET_STATUS, null);
+            //            stations.Enqueue(curStation);
 
-            }
+
+            //            if (rs485packet != null)
+            //            {
+            //                if (comLayers.Contains<string>("XBee"))
+            //                    txPacket = xbeeDriver.getTxPacket(curStation, rs485packet);
+            //                else
+            //                {
+            //                    txPacket = rs485packet;
+            //                }
+            //                byte[] txBuffer = txPacket.ToArray();
+            //                //spDriver.WriteToPort(txPacket.ToArray());
+            //                spDriver.Write(txBuffer, 0, txPacket.Count);
+
+            //            }
+            //        }
+            //    }
+
+            //}
             transactionTimer.Start();
           
         }
